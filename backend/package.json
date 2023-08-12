@@ -1,0 +1,14 @@
+{
+  "name": "arsip-backend",
+  "version": "0.0.1",
+  "description": "Server untuk aplikasi web arsip",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Arief Maulana",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.6.2"
+  }
+}
