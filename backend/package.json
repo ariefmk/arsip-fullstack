@@ -4,11 +4,22 @@
   "description": "Server untuk aplikasi web arsip",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node index.js"
   },
   "author": "Arief Maulana",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^8.47.0",
     "jest": "^29.6.2"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "dotenv": "16.3.1",
+    "jsonwebtoken": "9.0.1",
+    "mariadb": "3.2.0",
+    "multer": "^1.4.5-lts.1",
+    "pdfkit": "^0.13.0",
+    "sequelize": "6.32.1"
   }
 }
