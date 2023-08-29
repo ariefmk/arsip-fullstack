@@ -31,5 +31,7 @@ db.admin = require('./admin')(sequelize, Sequelize)
 db.pengguna = require('./pengguna')(sequelize, Sequelize)
 db.bidangPengguna = require('./bidangPengguna')(sequelize, Sequelize)
 db.dataPengguna = require('./dataPengguna')(sequelize, Sequelize)
+db.arsip = require('./arsip')(sequelize, Sequelize)
+db.kategoriArsip = require('./kategoriArsip')(sequelize, Sequelize)
 
 module.exports = db
