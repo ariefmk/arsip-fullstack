@@ -16,8 +16,8 @@ const sequelize = new Sequelize(
     },
     define: {
       freezeTableName: true
-    }// ,
-  // logging: false // Mematikan log sequelize
+    },
+    logging: false // Mematikan log sequelize
   }
 )
 
@@ -33,5 +33,55 @@ db.bidangPengguna = require('./bidangPengguna')(sequelize, Sequelize)
 db.dataPengguna = require('./dataPengguna')(sequelize, Sequelize)
 db.arsip = require('./arsip')(sequelize, Sequelize)
 db.kategoriArsip = require('./kategoriArsip')(sequelize, Sequelize)
+
+db.pengguna.hasOne(db.dataPengguna, {
+  foreignKey: 'id',
+  sourceKey: 'id'
+})
+
+db.dataPengguna.belongsTo(db.pengguna, {
+  foreignKey: 'id',
+  targetKey: 'id'
+})
+
+db.bidangPengguna.hasMany(db.dataPengguna, {
+  foreignKey: 'bidang',
+  sourceKey: 'id'
+})
+
+db.dataPengguna.belongsTo(db.bidangPengguna, {
+  foreignKey: 'bidang',
+  targetKey: 'id'
+})
+
+db.bidangPengguna.hasMany(db.kategoriArsip, {
+  foreignKey: 'bidang',
+  sourceKey: 'id'
+})
+
+db.kategoriArsip.belongsTo(db.bidangPengguna, {
+  foreignKey: 'bidang',
+  targetKey: 'id'
+})
+
+db.kategoriArsip.hasMany(db.arsip, {
+  foreignKey: 'kategori',
+  sourceKey: 'id'
+})
+
+db.arsip.belongsTo(db.kategoriArsip, {
+  foreignKey: 'kategori',
+  targetKey: 'id'
+})
+
+db.dataPengguna.hasMany(db.arsip, {
+  foreignKey: 'pembuat',
+  sourceKey: 'id'
+})
+
+db.arsip.belongsTo(db.dataPengguna, {
+  foreignKey: 'pembuat',
+  targetKey: 'id'
+})
 
 module.exports = db

@@ -14,22 +14,22 @@ module.exports = (sequelize, dt) => {
     },
     alamat: {
       type: dt.TEXT,
-      allowNull: false,
+      allowNull: true,
       comment: 'Alamat lengkap pengguna'
     },
     jenisKelamin: {
       type: dt.INTEGER(1),
-      allowNull: false,
+      allowNull: true,
       comment: 'Jenis kelamin pengguna'
     },
     nomorTelepon: {
       type: dt.STRING(15),
-      allowNull: false,
+      allowNull: true,
       comment: 'Nomor telepon pengguna'
     },
     tanggalLahir: {
       type: dt.DATEONLY,
-      allowNull: false,
+      allowNull: true,
       comment: 'Tanggal lahir pengguna'
     },
     jabatan: {
@@ -44,7 +44,7 @@ module.exports = (sequelize, dt) => {
     },
     foto: {
       type: dt.BLOB('long'),
-      allowNull: false,
+      allowNull: true,
       comment: 'Foto profil pengguna'
     },
     dibuat: {
