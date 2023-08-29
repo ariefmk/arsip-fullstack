@@ -27,7 +27,9 @@ module.exports = (sequelize, dt) => {
       allowNull: true
     }
   }, {
-    timestamps: false
+    timestamps: true,
+    createdAt: 'waktu',
+    updatedAt: false
   })
   return logaudit
 }

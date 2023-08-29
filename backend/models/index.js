@@ -16,8 +16,8 @@ const sequelize = new Sequelize(
     },
     define: {
       freezeTableName: true
-    },
-    logging: false // Mematikan log sequelize
+    }// ,
+  // logging: false // Mematikan log sequelize
   }
 )
 
@@ -26,6 +26,10 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 
-db.logaudit = require('./logAudit')(sequelize, Sequelize)
+db.logAudit = require('./logAudit')(sequelize, Sequelize)
+db.admin = require('./admin')(sequelize, Sequelize)
+db.pengguna = require('./pengguna')(sequelize, Sequelize)
+db.bidangPengguna = require('./bidangPengguna')(sequelize, Sequelize)
+db.dataPengguna = require('./dataPengguna')(sequelize, Sequelize)
 
 module.exports = db
