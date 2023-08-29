@@ -1,5 +1,5 @@
 const winston = require('winston')
-const { logaudit } = require('../models')
+const { logAudit } = require('../models')
 
 const dateFormat = () => {
   return new Date(Date.now()).toLocaleString()
@@ -22,9 +22,8 @@ class LoggerService {
           message = info.obj ? message + `data: ${JSON.stringify(info.obj)} | ` : message
           // message = this.logData ? message + `data: ${JSON.stringify(this.logData)} |` : message
 
-          logaudit.create(
+          logAudit.create(
             {
-              waktu: new Date(Date.now()).toISOString(),
               jenis: info.level,
               riwayat: route,
               keterangan: info.message,
