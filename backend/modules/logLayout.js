@@ -1,9 +1,11 @@
 exports.pengguna = {
   tambah: (hasil) => {
     return {
-      nama_pengguna: hasil.namaPengguna,
-      kata_sandi: '***',
-      dibuat: hasil.dibuat
+      id: hasil.id,
+      namaPengguna: hasil.namaPengguna,
+      kataSandi: '***',
+      dibuat: hasil.dibuat,
+      diubah: hasil.diubah
     }
   }
 }
