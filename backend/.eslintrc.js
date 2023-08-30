@@ -5,7 +5,10 @@ module.exports = {
     node: true,
     'jest/globals': true
   },
-  extends: 'standard',
+  extends: [
+    'standard',
+    'plugin:security/recommended'
+  ],
   overrides: [
   ],
   parserOptions: {
