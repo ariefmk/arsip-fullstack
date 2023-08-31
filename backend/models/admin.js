@@ -8,7 +8,7 @@ module.exports = (sequelize, dt) => {
     },
     namaPengguna: {
       type: dt.STRING(20),
-      allowNull: false,
+      allowNull: false
       // unique: true
     },
     kataSandi: {

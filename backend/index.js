@@ -9,7 +9,8 @@ const { sistem } = require('./services/log')
 
 const app = express()
 
-app.use(cors())
+app.disable('x-powered-by')
+app.use(cors({ origin: '127.0.0.1:3000' }))
 app.use(cookieParser())
 app.use(compression())
 
