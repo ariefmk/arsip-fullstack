@@ -9,7 +9,12 @@ const { sistem } = require('./services/log')
 
 const app = express()
 
-app.use(cors())
+const corsOptions = {
+  origin: '127.0.0.1:3000'
+}
+
+app.disable('x-powered-by')
+app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(compression())
 
@@ -23,6 +28,7 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT || 443, () => {
   const pesan = `Server berjalan pada port ${process.env.PORT || 443}`
   sistem.info(pesan)
+  console.log('sukses')
 })
 
 db.sequelize.sync()
