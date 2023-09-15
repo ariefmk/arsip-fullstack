@@ -6,10 +6,10 @@ module.exports = (sequelize, dt) => {
       autoIncrement: true,
       allowNull: false
     },
-    namaPengguna: {
+    nik: {
       type: dt.STRING(20),
-      allowNull: false
-      // unique: true
+      allowNull: false,
+      unique: true
     },
     kataSandi: {
       type: dt.STRING(64),
