@@ -1,5 +1,5 @@
 module.exports = app => {
-  const masuk = require('../controllers/masuk')
+  const { masuk } = require('../controllers')
 
   app.use((req, res, next) => {
     res.header(
