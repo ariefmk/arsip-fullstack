@@ -1,8 +1,11 @@
 module.exports = (req, res) => {
+  require('dotenv').config()
   const bcrypt = require('bcrypt')
+  const jwt = require('jsonwebtoken')
   const { QueryTypes } = require('sequelize')
   const db = require('../models')
   const nik = req.body.nik
+  const kunci = process.env.AUTH_JWT
 
   const validasi = (sandiDb) => {
     return bcrypt.compareSync(
@@ -12,12 +15,12 @@ module.exports = (req, res) => {
 
   db.sequelize.query(
     `SELECT *,
-    'Admin' AS sumber
+    'admin' AS sumber
     FROM Admin
     WHERE nik = $nik
     UNION
     SELECT *,
-    'Pengguna' AS sumber
+    'pengguna' AS sumber
     FROM Pengguna
     WHERE nik = $nik`,
     {
@@ -29,49 +32,39 @@ module.exports = (req, res) => {
   ).then(dataKueri => {
     const kueri = dataKueri[0]
     if (dataKueri.length === 1) {
-      if (kueri.sumber === 'Admin') {
-        if (!validasi(kueri.kataSandi)) {
-          return res.status(401).send(
-            {
-              status: 401,
-              data: {
-                pesan: 'Kata sandi salah'
-              }
-            }
-          )
-        }
-
-        return res.status(200).send(
+      if (!validasi(kueri.kataSandi)) {
+        return res.status(401).send(
           {
-            status: 200,
+            status: 401,
             data: {
-              pesan: 'Anda berhasil login dengan hak akses admin',
-              hakAkses: 'admin'
-            }
-          }
-        )
-      } else if (kueri.sumber === 'Pengguna') {
-        if (!validasi(kueri.kataSandi)) {
-          return res.status(401).send(
-            {
-              status: 401,
-              data: {
-                pesan: 'Kata sandi salah'
-              }
-            }
-          )
-        }
-
-        return res.status(200).send(
-          {
-            status: 200,
-            data: {
-              pesan: 'Anda berhasil login dengan hak akses pengguna',
-              hakAkses: 'pengguna'
+              pesan: 'Kata sandi salah'
             }
           }
         )
       }
+
+      let hakAkses
+
+      if (kueri.sumber === 'admin') {
+        hakAkses = 'admin'
+      } else {
+        hakAkses = 'pengguna'
+      }
+
+      const token = jwt.sign({ nik, hakAkses }, kunci, {
+        expiresIn: 14400
+      })
+
+      return res.status(200).send(
+        {
+          status: 200,
+          data: {
+            pesan: 'Anda berhasil login dengan hak akses admin',
+            hakAkses,
+            token
+          }
+        }
+      )
     } else {
       return res.status(400).send(
         {
@@ -82,5 +75,14 @@ module.exports = (req, res) => {
         }
       )
     }
+  }).catch(kesalahan => {
+    res.status(500).send(
+      {
+        status: 500,
+        data: {
+          pesan: kesalahan.message
+        }
+      }
+    )
   })
 }
