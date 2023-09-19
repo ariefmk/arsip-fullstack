@@ -4,11 +4,43 @@
   "description": "Server untuk aplikasi web arsip",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node index.js",
+    "nodemon": "nodemon index.js",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "db:seed": "node services/dbSeed.js",
+    "db:test": "node services/dbTest.js",
+    "db:refresh": "node services/dbRefresh.js"
   },
   "author": "Arief Maulana",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^29.6.2"
-  }
+    "eslint": "8.47.0",
+    "eslint-config-standard": "17.1.0",
+    "eslint-plugin-import": "2.28.0",
+    "eslint-plugin-jest": "27.2.3",
+    "eslint-plugin-n": "16.0.1",
+    "eslint-plugin-promise": "6.1.1",
+    "eslint-plugin-security": "1.7.1",
+    "jest": "29.6.2"
+  },
+  "dependencies": {
+    "bcrypt": "5.1.1",
+    "compression": "1.7.4",
+    "cookie-parser": "1.4.6",
+    "cors": "2.8.5",
+    "dotenv": "16.3.1",
+    "express": "4.18.2",
+    "helmet": "7.0.0",
+    "jsonwebtoken": "9.0.1",
+    "jspdf": "2.5.1",
+    "mariadb": "3.2.0",
+    "multer": "1.4.5-lts.1",
+    "sequelize": "6.32.1",
+    "winston": "3.10.0"
+  },
+  "eslintIgnore": [
+    "node_modules"
+  ]
 }
