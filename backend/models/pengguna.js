@@ -6,7 +6,7 @@ module.exports = (sequelize, dt) => {
       autoIncrement: true,
       allowNull: false
     },
-    namaPengguna: {
+    nik: {
       type: dt.STRING(20),
       allowNull: false
     },

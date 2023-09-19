@@ -5,18 +5,16 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const compression = require('compression')
 const db = require('./models')
-const { sistem } = require('./services/log')
+const { sistemLog } = require('./services/log')
 
 const app = express()
 
-const corsOptions = {
-  origin: '127.0.0.1:3000'
-}
-
 app.disable('x-powered-by')
-app.use(cors(corsOptions))
+app.use(cors({ origin: '*' }))
 app.use(cookieParser())
 app.use(compression())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.status(200)
@@ -25,18 +23,19 @@ app.get('/', (req, res) => {
     .end()
 })
 
+require('./routes')(app)
+
 app.listen(process.env.PORT || 443, () => {
   const pesan = `Server berjalan pada port ${process.env.PORT || 443}`
-  sistem.info(pesan)
-  console.log('sukses')
+  sistemLog.info(pesan)
 })
 
 db.sequelize.sync()
   .then(() => {
     const pesan = 'Basis data tersinkronisasi'
-    sistem.info(pesan)
+    sistemLog.info(pesan)
   })
   .catch((error) => {
     const pesan = 'Basis data galat tersinkronisasi, '
-    sistem.error(pesan, { keterangan: error })
+    sistemLog.error(pesan, { keterangan: error })
   })

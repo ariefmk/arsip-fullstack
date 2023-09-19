@@ -1,7 +1,7 @@
 const Logger = require('./logService')
 
 module.exports = {
-  pengguna: new Logger('pengguna'),
-  arsip: new Logger('arsip'),
-  sistem: new Logger('sistem')
+  penggunaLog: new Logger('pengguna'),
+  arsipLog: new Logger('arsip'),
+  sistemLog: new Logger('sistem')
 }
