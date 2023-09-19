@@ -19,7 +19,10 @@ app.use(express.json())
 app.get('/', (req, res) => {
   res.status(200)
     .type('json')
-    .send({ pesan: 'sukses' })
+    .send({
+      pesan: 'sukses',
+      versi: '1.0.0'
+    })
     .end()
 })
 
