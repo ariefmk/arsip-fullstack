@@ -7,8 +7,8 @@ export default function manifest() {
     display: 'standalone',
     icons: [
       {
-        src: 'icon/icon-512.png',
-        sizes: '512x512',
+        src: '/favicon.png',
+        sizes: 'any',
         type: 'image/png'
       }
     ]
