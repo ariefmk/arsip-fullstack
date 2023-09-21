@@ -16,6 +16,22 @@ app.use(compression())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+// set verifikasi headers
+app.use((req, res, next) => {
+  if (!req.headers.api_key) {
+    return res.status(400).send({
+      status: 400,
+      pesan: 'Tidak ada api_key'
+    })
+  } else if (req.headers.api_key !== process.env.API_SERVER_KEY) {
+    return res.status(400).send({
+      status: 400,
+      pesan: 'api_key berbeda'
+    })
+  }
+  next()
+})
+
 app.get('/', (req, res) => {
   res.status(200)
     .type('json')
