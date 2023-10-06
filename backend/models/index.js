@@ -7,7 +7,9 @@ const sequelize = new Sequelize(
   config.pass,
   {
     host: config.host,
+    port: config.port,
     dialect: config.type,
+    timezone: config.timezone,
     pool: {
       max: config.pool.max,
       min: config.pool.min,
