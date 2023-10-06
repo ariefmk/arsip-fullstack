@@ -5,6 +5,7 @@ import { IconUserCircle, IconPasswordUser, IconId, IconLogin } from '@tabler/ico
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import * as yup  from 'yup'
 
 const skemaMasuk = yup.object({
@@ -13,12 +14,14 @@ const skemaMasuk = yup.object({
 })
 
 export default function Masuk() {
-  const [panjangNik, setPanjangNik] = useState('')
+  const [pesanKesalahan, setPesanKesalahan] = useState('')
 
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError
   } = useForm({
     resolver: yupResolver(skemaMasuk),
   })
@@ -39,7 +42,11 @@ export default function Masuk() {
     })
 
     const hasil = await respon.json()
-    console.log(hasil)
+    if (hasil.status !== 200) {
+      setPesanKesalahan(hasil.data.pesan)
+    } else {
+      router.refresh()
+    }
   }
 
   const inputNikHanyaAngka = (aksi) => {
@@ -52,7 +59,7 @@ export default function Masuk() {
   }
 
   return (
-    <main className=''>
+    <main className='main-container'>
       <div className='login-container flex flex-col pt-[1rem] md:pt-[6rem] gap-y-[.5rem] md:gap-y-[1.5rem]'>
         <div className='flex flex-col items-center gap-y-2'>
           <div className='login-logo'>
@@ -69,7 +76,7 @@ export default function Masuk() {
           </div>
         </div>
         <div className='flex flex-col'>
-          <div className='login-form-container bg-white flex flex-col items-center self-center justify-evenly rounded-[2rem] border-2 border-black w-[16rem] md:w-[20rem] h-[16rem] md:h-[18rem]'>
+          <div className='login-form-container bg-white flex flex-col items-center self-center justify-evenly rounded-[2rem] border-2 border-black w-[16rem] md:w-[20rem] h-[16rem] md:h-[20rem]'>
             <div className='' >
               <IconUserCircle
                 color='#0362a1'
@@ -111,7 +118,7 @@ export default function Masuk() {
                         className='w-[25px] h-[25px] md:w-[30px] md:h-[30px]'
                       />
                     </label>
-                    <input className={`border-2 ${errors.kataSandi ? 'border-red-600' :'border-black focus:border-green-500'} outline-none rounded-[10px] h-[2.2rem] md:h-[2.5rem] pl-[2.5rem] pr-[0.5rem] w-[14rem] md:w-[16rem] text-base md:text-xl`}
+                    <input className={` form-input border-2 ${errors.kataSandi ? 'border-red-600' :'border-black focus:border-green-500'} outline-none rounded-[10px] h-[2.2rem] md:h-[2.5rem] pl-[2.5rem] pr-[0.5rem] w-[14rem] md:w-[16rem] text-base md:text-xl`}
                       type='password'
                       id='kataSandi'
                       name='kataSandi'
@@ -138,6 +145,13 @@ export default function Masuk() {
                   </div>
                 </div>
               </form>
+            </div>
+            <div className='h-[24px]'>
+              {pesanKesalahan && (
+                <p className='text-red-600 font-semibold md:font-bold'>
+                  {pesanKesalahan}
+                </p>
+              )}
             </div>
           </div>
         </div>

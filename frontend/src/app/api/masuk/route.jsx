@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { cookies } from 'next/headers'
 
 export async function POST (permintaan) {
 
@@ -17,6 +18,8 @@ export async function POST (permintaan) {
   })
 
   const hasil = await respon.json()
-
+  if (hasil.status === 200) {
+    cookies().set('hakAkses', hasil.data.token, { maxAge: 43200 })
+  }
   return NextResponse.json(hasil)
 }

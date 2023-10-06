@@ -18,10 +18,10 @@ module.exports = {
         springBud: '#9ef01a',
         bahamaBlue: '#0362a1',
         green: {
-          primer: '#00ff00'
+          base: '#00ff00'
         },
         red: {
-          primer: '#ff0000'
+          base: '#ff0000'
         }
       },
     },
