@@ -1,8 +1,7 @@
 export default function Beranda() {
   return (
-    <main>
-      Hello World
-    </main>
+    <h1>
+      Beranda
+    </h1>
   )
 }
-
