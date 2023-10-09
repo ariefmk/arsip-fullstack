@@ -1,20 +1,23 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
+import jwt from 'jsonwebtoken'
+import { kunci } from '@/config'
 
 export async function POST (permintaan) {
 
   const isi = await permintaan.json()
   const api = process.env.API_SERVER
+  const token = jwt.sign({
+    nik: isi.nik,
+    kataSandi: isi.kataSandi
+  }, kunci.klien)
   const respon = await fetch(`${api}/masuk`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'API_Key': process.env.API_SERVER_KEY
     },
-    body: JSON.stringify({
-      nik: isi.nik, 
-      kataSandi: isi.kataSandi
-    })
+    body: JSON.stringify({ token })
   })
 
   const hasil = await respon.json()

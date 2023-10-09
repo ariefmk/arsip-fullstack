@@ -4,12 +4,15 @@ module.exports = (req, res) => {
   const jwt = require('jsonwebtoken')
   const { QueryTypes } = require('sequelize')
   const db = require('../models')
-  const nik = req.body.nik
-  const kunci = process.env.AUTH_JWT
+  const { kunci } = require('../config')
+
+  // Verifikasi data inputan masuk pengguna
+  const decoded = jwt.verify(req.body.token, kunci.klien)
+  const nik = decoded.nik
 
   const validasi = (sandiDb) => {
     return bcrypt.compareSync(
-      req.body.kataSandi, sandiDb
+      decoded.kataSandi, sandiDb
     )
   }
 
@@ -51,9 +54,8 @@ module.exports = (req, res) => {
         hakAkses = 'pengguna'
       }
 
-      const token = jwt.sign({ nik, hakAkses }, kunci, {
-        expiresIn: 14400
-      })
+      // Gunakan kunci server untuk mengenkripsi pesan
+      const token = jwt.sign({ nik, hakAkses }, kunci.server, { expiresIn: 43200 })
 
       return res.status(200).send(
         {

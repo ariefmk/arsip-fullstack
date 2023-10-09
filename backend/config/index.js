@@ -1,8 +1,10 @@
-// set require
 require('dotenv').config()
+const kunci = {
+  klien: process.env.AUTH_JWT_KLIEN,
+  server: process.env.AUTH_JWT_SERVER
+}
 
-// export modul
-module.exports = {
+const db = {
   type: process.env.DB_TYPE,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -13,7 +15,8 @@ module.exports = {
   pool: {
     max: 10,
     min: 0,
-    acquire: 3000,
+    acquire: 6000,
     idle: 10000
   }
 }
+module.exports = { kunci, db }
