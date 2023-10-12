@@ -1,8 +1,9 @@
 require('dotenv').config()
-const { admin, pengguna } = require('../models')
+require('module-alias/register')
+const { pengguna } = require('@/models')
 const { penggunaLog } = require('./log')
 const bcrypt = require('bcrypt')
-const logPengguna = require('../modules').log.pengguna
+const logPengguna = require('@/modules').log.pengguna
 
 const nikAdmin = process.env.USER_ADMIN
 const sandiAdmin = process.env.PASS_ADMIN
@@ -12,10 +13,11 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS)
 
 bcrypt.hash(sandiAdmin, saltRounds, (error, hash) => {
   if (!error) {
-    admin.create(
+    pengguna.create(
       {
         nik: nikAdmin,
-        kataSandi: hash
+        kataSandi: hash,
+        hakAkses: 'admin'
       })
       .then(hasil => {
         penggunaLog.info(`Berhasil membuat pengguna dengan NIK ${nikAdmin} sebagai admin`, logPengguna.tambah(hasil))
@@ -33,7 +35,8 @@ bcrypt.hash(sandiPengguna, saltRounds, (error, hash) => {
     pengguna.create(
       {
         nik: nikPengguna,
-        kataSandi: hash
+        kataSandi: hash,
+        hakAkses: 'standar'
       })
       .then(hasil => {
         penggunaLog.info(`Berhasil membuat pengguna dengan NIK ${nikPengguna} sebagai pengguna`, logPengguna.tambah(hasil))

@@ -10,6 +10,10 @@ module.exports = (sequelize, dt) => {
       type: dt.STRING(20),
       allowNull: false
     },
+    hakAkses: {
+      type: dt.STRING(30),
+      allowNull: false
+    },
     kataSandi: {
       type: dt.STRING(64),
       allowNull: false

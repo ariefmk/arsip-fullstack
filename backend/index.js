@@ -1,5 +1,6 @@
 // set require
 require('dotenv').config()
+require('module-alias/register')
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 // set verifikasi headers
+/*
 app.use((req, res, next) => {
   if (!req.headers.api_key) {
     return res.status(400).send({
@@ -31,6 +33,7 @@ app.use((req, res, next) => {
   }
   next()
 })
+*/
 
 app.get('/', (req, res) => {
   res.status(200)

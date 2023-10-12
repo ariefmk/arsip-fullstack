@@ -1,4 +1,6 @@
+// Kumpulan controllers
 module.exports = {
+  masuk: require('./masuk'),
   laporan: require('./laporan'),
-  masuk: require('./masuk')
+  pengguna: require('./pengguna')
 }
