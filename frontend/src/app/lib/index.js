@@ -8,19 +8,19 @@ export const submitData = async (data, aksi) => {
     },
     body: JSON.stringify({
       nik: data.nik,
-      kataSandi: data.kataSandi
-    })
+      kataSandi: data.kataSandi,
+    }),
   })
   const responData = await kirimData.json()
-  if(responData.status !== 200) {
+  if (responData.status !== 200) {
     return {
       status: responData.status,
-      pesan: responData.pesan
+      pesan: responData.pesan,
     }
   } else {
-    return { 
+    return {
       status: 200,
-      pesan: 'Anda berhasil masuk'
+      pesan: 'Anda berhasil masuk',
     }
   }
 }
@@ -37,7 +37,13 @@ export const hanyaAngka = (aksi) => {
 
 // Skema validasi masuk menggunakan yup
 export const skemaMasuk = yup.object({
-  nik: yup.string().required('NIK wajib diisi').matches(/^\d+$/, 'NIK hanya mengandung angka').min(16, 'Panjang NIK harus 16 karakter'),
-  kataSandi: yup.string().required('Kata Sandi wajib diisi').min(8, 'Kata sandi minimal 8 karakter')
+  nik: yup
+    .string()
+    .required('NIK wajib diisi')
+    .matches(/^\d+$/, 'NIK hanya mengandung angka')
+    .min(16, 'Panjang NIK harus 16 karakter'),
+  kataSandi: yup
+    .string()
+    .required('Kata Sandi wajib diisi')
+    .min(8, 'Kata sandi minimal 8 karakter'),
 })
-

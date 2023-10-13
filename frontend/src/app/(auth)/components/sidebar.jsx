@@ -1,34 +1,68 @@
+'use client'
 import Link from 'next/link'
+import { useState } from 'react'
 
-export default function Sidebar({ menu }) {
+export default function Sidebar({ manajemen, riwayat }) {
+  const [manajemenToggle, setManajemenToggle] = useState(false)
+  const [riwayatToggle, setRiwayatToggle] = useState(false)
+
   return (
-    <aside className='hidden md:flex md:relative'>
-      <div className='h-full md:fixed bg-sky-800 w-[15rem]'>
-        <ul className='relative text-[18px]'>
-          <div>
-            {menu && menu.map((data) => (
-              <Link key={data.nama}
-                href={data.alamat}
-                className=''
-              >
-                <li className='p-[10px] pl-[2rem] hover:bg-white'>
-                  {data.nama}
-              </li>
-              </Link>
-            ))}
-          </div>
-          <div className='fixed bottom-[1rem]'>
-            <Link
-              href='/keluar'
-              className=''
-            >
-              <li className='py-[10px] hover:bg-white text-white hover:text-black text-center w-[15rem]'>
-                KELUAR
-              </li>
-            </Link>
-          </div>
-        </ul>
-      </div>
+    <aside className='hidden w-[15rem] md:block'>
+      <ul className='daisy-menu'>
+        <li>
+          <Link href='/beranda'>Beranda</Link>
+        </li>
+        <li>
+          <span
+            className={`daisy-menu-dropdown-toggle ${
+              manajemen ? 'daisy-menu-dropdown-show' : ''
+            }`}
+            onClick={() => setManajemenToggle(!manajemenToggle)}
+          >
+            <Link href='/manajemen'>Manajemen</Link>
+          </span>
+          <ul
+            className={`daisy-menu-dropdown ${
+              manajemenToggle ? 'daisy-menu-dropdown-show' : ''
+            }`}
+          >
+            <li>
+              <Link href='manajemen/pengguna'>Pengguna</Link>
+            </li>
+            <li>
+              <Link href='manajemen/akses'>Hak Akses</Link>
+            </li>
+            <li>
+              <Link href='manajemen/arsip'>Arsip</Link>
+            </li>
+            <li>
+              <Link href='manajemen/kategori'>Kategori Arsip</Link>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span
+            className={`daisy-menu-dropdown-toggle ${
+              riwayat ? 'daisy-menu-dropdown-show' : ''
+            }`}
+            onClick={() => setRiwayatToggle(!riwayatToggle)}
+          >
+            Riwayat
+          </span>
+          <ul
+            className={`daisy-menu-dropdown ${
+              riwayatToggle ? 'daisy-menu-dropdown-show' : ''
+            }`}
+          >
+            <li>
+              <Link href='/riwayat/pengguna'>Pengguna</Link>
+            </li>
+            <li>
+              <Link href='/riwayat/arsip'>Arsip</Link>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </aside>
   )
 }
