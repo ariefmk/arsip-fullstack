@@ -15,7 +15,7 @@ export const submitData = async (data, aksi) => {
   if(responData.status !== 200) {
     return {
       status: responData.status,
-      pesan: responData.data.pesan
+      pesan: responData.pesan
     }
   } else {
     return { 

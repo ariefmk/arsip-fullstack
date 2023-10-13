@@ -6,7 +6,7 @@ export const metadata = {
 export default function Layout(props) {
   return (
     <html lang='id'>
-      <body className='bg-gray-200'>
+      <body className=''>
         {props.children}
       </body>
     </html>

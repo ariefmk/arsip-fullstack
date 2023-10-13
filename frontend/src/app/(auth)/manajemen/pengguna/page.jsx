@@ -3,12 +3,7 @@ import { useState, useEffect } from 'react'
 import { IconCirclePlus, IconCircleMinus, IconEdit, IconSearch } from '@tabler/icons-react'
 
 export default function Pengguna() {
-  const [query, setQuery] = useState('')
 
-  // FItur pencarian dengan mengganti query
-  const cariHandler = (aksi) => {
-    setQuery(aksi.target.value)
-  }
   return (
     <div>
       <div className='px-[.5rem] md:px-[2rem] w-full h-[4rem] bg-lime-500 flex flex-row items-center justify-between'>
@@ -41,7 +36,6 @@ export default function Pengguna() {
             <input 
               className='outline-none border-2 rounded-full w-[7rem] sm:w-[10rem] md:w-[20rem] h-[2.5rem] py-[5px] px-[15px]'
               type='text' 
-              onChange={cariHandler} 
               placeholder='Pencarian'
             />
           </div>
@@ -61,7 +55,7 @@ export default function Pengguna() {
               <th className='w-[120px]'>Jenis Kelamin</th>
               <th className='w-[180px]'>Nomor Telepon</th>
               <th className='w-[160px] text-ellipsis'>Alamat</th>
-              <th className='w-[160px]' colspan='2'>Aksi</th>
+              <th className='w-[160px]' colSpan='2'>Aksi</th>
             </tr>
           </thead>
           <tbody>

@@ -6,7 +6,7 @@ export default function Sidebar({ menu }) {
       <div className='h-full md:fixed bg-sky-800 w-[15rem]'>
         <ul className='relative text-[18px]'>
           <div>
-            {menu.map((data) => (
+            {menu && menu.map((data) => (
               <Link key={data.nama}
                 href={data.alamat}
                 className=''

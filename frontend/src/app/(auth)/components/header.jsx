@@ -28,36 +28,30 @@ export default function Header(props) {
           <p>
             {props.nama}
           </p>
-          <button className='rounded-full bg-white' onClick={modalHandler}>
+          <button className='daisy-dropdown daisy-dropdown-end rounded-full bg-white'>
             <Image
+              tabIndex={0}
               src={balangan}
               alt='Balangan'
               className='h-[3.5rem] w-[3.5rem] rounded-full'
             />
-          </button>
-        </div>
-        <div className={`modal ${ada? '': 'hidden'} absolute top-[5.2rem] right-[2rem]`} ref={modalRef}>
-          <div className='bg-blue-200 rounded-[5px]'>
-            <ul className='flex flex-col text-center w-[5rem] h-[3.5rem] gap-y-1 font-bold'>
+          <ul tabIndex={0} className='daisy-menu daisy-menu-md daisy-dropdown-content w-[200px] mt-[1rem] shadow border-2 rounded-box text-center'>
+            <li>
               <Link
-                onClick={modalHandler}
-                className='w-[5rem] inline-block'
                 href='/profil'
               >
-                <li >
-                  Profil
-                </li>
+                Profil
               </Link>
+            </li>
+            <li>
               <Link
-                className='w-[5rem] inline-block'
                 href='/keluar'
               >
-                <li>
-                  Keluar
-                </li>
+                Keluar
               </Link>
-            </ul>
-          </div>
+            </li>
+          </ul>
+          </button>
         </div>
       </div>
     </header>
