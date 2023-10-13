@@ -7,62 +7,60 @@ export default function Sidebar({ manajemen, riwayat }) {
   const [riwayatToggle, setRiwayatToggle] = useState(false)
 
   return (
-    <aside className='hidden w-[15rem] md:block'>
-      <ul className='daisy-menu'>
-        <li>
-          <Link href='/beranda'>Beranda</Link>
-        </li>
-        <li>
-          <span
-            className={`daisy-menu-dropdown-toggle ${
-              manajemen ? 'daisy-menu-dropdown-show' : ''
-            }`}
-            onClick={() => setManajemenToggle(!manajemenToggle)}
-          >
-            <Link href='/manajemen'>Manajemen</Link>
-          </span>
-          <ul
-            className={`daisy-menu-dropdown ${
-              manajemenToggle ? 'daisy-menu-dropdown-show' : ''
-            }`}
-          >
+    <aside className='relative hidden h-full w-[15rem] md:block'>
+      <div className='fixed h-full w-[15rem] bg-sky-300'>
+        <ul className='daisy-menu text-[1rem]'>
+          <li>
+            <Link href='/beranda'>Beranda</Link>
+          </li>
+          {Array.isArray(manajemen) && (
             <li>
-              <Link href='manajemen/pengguna'>Pengguna</Link>
+              <span
+                className={`daisy-menu-dropdown-toggle ${
+                  manajemenToggle ? 'daisy-menu-dropdown-show' : ''
+                }`}
+                onClick={() => setManajemenToggle(!manajemenToggle)}
+              >
+                <Link href='/manajemen'>Manajemen</Link>
+              </span>
+              <ul
+                className={`daisy-menu-dropdown ${
+                  manajemenToggle ? 'daisy-menu-dropdown-show' : ''
+                }`}
+              >
+                {manajemen.map((data) => (
+                  <li key={data.nama}>
+                    <Link href={`manajemen/${data.href}`}>{data.nama}</Link>
+                  </li>
+                ))}
+              </ul>
             </li>
+          )}
+          {Array.isArray(riwayat) && (
             <li>
-              <Link href='manajemen/akses'>Hak Akses</Link>
+              <span
+                className={`daisy-menu-dropdown-toggle ${
+                  riwayatToggle ? 'daisy-menu-dropdown-show' : ''
+                }`}
+                onClick={() => setRiwayatToggle(!riwayatToggle)}
+              >
+                <Link href='/riwayat'>Riwayat</Link>
+              </span>
+              <ul
+                className={`daisy-menu-dropdown ${
+                  riwayatToggle ? 'daisy-menu-dropdown-show' : ''
+                }`}
+              >
+                {riwayat.map((data) => (
+                  <li key={data.nama}>
+                    <Link href={`/riwayat/${data.href}`}>{data.nama}</Link>
+                  </li>
+                ))}
+              </ul>
             </li>
-            <li>
-              <Link href='manajemen/arsip'>Arsip</Link>
-            </li>
-            <li>
-              <Link href='manajemen/kategori'>Kategori Arsip</Link>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <span
-            className={`daisy-menu-dropdown-toggle ${
-              riwayat ? 'daisy-menu-dropdown-show' : ''
-            }`}
-            onClick={() => setRiwayatToggle(!riwayatToggle)}
-          >
-            Riwayat
-          </span>
-          <ul
-            className={`daisy-menu-dropdown ${
-              riwayatToggle ? 'daisy-menu-dropdown-show' : ''
-            }`}
-          >
-            <li>
-              <Link href='/riwayat/pengguna'>Pengguna</Link>
-            </li>
-            <li>
-              <Link href='/riwayat/arsip'>Arsip</Link>
-            </li>
-          </ul>
-        </li>
-      </ul>
+          )}
+        </ul>
+      </div>
     </aside>
   )
 }
