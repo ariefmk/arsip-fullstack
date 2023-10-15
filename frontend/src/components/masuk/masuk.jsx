@@ -5,9 +5,10 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import * as yup from 'yup'
 import { IconPasswordUser, IconId, IconLogin } from '@tabler/icons-react'
-import { submitData, hanyaAngka, skemaMasuk } from '../lib'
+import { hanyaAngka } from '@/lib/form'
+import { skemaMasuk } from '@/lib/skema'
+import { submitMasuk } from '@/lib/submit'
 
 export default function FormMasuk() {
   const [pesanKesalahan, setPesanKesalahan] = useState('')

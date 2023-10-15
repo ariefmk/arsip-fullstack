@@ -1,13 +1,6 @@
-import {
-  IconCirclePlus,
-  IconCircleMinus,
-  IconEdit,
-  IconSearch,
-} from '@tabler/icons-react'
-import Header from './components/header'
-import Tabel from './components/tabel'
+import Pengguna from '@/components/pengguna'
 
-export default function Pengguna() {
+export default function PenggunaPage() {
   const datalist = [
     {
       hak: 'Pengguna',
@@ -45,8 +38,7 @@ export default function Pengguna() {
   ]
   return (
     <div>
-      <Header />
-      <Tabel datalist={datalist} />
+      <Pengguna datalist={datalist} />
     </div>
   )
 }

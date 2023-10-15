@@ -2,26 +2,11 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { IconHome, IconHistory, IconSettings2 } from '@tabler/icons-react'
+import { kapital, gantiSpasi } from '@/lib'
 
 export default function Sidebar({ manajemen, riwayat }) {
   const [manajemenToggle, setManajemenToggle] = useState(false)
   const [riwayatToggle, setRiwayatToggle] = useState(false)
-
-  const kapital = (text) => {
-    // Fungsi untuk mengubah huruf awal jadi kapital
-    const arr = text.split(' ')
-
-    for (let i = 0; i < arr.length; i++) {
-      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1)
-    }
-
-    return arr.join(' ')
-  }
-
-  const tambahStrip = (text) => {
-    const arr = text.split(' ')
-    return arr.join('-')
-  }
 
   return (
     <aside className='relative hidden h-full w-[15rem] md:block'>
@@ -52,7 +37,7 @@ export default function Sidebar({ manajemen, riwayat }) {
               >
                 {manajemen.map((data) => (
                   <li key={data}>
-                    <Link href={`/manajemen/${tambahStrip(data)}`}>
+                    <Link href={`/manajemen/${gantiSpasi(data)}`}>
                       {kapital(data)}
                     </Link>
                   </li>
@@ -79,7 +64,7 @@ export default function Sidebar({ manajemen, riwayat }) {
               >
                 {riwayat.map((data) => (
                   <li key={data}>
-                    <Link href={`/riwayat/${tambahStrip(data)}`}>
+                    <Link href={`/riwayat/${gantiSpasi(data)}`}>
                       {kapital(data)}
                     </Link>
                   </li>
