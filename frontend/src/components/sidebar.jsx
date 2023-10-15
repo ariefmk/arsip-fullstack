@@ -27,7 +27,7 @@ export default function Sidebar({ manajemen, riwayat }) {
                 }`}
                 onClick={() => setManajemenToggle(!manajemenToggle)}
               >
-              <IconSettings2 className='h-[20px] w-[20px]' />
+                <IconSettings2 className='h-[20px] w-[20px]' />
                 Manajemen
               </Link>
               <ul
@@ -35,16 +35,21 @@ export default function Sidebar({ manajemen, riwayat }) {
                   manajemenToggle ? 'daisy-menu-dropdown-show' : ''
                 }`}
               >
-                {manajemen.map((data) => (
-                  <li key={data}>
-                    <Link href={`/manajemen/${gantiSpasi(data)}`}>
-                      {kapital(data)}
-                    </Link>
-                  </li>
-                ))}
+                {/*Hak Akses Admin*/}
+                <li>
+                  <Link href='/manajemen/pengguna'>Pengguna</Link>
+                </li>
+                {/*Hak Akses Pengguna*/}
+                <li>
+                  <Link href='/manajemen/arsip'>Arsip</Link>
+                </li>
+                <li>
+                  <Link href='/manajemen/kategori'>Kategori Arsip</Link>
+                </li>
               </ul>
             </li>
           )}
+          {/*Hak Akses Admin*/}
           {Array.isArray(riwayat) && (
             <li>
               <Link
@@ -62,13 +67,15 @@ export default function Sidebar({ manajemen, riwayat }) {
                   riwayatToggle ? 'daisy-menu-dropdown-show' : ''
                 }`}
               >
-                {riwayat.map((data) => (
-                  <li key={data}>
-                    <Link href={`/riwayat/${gantiSpasi(data)}`}>
-                      {kapital(data)}
-                    </Link>
-                  </li>
-                ))}
+                <li>
+                  <Link href='/riwayat/pengguna'>Pengguna</Link>
+                </li>
+                <li>
+                  <Link href='/riwayat/arsip'>Arsip</Link>
+                </li>
+                <li>
+                  <Link href='/riwayat/sistem'>Sistem</Link>
+                </li>
               </ul>
             </li>
           )}

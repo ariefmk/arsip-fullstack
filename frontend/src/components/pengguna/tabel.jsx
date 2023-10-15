@@ -1,10 +1,15 @@
 'use client'
 import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import Hapus from './hapus'
+import Ubah from './ubah'
 
 export default function Tabel({ datalist }) {
   const [sortedData, setSortedData] = useState([...datalist])
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
+  const [dataHapus, setDataHapus] = useState([])
+  const hapusRef = useRef()
+  const ubahRef = useRef()
 
   const requestSort = (key) => {
     let direction = 'asc'
@@ -26,7 +31,7 @@ export default function Tabel({ datalist }) {
     console.log('Ubah data dengan NIK', nik)
   }
   const handleHapus = (nik) => {
-    console.log('Hapus data dengan NIK', nik)
+    setDataHapus([nik])
   }
 
   return (
@@ -91,6 +96,7 @@ export default function Tabel({ datalist }) {
                     className='flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-sky-200 bg-white hover:bg-green-300 hover:font-bold hover:text-white'
                     onClick={() => {
                       handleUbah(data.nik)
+                      ubahRef.current.showModal()
                     }}
                   >
                     <p>Ubah</p>
@@ -101,7 +107,8 @@ export default function Tabel({ datalist }) {
                   <button
                     className='flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-red-300 bg-sky-200 bg-white hover:bg-red-300 hover:font-bold hover:text-white'
                     onClick={() => {
-                      handleHapus(data.nik)
+                      setDataHapus(data)
+                      hapusRef.current.showModal()
                     }}
                   >
                     <p>Hapus</p>
@@ -112,6 +119,8 @@ export default function Tabel({ datalist }) {
             ))}
         </tbody>
       </table>
+      <Hapus referensi={hapusRef} data={dataHapus} />
+      <Ubah referensi={ubahRef} />
     </div>
   )
 }

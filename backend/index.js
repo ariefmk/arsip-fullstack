@@ -36,11 +36,12 @@ app.use((req, res, next) => {
 */
 
 app.get('/', (req, res) => {
-  res.status(200)
+  res
+    .status(200)
     .type('json')
     .send({
       pesan: 'sukses',
-      versi: '1.0.0'
+      versi: '1.0.0',
     })
     .end()
 })
@@ -52,7 +53,8 @@ app.listen(process.env.PORT || 443, () => {
   sistemLog.info(pesan)
 })
 
-db.sequelize.sync()
+db.sequelize
+  .sync()
   .then(() => {
     const pesan = 'Basis data tersinkronisasi'
     sistemLog.info(pesan)

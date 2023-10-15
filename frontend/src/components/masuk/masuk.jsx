@@ -19,7 +19,6 @@ export default function FormMasuk() {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm({
     resolver: yupResolver(skemaMasuk),
   })
@@ -62,6 +61,7 @@ export default function FormMasuk() {
                 {...register('nik')}
                 inputMode='numeric'
                 onInput={hanyaAngka}
+                maxLength='16'
               ></input>
             </div>
             <div className='h-[20px] md:h-[24px]'>

@@ -1,27 +1,22 @@
 const config = require('../config').db
 const Sequelize = require('sequelize')
 
-const sequelize = new Sequelize(
-  config.base,
-  config.user,
-  config.pass,
-  {
-    host: config.host,
-    port: config.port,
-    dialect: config.type,
-    timezone: config.timezone,
-    pool: {
-      max: config.pool.max,
-      min: config.pool.min,
-      acquire: config.pool.acquire,
-      idle: config.pool.idle
-    },
-    define: {
-      freezeTableName: true
-    },
-    logging: false // Mematikan log sequelize
-  }
-)
+const sequelize = new Sequelize(config.base, config.user, config.pass, {
+  host: config.host,
+  port: config.port,
+  dialect: config.type,
+  timezone: config.timezone,
+  pool: {
+    max: config.pool.max,
+    min: config.pool.min,
+    acquire: config.pool.acquire,
+    idle: config.pool.idle,
+  },
+  define: {
+    freezeTableName: true,
+  },
+  logging: false, // Mematikan log sequelize
+})
 
 const db = {}
 
@@ -39,52 +34,52 @@ db.kategoriArsip = require('./kategoriArsip')(sequelize, Sequelize)
 
 db.pengguna.hasOne(db.dataPengguna, {
   foreignKey: 'id',
-  sourceKey: 'id'
+  sourceKey: 'id',
 })
 
 db.dataPengguna.belongsTo(db.pengguna, {
   foreignKey: 'id',
-  targetKey: 'id'
+  targetKey: 'id',
 })
 
 db.bidangPengguna.hasMany(db.dataPengguna, {
   foreignKey: 'bidang',
-  sourceKey: 'id'
+  sourceKey: 'id',
 })
 
 db.dataPengguna.belongsTo(db.bidangPengguna, {
   foreignKey: 'bidang',
-  targetKey: 'id'
+  targetKey: 'id',
 })
 
 db.bidangPengguna.hasMany(db.kategoriArsip, {
   foreignKey: 'bidang',
-  sourceKey: 'id'
+  sourceKey: 'id',
 })
 
 db.kategoriArsip.belongsTo(db.bidangPengguna, {
   foreignKey: 'bidang',
-  targetKey: 'id'
+  targetKey: 'id',
 })
 
 db.kategoriArsip.hasMany(db.arsip, {
   foreignKey: 'kategori',
-  sourceKey: 'id'
+  sourceKey: 'id',
 })
 
 db.arsip.belongsTo(db.kategoriArsip, {
   foreignKey: 'kategori',
-  targetKey: 'id'
+  targetKey: 'id',
 })
 
 db.dataPengguna.hasMany(db.arsip, {
   foreignKey: 'pembuat',
-  sourceKey: 'id'
+  sourceKey: 'id',
 })
 
 db.arsip.belongsTo(db.dataPengguna, {
   foreignKey: 'pembuat',
-  targetKey: 'id'
+  targetKey: 'id',
 })
 
 module.exports = db

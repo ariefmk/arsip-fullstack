@@ -1,7 +1,8 @@
 const db = require('../models')
 const { sistemLog } = require('./log')
 
-db.sequelize.sync({ force: true })
+db.sequelize
+  .sync({ force: true })
   .then(() => {
     const pesan = 'Basis data dibuat ulang dan tersinkronisasi'
     sistemLog.info(pesan)

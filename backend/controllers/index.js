@@ -2,5 +2,5 @@
 module.exports = {
   masuk: require('./masuk'),
   laporan: require('./laporan'),
-  pengguna: require('./pengguna')
+  pengguna: require('./pengguna'),
 }

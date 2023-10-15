@@ -7,7 +7,7 @@ import { useRef, useEffect } from 'react'
 import { hanyaAngka } from '@/lib/form'
 import { skemaPenggunaTambah } from '@/lib/skema'
 
-export default function Tambah({ referensi }) {
+export default function Ubah({ referensi }) {
   const fileLabelRef = useRef()
   const fileInputRef = useRef()
 
@@ -36,7 +36,7 @@ export default function Tambah({ referensi }) {
             className='flex flex-col gap-y-3'
             onSubmit={handleSubmitTambah(tambahPengguna)}
           >
-            <h1 className='text-center text-2xl font-bold'>Tambah Pengguna</h1>
+            <h1 className='text-center text-2xl font-bold'>Ubah Pengguna</h1>
             <div className='flex flex-col gap-y-3'>
               <div className='flex justify-between gap-x-3'>
                 <div className='w-[120px]'>
@@ -204,7 +204,7 @@ export default function Tambah({ referensi }) {
                 type='submit'
                 className='h-[2rem] w-[80px] rounded-[5px] border-2'
               >
-                Tambah
+                Ubah
               </button>
               <button
                 type='reset'

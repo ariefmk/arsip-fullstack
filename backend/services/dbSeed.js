@@ -13,16 +13,19 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS)
 
 bcrypt.hash(sandiAdmin, saltRounds, (error, hash) => {
   if (!error) {
-    pengguna.create(
-      {
+    pengguna
+      .create({
         nik: nikAdmin,
         kataSandi: hash,
-        hakAkses: 'admin'
+        hakAkses: 'admin',
       })
-      .then(hasil => {
-        penggunaLog.info(`Berhasil membuat pengguna dengan NIK ${nikAdmin} sebagai admin`, logPengguna.tambah(hasil))
+      .then((hasil) => {
+        penggunaLog.info(
+          `Berhasil membuat pengguna dengan NIK ${nikAdmin} sebagai admin`,
+          logPengguna.tambah(hasil)
+        )
       })
-      .catch(error => {
+      .catch((error) => {
         penggunaLog.error(`Kesalahan membuat pengguna ${nikAdmin}`, error)
       })
   } else {
@@ -32,16 +35,19 @@ bcrypt.hash(sandiAdmin, saltRounds, (error, hash) => {
 
 bcrypt.hash(sandiPengguna, saltRounds, (error, hash) => {
   if (!error) {
-    pengguna.create(
-      {
+    pengguna
+      .create({
         nik: nikPengguna,
         kataSandi: hash,
-        hakAkses: 'standar'
+        hakAkses: 'standar',
       })
-      .then(hasil => {
-        penggunaLog.info(`Berhasil membuat pengguna dengan NIK ${nikPengguna} sebagai pengguna`, logPengguna.tambah(hasil))
+      .then((hasil) => {
+        penggunaLog.info(
+          `Berhasil membuat pengguna dengan NIK ${nikPengguna} sebagai pengguna`,
+          logPengguna.tambah(hasil)
+        )
       })
-      .catch(error => {
+      .catch((error) => {
         penggunaLog.error(`Kesalahan membuat pengguna ${nikPengguna}`, error)
       })
   } else {
