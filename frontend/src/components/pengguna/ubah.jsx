@@ -1,5 +1,3 @@
-'use client'
-
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IconCirclePlus } from '@tabler/icons-react'

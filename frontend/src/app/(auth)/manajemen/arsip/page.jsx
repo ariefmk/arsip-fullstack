@@ -1,5 +1,7 @@
-export default function Arsip() {
+import Arsip from '@/components/arsip'
+
+export default function ArsipPage() {
   return (
-    <h1>Halaman Arsip</h1>
+    <Arsip />
   )
 }

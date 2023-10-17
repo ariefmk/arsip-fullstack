@@ -2,7 +2,7 @@
 
 import { IconCirclePlus } from '@tabler/icons-react'
 
-export default function Header({referensi}) {
+export default function Header({ referensi }) {
   return (
     <div className='flex h-[4rem] w-full flex-row items-center justify-between px-[.5rem] md:px-[2rem]'>
       <button

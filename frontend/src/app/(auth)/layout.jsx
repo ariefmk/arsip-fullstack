@@ -9,7 +9,7 @@ export default function Layout({ children }) {
     <>
       <Header />
       <div className=''>
-        <Sidebar manajemen={manajemen} riwayat={riwayat} />
+        <Sidebar/>
         <main className='md:ml-[15rem]'>{children}</main>
       </div>
     </>

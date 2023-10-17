@@ -1,5 +1,6 @@
-export default function Kategori() {
+import Kategori from '@/components/kategori'
+export default function KategoriPage() {
   return (
-    <h1>Halaman Kategori</h1>
+    <Kategori />
   )
 }

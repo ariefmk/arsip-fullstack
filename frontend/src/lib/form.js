@@ -7,6 +7,28 @@ export const hanyaAngka = (aksi) => {
   }
 }
 
+export const hurufKapital = (aksi) => {
+  const masukkan = aksi.target.value
+  const huruf = masukkan.replace(/[^a-zA-Z]/g, '')
+
+  if (masukkan !== huruf) {
+    aksi.target.value = huruf
+  } else {
+    aksi.target.value = masukkan.toUpperCase()
+  }
+}
+
+export const hurufKecil = (aksi) => {
+  const masukkan = aksi.target.value
+  const huruf = masukkan.replace(/[^a-zA-Z]/g, '')
+
+  if (masukkan !== huruf) {
+    aksi.target.value = huruf
+  } else {
+    aksi.target.value = masukkan.toLowerCase()
+  }
+}
+
 export const submitData = async (data, aksi) => {
   const kirimData = await fetch('/api/masuk', {
     method: 'POST',

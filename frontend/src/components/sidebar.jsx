@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
-import { IconHome, IconHistory, IconSettings2 } from '@tabler/icons-react'
+import { IconHome, IconHistory, IconSettings2, IconReportAnalytics } from '@tabler/icons-react'
 import { kapital, gantiSpasi } from '@/lib'
 
 export default function Sidebar({ manajemen, riwayat }) {
@@ -18,7 +18,6 @@ export default function Sidebar({ manajemen, riwayat }) {
               Beranda
             </Link>
           </li>
-          {Array.isArray(manajemen) && (
             <li>
               <Link
                 href='/manajemen'
@@ -46,11 +45,12 @@ export default function Sidebar({ manajemen, riwayat }) {
                 <li>
                   <Link href='/manajemen/kategori'>Kategori Arsip</Link>
                 </li>
+                <li>
+                  <Link href='/manajemen/penyimpanan'>Penyimpanan</Link>
+                </li>
               </ul>
             </li>
-          )}
           {/*Hak Akses Admin*/}
-          {Array.isArray(riwayat) && (
             <li>
               <Link
                 href='/riwayat'
@@ -78,7 +78,12 @@ export default function Sidebar({ manajemen, riwayat }) {
                 </li>
               </ul>
             </li>
-          )}
+          <li>
+            <Link href='/laporan'>
+              <IconReportAnalytics className='h-[20px] w-[20px]' />
+              Laporan
+            </Link>
+          </li>
         </ul>
       </div>
     </aside>
