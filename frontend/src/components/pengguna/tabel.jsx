@@ -3,6 +3,7 @@ import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
 import { useState, useRef } from 'react'
 import Hapus from './hapus'
 import Ubah from './ubah'
+import { kapital } from '@/lib'
 
 export default function Tabel({ datalist }) {
   const [sortedData, setSortedData] = useState([...datalist])
@@ -80,13 +81,19 @@ export default function Tabel({ datalist }) {
                 className='h-[3rem] odd:bg-gray-200 even:bg-red-200 hover:bg-teal-100'
               >
                 <td>{index + 1}</td>
-                <td>{data.hak}</td>
+                <td>{kapital(data.hak)}</td>
                 <td>{data.nik}</td>
                 <td>{data.nama}</td>
                 <td>{data.bidang}</td>
                 <td>{data.jabatan}</td>
                 <td>{data.tanggal}</td>
-                <td>{data.kelamin}</td>
+                <td>
+                  {data.kelamin === 1
+                    ? 'Laki-Laki'
+                    : data.kelamin === 2
+                    ? 'Perempuan'
+                    : null}
+                </td>
                 <td>{data.telepon}</td>
                 <td className='truncate hover:whitespace-normal'>
                   {data.alamat}

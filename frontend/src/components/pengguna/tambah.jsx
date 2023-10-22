@@ -4,8 +4,9 @@ import { IconCirclePlus, IconX } from '@tabler/icons-react'
 import { useRef, useState } from 'react'
 import { hanyaAngka } from '@/lib/form'
 import { skemaPenggunaTambah } from '@/lib/skema'
+import { api } from '@/config'
 
-export default function Tambah({ referensi }) {
+export default function Tambah({ referensi, datalist }) {
   const [akses, setAkses] = useState('')
   const [jabatan, setJabatan] = useState('')
   const fileLabelRef = useRef()
@@ -13,22 +14,42 @@ export default function Tambah({ referensi }) {
 
   const {
     register,
+    unregister,
     handleSubmit,
     formState: { errors },
     reset,
     getValues,
   } = useForm({
-    resolver: yupResolver(skemaPenggunaTambah),
+    resolver: yupResolver(skemaPenggunaTambah(datalist)),
   })
   const resetHandler = () => {
     fileLabelRef.current.textContent = ''
-  setAkses('')
+    setAkses('')
     setJabatan('')
     reset()
   }
 
-  const tambahPengguna = (data) => {
+  const tambahPengguna = async (data) => {
     console.log(data)
+    const formData = new FormData()
+    formData.append('hak', data.hak)
+    formData.append('nik', data.nik)
+    formData.append('kataSandi', data.kataSandi)
+    formData.append('nama', data.nama)
+    formData.append('tanggal', data.tanggal.toISOString())
+    formData.append('kelamin', data.kelamin)
+    formData.append('nomor', data.nomor)
+    formData.append('alamat', data.alamat)
+    if (data.jabatan) {
+      formData.append('jabatan', data.jabatan)
+    }
+    if (data.bidang) {
+      formData.append('bidang', data.bidang)
+    }
+    const kirimData = await fetch('/api/pengguna/tambah', {
+      method: 'POST',
+      body: formData,
+    })
   }
 
   return (
@@ -37,6 +58,7 @@ export default function Tambah({ referensi }) {
         <form
           className='flex flex-col gap-y-3'
           onSubmit={handleSubmit(tambahPengguna)}
+          encType='multipart/form-data'
         >
           <h1 className='text-center text-2xl font-bold'>Tambah Pengguna</h1>
           <div className='flex flex-col gap-y-3'>
@@ -51,8 +73,8 @@ export default function Tambah({ referensi }) {
                   }}
                 >
                   <option value=''>Hak Akses</option>
-                  <option value='admin'>Admin</option>
-                  <option value='pengguna'>Pengguna</option>
+                  <option value='Admin'>Admin</option>
+                  <option value='Standar'>Standar</option>
                 </select>
 
                 {errors.hak?.message && (
@@ -135,14 +157,13 @@ export default function Tambah({ referensi }) {
                   }`}
                   name='jabatan'
                   {...register('jabatan')}
-                  disabled={akses === 'pengguna' ? false : true}
-                  onClick ={() =>
-                      setJabatan(getValues('jabatan'))}
+                  disabled={akses === 'Standar' ? false : true}
+                  onClick={() => setJabatan(getValues('jabatan'))}
                 >
                   <option value=''>Jabatan</option>
-                  <option value='kepala-desa'>Kepala Desa</option>
-                  <option value='sekretaris'>Sekretaris</option>
-                  <option value='kepala-bidang'>Kepala Bidang</option>
+                  <option value='Kepala Desa'>Kepala Desa</option>
+                  <option value='Sekretaris'>Sekretaris</option>
+                  <option value='Kepala Bidang'>Kepala Bidang</option>
                 </select>
                 {errors.jabatan?.message && (
                   <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
@@ -159,7 +180,11 @@ export default function Tambah({ referensi }) {
                   }`}
                   name='bidang'
                   {...register('bidang')}
-                  disabled={akses === 'pengguna' && jabatan === 'kepala-bidang' ? false : true}
+                  disabled={
+                    akses === 'Standar' && jabatan === 'Kepala Bidang'
+                      ? false
+                      : true
+                  }
                 >
                   <option value=''>Bidang</option>
                   <option value='kesra'>Kesra & Pelayanan</option>
@@ -181,7 +206,7 @@ export default function Tambah({ referensi }) {
                   type='date'
                   placeholder='Tanggal Lahir'
                   className={`h-[2.5rem] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
-                    errors.kelamin
+                    errors.tanggal
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
                   }`}
@@ -207,8 +232,8 @@ export default function Tambah({ referensi }) {
                   disabled={akses ? false : true}
                 >
                   <option value=''>Jenis Kelamin</option>
-                  <option value='laki-laki'>Laki-Laki</option>
-                  <option value='perempuan'>Perempuan</option>
+                  <option value='1'>Laki-Laki</option>
+                  <option value='2'>Perempuan</option>
                 </select>
                 {errors.kelamin?.message && (
                   <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
@@ -264,6 +289,7 @@ export default function Tambah({ referensi }) {
                 type='file'
                 id='tambah-foto'
                 ref={fileInputRef}
+                accept='image/*'
                 hidden
                 onChange={(e) => {
                   fileLabelRef.current.textContent = e.target.files[0].name
@@ -301,18 +327,20 @@ export default function Tambah({ referensi }) {
         </form>
         <button
           onClick={() => {
+            setAkses('')
+            setJabatan('')
             reset()
             referensi.current.close()
           }}
           className='daisy-btn daisy-btn-circle daisy-btn-ghost daisy-btn-sm absolute right-2 top-2'
         >
-          <IconX
-            className='h-[20px] w-[20px]'
-          />
+          <IconX className='h-[20px] w-[20px]' />
         </button>
       </div>
       <button
         onClick={() => {
+          setAkses('')
+          setJabatan('')
           reset()
           referensi.current.close()
         }}

@@ -23,22 +23,28 @@ export default function FormMasuk() {
     resolver: yupResolver(skemaMasuk),
   })
 
-  // Fungsi untuk mengirim data masuk ke server dan mengembalikan nilanya
-  const kirimData = async (data, aksi) => {
+  const submitMasuk = async (data, aksi) => {
     setTunggu(true)
-    const hasil = await submitData(data, aksi)
-    if (hasil.status === 200) {
+    const kirimData = await fetch('/api/masuk', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    const responData = await kirimData.json()
+    if (responData.status === 200) {
       router.push('/beranda')
     } else {
-      setPesanKesalahan(hasil.pesan)
       setTunggu(false)
+      setPesanKesalahan(responData.pesan)
     }
   }
 
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmit(kirimData)}>
+        <form onSubmit={handleSubmit(submitMasuk)}>
           <div className='flex flex-col items-center gap-y-[3px]'>
             <div className='relative inline-block'>
               <label className='absolute top-[5px] pl-[.5rem]' htmlFor='nik'>

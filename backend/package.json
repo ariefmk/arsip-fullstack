@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node index.js",
-    "nodemon": "nodemon index.js",
+    "dev": "nodemon index.js",
     "lint:check": "eslint .",
     "lint:fix": "eslint --fix .",
     "db:seed": "node services/dbSeed.js",

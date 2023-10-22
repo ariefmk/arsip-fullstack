@@ -54,7 +54,7 @@ module.exports = (sequelize, dt) => {
       comment: 'Waktu disahkan'
     },
     pembuat: {
-      type: dt.INTEGER(3),
+      type: dt.STRING(16),
       allowNull: false,
       comment: 'Pembuat arsip'
     },
@@ -77,6 +77,11 @@ module.exports = (sequelize, dt) => {
       type: dt.JSON,
       allowNull: false,
       comment: 'Riwayat arsip'
+    },
+    penyimpanan: {
+      type: dt.INTEGER(3),
+      allowNull: true,
+      comment: 'Id penyimpanan arsip'
     },
     diubah: {
       type: dt.DATE,

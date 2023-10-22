@@ -1,6 +1,6 @@
 require('dotenv').config()
 require('module-alias/register')
-const { pengguna } = require('@/models')
+const db = require('@/models')
 const { penggunaLog } = require('./log')
 const bcrypt = require('bcrypt')
 const logPengguna = require('@/modules').log.pengguna
@@ -13,7 +13,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS)
 
 bcrypt.hash(sandiAdmin, saltRounds, (error, hash) => {
   if (!error) {
-    pengguna
+    db.pengguna
       .create({
         nik: nikAdmin,
         kataSandi: hash,
@@ -35,7 +35,7 @@ bcrypt.hash(sandiAdmin, saltRounds, (error, hash) => {
 
 bcrypt.hash(sandiPengguna, saltRounds, (error, hash) => {
   if (!error) {
-    pengguna
+    db.pengguna
       .create({
         nik: nikPengguna,
         kataSandi: hash,
@@ -54,3 +54,4 @@ bcrypt.hash(sandiPengguna, saltRounds, (error, hash) => {
     penggunaLog.error(`Gagal membuat pengguna ${nikPengguna}`, error)
   }
 })
+

@@ -1,30 +1,30 @@
 module.exports = (req, res) => {
   const db = require('@/models')
 
-  /*
-  db.sequelize.query(
-    `SELECT *,
-    'admin' AS hakAkses
-    FROM Admin
-    UNION
-    SELECT *,
-    'pengguna' AS hakAkses
-    FROM Pengguna`,
-    {
-      type: QueryTypes.SELECT,
-      include: 'DataPengguna'
-    }
-  ).then(dataKueri => {
-    console.log(dataKueri)
-  })
-  */
-  let dataList = []
-  db.pengguna.findAll({
-    include: 'DataPengguna'
-  }).then(dataKueri => {
-    console.log(dataKueri)
-    dataList.push(dataKueri)
-  })
-  console.log('datalist')
-  console.log(dataList)
+  db.pengguna
+    .findAll({
+      include: 'DataPengguna',
+    })
+    .then((dataKueri) => {
+      const datalist = dataKueri.map((item) => {
+        let data = {
+          nik: item.nik,
+          hak: item.hakAkses,
+        }
+        if (item.DataPengguna !== null) {
+          const dataPengguna = item.DataPengguna
+          data = {
+            ...data,
+            nama: dataPengguna.nama,
+            alamat: dataPengguna.alamat,
+            kelamin: dataPengguna.jenisKelamin,
+            telepon: dataPengguna.nomorTelepon,
+            tanggal: dataPengguna.tanggalLahir,
+            jabatan: dataPengguna.jabatan
+          }
+        }
+        return data
+      })
+      res.send(datalist)
+    })
 }

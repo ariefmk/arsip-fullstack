@@ -1,11 +1,10 @@
 module.exports = (sequelize, dt) => {
   const dataPengguna = sequelize.define('DataPengguna', {
-    id: {
-      type: dt.INTEGER(3),
+    nik: {
+      type: dt.STRING(16),
       primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-      comment: 'Id data pengguna'
+      unique: true,
+      allowNull: false
     },
     nama: {
       type: dt.STRING(30),

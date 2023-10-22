@@ -1,44 +1,19 @@
 import Pengguna from '@/components/pengguna'
+import { api } from '@/config'
+export const revalidate = 0
 
-export default function PenggunaPage() {
-  const datalist = [
-    {
-      hak: 'Pengguna',
-      nik: '6311041302010004',
-      nama: 'Arief Maulana',
-      bidang: '-',
-      jabatan: '-',
-      tanggal: '13 Februari 2001',
-      kelamin: 'Laki-Laki',
-      telepon: '083125902067',
-      alamat: 'Sumpung, Desa Mampari RT 4 dasgs fsefs fsf',
-    },
-    {
-      hak: 'Pengguna',
-      nik: '6311041302010002',
-      nama: 'Arief Maulana',
-      bidang: '-',
-      jabatan: '-',
-      tanggal: '13 Februari 2001',
-      kelamin: 'Laki-Laki',
-      telepon: '083125902067',
-      alamat: 'Sumpung, Desa Mampari RT 4 dasgs fsefs fsf',
-    },
-    {
-      hak: 'Pengguna',
-      nik: '6311041302010011',
-      nama: 'Arief Maulana',
-      bidang: '-',
-      jabatan: '-',
-      tanggal: '13 Februari 2022',
-      kelamin: 'Laki-Laki',
-      telepon: '083125902067',
-      alamat: 'Sumpung, Desa Mapari sefs fsf',
-    },
-  ]
+
+export default async function PenggunaPage() {
+  const respon = await fetch(`${api.server}/auth/pengguna`, {
+    method: 'GET',
+  })
+
+  const ambilData = await respon.json()
+  console.log(ambilData)
+
   return (
     <div>
-      <Pengguna datalist={datalist} />
+      <Pengguna datalist={ambilData}/>
     </div>
   )
 }

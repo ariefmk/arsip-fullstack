@@ -6,11 +6,12 @@ import { useRef } from 'react'
 
 export default function Pengguna({ datalist }) {
   const ref = useRef()
+
   return (
     <>
       <Header referensi={ref} />
       <Tabel datalist={datalist} />
-      <Tambah referensi={ref} />
+      <Tambah referensi={ref} datalist={datalist} />
     </>
   )
 }
