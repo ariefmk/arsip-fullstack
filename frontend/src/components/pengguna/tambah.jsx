@@ -2,11 +2,12 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IconCirclePlus, IconX } from '@tabler/icons-react'
 import { useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { hanyaAngka } from '@/lib/form'
 import { skemaPenggunaTambah } from '@/lib/skema'
-import { api } from '@/config'
 
 export default function Tambah({ referensi, datalist }) {
+  const router = useRouter()
   const [akses, setAkses] = useState('')
   const [jabatan, setJabatan] = useState('')
   const fileLabelRef = useRef()
@@ -23,14 +24,13 @@ export default function Tambah({ referensi, datalist }) {
     resolver: yupResolver(skemaPenggunaTambah(datalist)),
   })
   const resetHandler = () => {
+    reset()
     fileLabelRef.current.textContent = ''
     setAkses('')
     setJabatan('')
-    reset()
   }
 
   const tambahPengguna = async (data) => {
-    console.log(data)
     const formData = new FormData()
     formData.append('hak', data.hak)
     formData.append('nik', data.nik)
@@ -50,6 +50,11 @@ export default function Tambah({ referensi, datalist }) {
       method: 'POST',
       body: formData,
     })
+    setAkses('')
+    setJabatan('')
+    reset()
+    referensi.current.close()
+    router.refresh()
   }
 
   return (
@@ -317,7 +322,7 @@ export default function Tambah({ referensi, datalist }) {
               Tambah
             </button>
             <button
-              type='reset'
+              type='button'
               className='h-[2rem] w-[80px] rounded-[5px] border-2'
               onClick={resetHandler}
             >

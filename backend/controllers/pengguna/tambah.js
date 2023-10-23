@@ -21,8 +21,6 @@ module.exports = (req, res) => {
             jabatan: permintaan.jabatan || null,
             bidang: permintaan.bidang || null,
           }).then(hasil2 => {
-            console.log(hasil1)
-            console.log(hasil2)
             return res.status(200).send({
               status:200,
               pesan:'Data berhasil ditambahkan'

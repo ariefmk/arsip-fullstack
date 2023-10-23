@@ -16,7 +16,7 @@ export const skemaPenggunaTambah = (datalist) => {
     return data.nik
   })
   return yup.object({
-    hak: yup.string().oneOf(['admin', 'Standar'], 'Pilih salah satu'),
+    hak: yup.string().oneOf(['Admin', 'Standar'], 'Pilih salah satu'),
     nik: yup
       .string()
       .required('NIK wajib diisi')

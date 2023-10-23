@@ -1,4 +1,15 @@
+import { useRouter } from 'next/navigation'
 export default function Hapus({ referensi, data }) {
+  const router = useRouter()
+  const hapusHandler = async (nik) => {
+    const respon = await fetch('/api/pengguna/hapus', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nik }),
+    })
+  }
   return (
     <dialog className='daisy-modal' ref={referensi}>
       <div className='daisy-modal-box'>
@@ -50,13 +61,19 @@ export default function Hapus({ referensi, data }) {
           <div>
             <button
               className='h-2rem w-[80px] rounded-[5px] border-2'
-              onClick={() => console.log(referensi.current)}
+              onClick={() => {
+                hapusHandler(data.nik)
+                referensi.current.close()
+                router.refresh()
+              }}
             >
               Hapus
             </button>
             <button
               className='h-2rem w-[80px] rounded-[5px] border-2'
-              onClick={() => referensi.current.close()}
+              onClick={() => {
+                referensi.current.close()
+              }}
             >
               Tidak
             </button>

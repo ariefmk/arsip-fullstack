@@ -3,4 +3,5 @@ module.exports = app => {
   const { pengguna } = require('@/controllers')
   app.get('/pengguna', pengguna.list)
   app.post('/pengguna/tambah', berkas.single('foto'), pengguna.tambah)
+  app.post('/pengguna/hapus', pengguna.hapus)
 }

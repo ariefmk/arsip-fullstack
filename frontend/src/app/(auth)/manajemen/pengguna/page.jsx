@@ -9,8 +9,6 @@ export default async function PenggunaPage() {
   })
 
   const ambilData = await respon.json()
-  console.log(ambilData)
-
   return (
     <div>
       <Pengguna datalist={ambilData}/>

@@ -1,6 +1,6 @@
 'use client'
 import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Hapus from './hapus'
 import Ubah from './ubah'
 import { kapital } from '@/lib'
@@ -8,9 +8,14 @@ import { kapital } from '@/lib'
 export default function Tabel({ datalist }) {
   const [sortedData, setSortedData] = useState([...datalist])
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
-  const [dataHapus, setDataHapus] = useState([])
+  const [dataHapus, setDataHapus] = useState({})
+  const [dataUbah, setDataUbah] = useState({})
   const hapusRef = useRef()
   const ubahRef = useRef()
+
+  useEffect(() => {
+    setSortedData([...datalist])
+  }, [datalist])
 
   const requestSort = (key) => {
     let direction = 'asc'
@@ -29,11 +34,13 @@ export default function Tabel({ datalist }) {
   }
 
   const handleUbah = (nik) => {
-    console.log('Ubah data dengan NIK', nik)
+    //console.log('Ubah data dengan NIK', nik)
   }
+  /*
   const handleHapus = (nik) => {
     setDataHapus([nik])
   }
+  */
 
   return (
     <div className='w-full overflow-x-auto'>
@@ -102,7 +109,7 @@ export default function Tabel({ datalist }) {
                   <button
                     className='flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-sky-200 bg-white hover:bg-green-300 hover:font-bold hover:text-white'
                     onClick={() => {
-                      handleUbah(data.nik)
+                      setDataUbah(data)
                       ubahRef.current.showModal()
                     }}
                   >
@@ -127,7 +134,7 @@ export default function Tabel({ datalist }) {
         </tbody>
       </table>
       <Hapus referensi={hapusRef} data={dataHapus} />
-      <Ubah referensi={ubahRef} />
+      <Ubah referensi={ubahRef} data={dataUbah} />
     </div>
   )
 }

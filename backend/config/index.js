@@ -15,7 +15,7 @@ const db = {
   pool: {
     max: 10,
     min: 0,
-    acquire: 6000,
+    acquire: 60000,
     idle: 10000
   }
 }
