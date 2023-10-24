@@ -20,7 +20,8 @@ module.exports = (req, res) => {
             kelamin: dataPengguna.jenisKelamin,
             telepon: dataPengguna.nomorTelepon,
             tanggal: dataPengguna.tanggalLahir,
-            jabatan: dataPengguna.jabatan
+            jabatan: dataPengguna.jabatan,
+            bidang: dataPengguna.bidang
           }
         }
         return data

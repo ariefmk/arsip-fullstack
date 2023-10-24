@@ -38,23 +38,43 @@ export default function Tambah({ referensi, datalist }) {
     formData.append('nama', data.nama)
     formData.append('tanggal', data.tanggal.toISOString())
     formData.append('kelamin', data.kelamin)
-    formData.append('nomor', data.nomor)
+    formData.append('telepon', data.telepon)
     formData.append('alamat', data.alamat)
     if (data.jabatan) {
       formData.append('jabatan', data.jabatan)
     }
-    if (data.bidang) {
+    if (data.jabatan === 'Kepala Bidang') {
+      switch (data.bidang) {
+        case 'kesra':
+          data.bidang = 1
+          break
+        case 'pemerintahan':
+          data.bidang = 2
+          break
+        case 'kewilayahan':
+          data.bidang = 3
+          break
+        case 'keuangan':
+          data.bidang = 4
+          break
+        case 'umum':
+          data.bidang = 5
+          break
+        default:
+          data.bidang = null
+      }
       formData.append('bidang', data.bidang)
     }
-    const kirimData = await fetch('/api/pengguna/tambah', {
+    fetch('/api/pengguna/tambah', {
       method: 'POST',
       body: formData,
+    }).then(() => {
+      setAkses('')
+      setJabatan('')
+      reset()
+      referensi.current.close()
+      router.refresh()
     })
-    setAkses('')
-    setJabatan('')
-    reset()
-    referensi.current.close()
-    router.refresh()
   }
 
   return (
@@ -251,19 +271,19 @@ export default function Tambah({ referensi, datalist }) {
                   type='text'
                   placeholder='Nomor Telepon'
                   className={`h-[2.5rem] w-[250px] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
-                    errors.nomor
+                    errors.telepon
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
                   }`}
-                  name='nomor'
-                  {...register('nomor')}
+                  name='telepon'
+                  {...register('telepon')}
                   onInput={hanyaAngka}
                   inputMode='numeric'
                   disabled={akses ? false : true}
                 />
-                {errors.nomor?.message && (
+                {errors.telepon?.message && (
                   <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.nomor?.message}
+                    {errors.telepon?.message}
                   </span>
                 )}
               </div>

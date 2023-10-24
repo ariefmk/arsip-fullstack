@@ -31,7 +31,7 @@ db.bidangPengguna = require('./bidangPengguna')(sequelize, Sequelize)
 db.dataPengguna = require('./dataPengguna')(sequelize, Sequelize)
 db.arsip = require('./arsip')(sequelize, Sequelize)
 db.penyimpanan = require('./penyimpanan')(sequelize, Sequelize)
-db.kategoriArsip = require('./kategoriArsip')(sequelize, Sequelize)
+db.kategori = require('./kategoriArsip')(sequelize, Sequelize)
 
 db.pengguna.hasOne(db.dataPengguna, {
   foreignKey: 'nik',
@@ -53,22 +53,22 @@ db.dataPengguna.belongsTo(db.bidangPengguna, {
   targetKey: 'id',
 })
 
-db.bidangPengguna.hasMany(db.kategoriArsip, {
+db.bidangPengguna.hasMany(db.kategori, {
   foreignKey: 'bidang',
   sourceKey: 'id',
 })
 
-db.kategoriArsip.belongsTo(db.bidangPengguna, {
+db.kategori.belongsTo(db.bidangPengguna, {
   foreignKey: 'bidang',
   targetKey: 'id',
 })
 
-db.kategoriArsip.hasMany(db.arsip, {
+db.kategori.hasMany(db.arsip, {
   foreignKey: 'kategori',
   sourceKey: 'id',
 })
 
-db.arsip.belongsTo(db.kategoriArsip, {
+db.arsip.belongsTo(db.kategori, {
   foreignKey: 'kategori',
   targetKey: 'id',
 })

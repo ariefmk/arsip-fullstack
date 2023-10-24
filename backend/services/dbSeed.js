@@ -17,7 +17,7 @@ bcrypt.hash(sandiAdmin, saltRounds, (error, hash) => {
       .create({
         nik: nikAdmin,
         kataSandi: hash,
-        hakAkses: 'admin',
+        hakAkses: 'Admin',
       })
       .then((hasil) => {
         penggunaLog.info(
@@ -39,7 +39,7 @@ bcrypt.hash(sandiPengguna, saltRounds, (error, hash) => {
       .create({
         nik: nikPengguna,
         kataSandi: hash,
-        hakAkses: 'standar',
+        hakAkses: 'Standar',
       })
       .then((hasil) => {
         penggunaLog.info(
@@ -55,3 +55,18 @@ bcrypt.hash(sandiPengguna, saltRounds, (error, hash) => {
   }
 })
 
+db.bidangPengguna.create({
+  nama: 'Kesra dan Pelayanan',
+})
+db.bidangPengguna.create({
+  nama: 'Pemerintahan',
+})
+db.bidangPengguna.create({
+  nama: 'Kewilayahan',
+})
+db.bidangPengguna.create({
+  nama: 'Keuangan',
+})
+db.bidangPengguna.create({
+  nama: 'Umum dan Perencanaan',
+})

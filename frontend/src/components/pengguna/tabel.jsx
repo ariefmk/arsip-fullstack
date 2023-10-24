@@ -91,7 +91,19 @@ export default function Tabel({ datalist }) {
                 <td>{kapital(data.hak)}</td>
                 <td>{data.nik}</td>
                 <td>{data.nama}</td>
-                <td>{data.bidang}</td>
+                <td>
+                  {data.bidang === 1
+                    ? 'Kesra & Pelayanan'
+                    : data.bidang === 2
+                    ? 'Pemerintahan'
+                    : data.bidang === 3
+                    ? 'Kewilayahan'
+                    : data.bidang === 4
+                    ? 'Keuangan'
+                    : data.bidang === 5
+                    ? 'Umum & Perencanaan'
+                    : null}
+                </td>
                 <td>{data.jabatan}</td>
                 <td>{data.tanggal}</td>
                 <td>

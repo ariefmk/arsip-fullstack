@@ -53,7 +53,7 @@ export const skemaPenggunaTambah = (datalist) => {
       .string()
       .oneOf(['1', '2'], 'Pilih jenis kelamin')
       .required('Pilih jenis kelamin'),
-    nomor: yup
+    telepon: yup
       .string()
       .required('Nomor telepon wajib diisi')
       .matches(/^\d+$/, 'Nomor telepon hanya mengandung angka'),
@@ -78,7 +78,7 @@ export const skemaPenggunaUbah = yup.object({
         'Pilih salah satu'
       ),
   }),
-  nomor: yup
+  telepon: yup
     .string()
     .required('Nomor telepon wajib diisi')
     .matches(/^\d+$/, 'Nomor telepon hanya mengandung angka'),

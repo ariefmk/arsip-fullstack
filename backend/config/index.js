@@ -15,8 +15,8 @@ const db = {
   pool: {
     max: 10,
     min: 0,
-    acquire: 60000,
-    idle: 10000
+    acquire: 100,
+    idle: 1000
   }
 }
 module.exports = { kunci, db }

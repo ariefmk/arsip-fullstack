@@ -6,10 +6,8 @@ import { useRouter } from 'next/navigation'
 import { hanyaAngka } from '@/lib/form'
 import { skemaPenggunaTambah } from '@/lib/skema'
 
-export default function Tambah({ referensi, data }) {
+export default function Ubah({ referensi, data }) {
   const router = useRouter()
-  const [akses, setAkses] = useState('')
-  const [jabatan, setJabatan] = useState('')
   const fileLabelRef = useRef()
   const fileInputRef = useRef()
 
@@ -33,14 +31,50 @@ export default function Tambah({ referensi, data }) {
     setValue('nik', data.nik)
     setValue('nama', data.nama)
     setValue('jabatan', data.jabatan)
-    setValue('bidang', data.bidang)
     setValue('tanggal', data.tanggal)
     setValue('kelamin', data.kelamin)
     setValue('telepon', data.telepon)
     setValue('alamat', data.alamat)
+    switch (data.bidang) {
+      case 1:
+        data.bidang = 'kesra'
+        break
+      case 2:
+        data.bidang = 'pemerintahan'
+        break
+      case 3:
+        data.bidang = 'kewilayahan'
+        break
+      case 4:
+        data.bidang = 'keuangan'
+        break
+      case 5:
+        data.bidang = 'umum'
+        break
+      default:
+        data.bidang = null
+    }
+    setValue('bidang', data.bidang)
   }, [setValue, data])
 
-  const ubahPengguna = async (data) => {}
+  const ubahPengguna = (data) => {
+    const formData = new FormData()
+    formData.append('nik', data.nik)
+    formData.append('kataSandi', data.kataSandi)
+    formData.append('nama', data.nama)
+    formData.append('tanggal', data.tanggal)
+    formData.append('kelamin', data.kelamin)
+    formData.append('telepon', data.telepon)
+    formData.append('alamat', data.alamat)
+    fetch('/api/pengguna/ubah', {
+      method: 'PUT',
+      body: formData,
+    }).then((hasil) => {
+      referensi.current.close()
+      router.refresh()
+      reset({ ...data })
+    })
+  }
 
   return (
     <dialog className='daisy-modal' ref={referensi}>
@@ -50,7 +84,7 @@ export default function Tambah({ referensi, data }) {
           onSubmit={handleSubmit(ubahPengguna)}
           encType='multipart/form-data'
         >
-          <h1 className='text-center text-2xl font-bold'>Tambah Pengguna</h1>
+          <h1 className='text-center text-2xl font-bold'>Ubah Pengguna</h1>
           <div className='flex flex-col gap-y-3'>
             <div className='flex justify-between gap-x-3'>
               <div className='w-[120px]'>
@@ -133,7 +167,7 @@ export default function Tambah({ referensi, data }) {
                   }`}
                   name='jabatan'
                   {...register('jabatan')}
-                  disabled={akses === 'Standar' ? false : true}
+                  disabled={true}
                   onClick={() => setJabatan(getValues('jabatan'))}
                 >
                   <option value=''>Jabatan</option>
@@ -156,11 +190,7 @@ export default function Tambah({ referensi, data }) {
                   }`}
                   name='bidang'
                   {...register('bidang')}
-                  disabled={
-                    akses === 'Standar' && jabatan === 'Kepala Bidang'
-                      ? false
-                      : true
-                  }
+                  disabled={true}
                 >
                   <option value=''>Bidang</option>
                   <option value='kesra'>Kesra & Pelayanan</option>
@@ -220,18 +250,18 @@ export default function Tambah({ referensi, data }) {
                   type='text'
                   placeholder='Nomor Telepon'
                   className={`h-[2.5rem] w-[250px] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
-                    errors.nomor
+                    errors.telepon
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
                   }`}
-                  name='nomor'
-                  {...register('nomor')}
+                  name='telepon'
+                  {...register('telepon')}
                   onInput={hanyaAngka}
                   inputMode='numeric'
                 />
-                {errors.nomor?.message && (
+                {errors.telepon?.message && (
                   <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.nomor?.message}
+                    {errors.telepon?.message}
                   </span>
                 )}
               </div>
@@ -281,9 +311,8 @@ export default function Tambah({ referensi, data }) {
             <button
               type='submit'
               className='h-[2rem] w-[80px] rounded-[5px] border-2 disabled:bg-gray-200'
-              onClick={() => {}}
             >
-              Tambah
+              Simpan
             </button>
             <button
               type='button'
@@ -296,8 +325,6 @@ export default function Tambah({ referensi, data }) {
         </form>
         <button
           onClick={() => {
-            setAkses('')
-            setJabatan('')
             reset()
             referensi.current.close()
           }}
@@ -308,8 +335,6 @@ export default function Tambah({ referensi, data }) {
       </div>
       <button
         onClick={() => {
-          setAkses('')
-          setJabatan('')
           reset()
           referensi.current.close()
         }}
