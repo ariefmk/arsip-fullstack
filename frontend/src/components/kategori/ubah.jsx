@@ -1,14 +1,11 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { IconX } from '@tabler/icons-react'
 import { hurufKapital } from '@/lib/form'
 import { skemaKategoriTambah } from '@/lib/skema'
 
-
-export default function Tambah({ referensi }) {
-  const router = useRouter()
+export default function Ubah({ referensi }) {
   const [bidang, setBidang] = useState('')
   const {
     register,
@@ -20,58 +17,55 @@ export default function Tambah({ referensi }) {
     resolver: yupResolver(skemaKategoriTambah),
   })
 
+
   const resetHandler = (aksi) => {
     reset()
     setBidang('')
   }
-  const tambahKategori = async (data) => {
-    switch (data.bidang) {
-      case 'kesra':
-        data.bidang = 1
-        break
-      case 'pemerintahan':
-        data.bidang = 2
-        break
-      case 'kewilayahan':
-        data.bidang = 3
-        break
-      case 'keuangan':
-        data.bidang = 4
-        break
-      case 'umum':
-        data.bidang = 5
-        break
-      default:
-        data.bidang = null
-    }
-    fetch('/api/kategori/tambah', {
+  const tambahKategori = async(data) => {
+      switch (data.bidang) {
+        case 'kesra':
+          data.bidang = 1
+          break
+        case 'pemerintahan':
+          data.bidang = 2
+          break
+        case 'kewilayahan':
+          data.bidang = 3
+          break
+        case 'keuangan':
+          data.bidang = 4
+          break
+        case 'umum':
+          data.bidang = 5
+          break
+        default:
+          data.bidang = null
+      }
+    const kirimData = await fetch('/api/kategori/tambah', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
-    }).then((hasil) => {
-      referensi.current.close()
-      router.refresh()
+      body: JSON.stringify(data)
     })
+    const hasil = await kirimData.json()
+    console.log(hasil)
   }
 
   return (
     <dialog className='daisy-modal' ref={referensi}>
       <div className='daisy-modal-box max-w-[400px]'>
-        <form
-          className='flex flex-col gap-y-3'
-          onSubmit={handleSubmit(tambahKategori)}
-        >
+        <form className='flex flex-col gap-y-3' onSubmit={handleSubmit(tambahKategori)}>
           <h1 className='text-center text-2xl font-bold'>
-            Tambah Kategori Arsip
+            Ubah Kategori Arsip
           </h1>
           <div className='flex flex-col gap-y-3'>
             <select
-              className={`-px-[5px] h-[2.5rem] rounded-[5px] border-2 border-black bg-white outline-none focus:border-green-500`}
+              className={`-px-[5px] h-[2.5rem] rounded-[5px] border-2 border-black bg-white outline-none disabled:bg-gray-200`}
               name='bidang'
               {...register('bidang')}
-              onClick={() => setBidang(getValues('bidang'))}
+              disabled={true}
             >
               <option value=''>Bidang</option>
               <option value='kesra'>Kesra & Pelayanan</option>

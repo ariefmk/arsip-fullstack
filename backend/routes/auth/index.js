@@ -3,4 +3,5 @@ module.exports = app => {
   app.use('/auth', router)
   require('./laporan')(router)
   require('./pengguna')(router)
+  require('./kategori')(router)
 }

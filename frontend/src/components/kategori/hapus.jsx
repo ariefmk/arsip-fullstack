@@ -3,15 +3,14 @@ import { IconX } from '@tabler/icons-react'
 
 export default function Hapus({ referensi, data }) {
   const router = useRouter()
-  const hapusHandler = (nik) => {
-    fetch('/api/pengguna/hapus', {
+  const hapusHandler = (kode) => {
+    fetch('/api/kategori/hapus', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ nik }),
+      body: JSON.stringify({ kode}),
     }).then((hasil) => {
-      console.log(hasil)
       referensi.current.close()
       router.refresh()
     })
@@ -19,57 +18,24 @@ export default function Hapus({ referensi, data }) {
   return (
     <dialog className='daisy-modal' ref={referensi}>
       <div className='daisy-modal-box'>
-        {/*Kode hapus disini*/}
         <div>
-          <h1 className='text-center text-lg'>
-            Apa anda ingin menghapus data berikut?
-          </h1>
+          <h1>Apa anda ingin menghapus data berikut?</h1>
           <table>
             <tbody>
               <tr>
-                <td>Hak Akses</td>
+                <td>Kode</td>
                 <td>:</td>
-                <td>{data.hak}</td>
+                <td>{data.kode}</td>
               </tr>
               <tr>
-                <td>NIK</td>
+                <td>Kategori</td>
                 <td>:</td>
-                <td>{data.nik}</td>
-              </tr>
-              <tr>
-                <td>Nama</td>
-                <td>:</td>
-                <td>{data.nama}</td>
-              </tr>
-              <tr>
-                <td>Jabatan</td>
-                <td>:</td>
-                <td>{data.jabatan}</td>
+                <td>{data.kategori}</td>
               </tr>
               <tr>
                 <td>Bidang</td>
                 <td>:</td>
                 <td>{data.bidang}</td>
-              </tr>
-              <tr>
-                <td>Tanggal Lahir</td>
-                <td>:</td>
-                <td>{data.tanggal}</td>
-              </tr>
-              <tr>
-                <td>Jenis Kelamin</td>
-                <td>:</td>
-                <td>{data.kelamin}</td>
-              </tr>
-              <tr>
-                <td>Nomor Telepon</td>
-                <td>:</td>
-                <td>{data.telepon}</td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>{data.alamat}</td>
               </tr>
             </tbody>
           </table>
@@ -78,7 +44,7 @@ export default function Hapus({ referensi, data }) {
               type='button'
               className='h-2rem w-[80px] rounded-[5px] border-2'
               onClick={() => {
-                hapusHandler(data.nik)
+                hapusHandler(data.kode)
               }}
             >
               Hapus
@@ -94,11 +60,13 @@ export default function Hapus({ referensi, data }) {
             </button>
           </div>
         </div>
-          <button type='button' className='daisy-btn daisy-btn-circle daisy-btn-ghost daisy-btn-sm absolute right-2 top-2'
+        <button
+          type='button'
+          className='daisy-button-sm daisy-btn daisy-btn-circle daisy-btn-ghost absolute right-2 top-2'
           onClick={() => {
             referensi.current.close()
           }}
-          >
+        >
           <IconX className='h-[20px] w-[20px]' />
         </button>
       </div>

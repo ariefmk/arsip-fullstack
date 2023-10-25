@@ -1,5 +1,5 @@
 'use client'
-import Header from './header'
+import Header from '@/components/tabel/header'
 import Tabel from './tabel'
 import Tambah from './tambah'
 import { useRef } from 'react'
