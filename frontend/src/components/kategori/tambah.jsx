@@ -17,7 +17,7 @@ export default function Tambah({ referensi }) {
     reset,
     getValues,
   } = useForm({
-    resolver: yupResolver(skemaKategoriTambah),
+    resolver: yupResolver(skemaKategoriTambah()),
   })
 
   const resetHandler = (aksi) => {

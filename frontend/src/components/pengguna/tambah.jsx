@@ -5,6 +5,8 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { hanyaAngka } from '@/lib/form'
 import { skemaPenggunaTambah } from '@/lib/skema'
+import { TutupModal } from '@/lib/button'
+import { Kesalahan } from '@/lib/errors'
 
 export default function Tambah({ referensi, datalist }) {
   const router = useRouter()
@@ -101,12 +103,9 @@ export default function Tambah({ referensi, datalist }) {
                   <option value='Admin'>Admin</option>
                   <option value='Standar'>Standar</option>
                 </select>
-
-                {errors.hak?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.hak?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.hak?.message}
+                />
               </div>
               <div className='w-full'>
                 <input
@@ -124,11 +123,9 @@ export default function Tambah({ referensi, datalist }) {
                   onInput={hanyaAngka}
                   disabled={akses ? false : true}
                 />
-                {errors.nik?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.nik?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.nik?.message}
+                />
               </div>
               <div className='w-full'>
                 <input
@@ -143,11 +140,9 @@ export default function Tambah({ referensi, datalist }) {
                   {...register('kataSandi')}
                   disabled={akses ? false : true}
                 />
-                {errors.kataSandi?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.kataSandi?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.kataSandi?.message}
+                />
               </div>
             </div>
           </div>
@@ -167,11 +162,9 @@ export default function Tambah({ referensi, datalist }) {
                   {...register('nama')}
                   disabled={akses ? false : true}
                 />
-                {errors.nama?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.nama?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.nama?.message}
+                />
               </div>
               <div className='w-full'>
                 <select
@@ -190,11 +183,9 @@ export default function Tambah({ referensi, datalist }) {
                   <option value='Sekretaris'>Sekretaris</option>
                   <option value='Kepala Bidang'>Kepala Bidang</option>
                 </select>
-                {errors.jabatan?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.jabatan?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.jabatan?.message}
+                />
               </div>
               <div className=' w-full'>
                 <select
@@ -218,11 +209,9 @@ export default function Tambah({ referensi, datalist }) {
                   <option value='keuangan'>Keuangan</option>
                   <option value='umum'>Umum & Perencanaan</option>
                 </select>
-                {errors.bidang?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.bidang?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.bidang?.message}
+                />
               </div>
             </div>
             <div className='flex justify-between gap-x-3'>
@@ -239,11 +228,9 @@ export default function Tambah({ referensi, datalist }) {
                   {...register('tanggal')}
                   disabled={akses ? false : true}
                 />
-                {errors.tanggal?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.tanggal?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.tanggal?.message}
+                />
               </div>
               <div className='w-full'>
                 <select
@@ -260,11 +247,9 @@ export default function Tambah({ referensi, datalist }) {
                   <option value='1'>Laki-Laki</option>
                   <option value='2'>Perempuan</option>
                 </select>
-                {errors.kelamin?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.kelamin?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.kelamin?.message}
+                />
               </div>
               <div>
                 <input
@@ -281,11 +266,9 @@ export default function Tambah({ referensi, datalist }) {
                   inputMode='numeric'
                   disabled={akses ? false : true}
                 />
-                {errors.telepon?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.telepon?.message}
-                  </span>
-                )}
+                <Kesalahan
+                  errors={errors.telepon?.message}
+                />
               </div>
             </div>
             <div>
@@ -301,11 +284,9 @@ export default function Tambah({ referensi, datalist }) {
                 {...register('alamat')}
                 disabled={akses ? false : true}
               />
-              {errors.alamat?.message && (
-                <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                  {errors.alamat?.message}
-                </span>
-              )}
+                <Kesalahan
+                  errors={errors.alamat?.message}
+                />
             </div>
           </div>
           <div>

@@ -61,37 +61,56 @@ export const skemaPenggunaTambah = (datalist) => {
   })
 }
 
-export const skemaPenggunaUbah = yup.object({
-  kataSandi: yup
-    .string()
-    .required('Kata Sandi wajib diisi')
-    .min(8, 'Kata sandi minimal 8 karakter'),
-  nama: yup.string().required('Nama lengkap wajib diisi'),
-  jabatan: yup
-    .string()
-    .oneOf(['kepala desa', 'sekretaris', 'kepala bidang'], 'Pilih salah satu'),
-  bidang: yup.string().when('jabatan', {
-    is: (jabatan) => jabatan === 'kepala bidang',
-    then: (bidang) =>
-      bidang.oneOf(
+export const skemaPenggunaUbah = () => {
+  return yup.object({
+    kataSandi: yup
+      .string()
+      .required('Kata Sandi wajib diisi')
+      .min(8, 'Kata sandi minimal 8 karakter'),
+    nama: yup.string().required('Nama lengkap wajib diisi'),
+    jabatan: yup
+      .string()
+      .oneOf(
+        ['kepala desa', 'sekretaris', 'kepala bidang'],
+        'Pilih salah satu'
+      ),
+    bidang: yup.string().when('jabatan', {
+      is: (jabatan) => jabatan === 'kepala bidang',
+      then: (bidang) =>
+        bidang.oneOf(
+          ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
+          'Pilih salah satu'
+        ),
+    }),
+    telepon: yup
+      .string()
+      .required('Nomor telepon wajib diisi')
+      .matches(/^\d+$/, 'Nomor telepon hanya mengandung angka'),
+    alamat: yup.string().required('Alamat wajib diisi'),
+  })
+}
+export const skemaKategoriTambah = () => {
+  return yup.object({
+    bidang: yup
+      .string()
+      .oneOf(
         ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
         'Pilih salah satu'
       ),
-  }),
-  telepon: yup
-    .string()
-    .required('Nomor telepon wajib diisi')
-    .matches(/^\d+$/, 'Nomor telepon hanya mengandung angka'),
-  alamat: yup.string().required('Alamat wajib diisi'),
-})
+    kategori: yup.string().required('Nama kategori wajib diisi'),
+    kode: yup.string().required('Kode kategori wajib diisi'),
+  })
+}
 
-export const skemaKategoriTambah = yup.object({
-  bidang: yup
-    .string()
-    .oneOf(
-      ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-      'Pilih salah satu'
-    ),
-  kategori: yup.string().required('Nama kategori wajib diisi'),
-  kode: yup.string().required('Kode kategori wajib diisi'),
-})
+export const skemaArsipTambah = () => {
+  return yup.object({
+    kode: yup.string(),
+    kategori: yup.string(),
+    jenis: yup.string(),
+    retensi: yup.date(),
+    penyimpanan: yup.string(),
+    perihal: yup.string(),
+    visibilitas: yup.string(),
+    pengguna: yup.string(),
+  })
+}
