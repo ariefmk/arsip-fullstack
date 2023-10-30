@@ -19,7 +19,7 @@ export default function Sidebar({ manajemen, riwayat }) {
             </Link>
           </li>
             <li>
-              <Link
+              <span
                 href='/manajemen'
                 className={`daisy-menu-dropdown-toggle ${
                   manajemenToggle ? 'daisy-menu-dropdown-show' : ''
@@ -28,7 +28,7 @@ export default function Sidebar({ manajemen, riwayat }) {
               >
                 <IconSettings2 className='h-[20px] w-[20px]' />
                 Manajemen
-              </Link>
+              </span>
               <ul
                 className={`daisy-menu-dropdown ${
                   manajemenToggle ? 'daisy-menu-dropdown-show' : ''
@@ -52,7 +52,7 @@ export default function Sidebar({ manajemen, riwayat }) {
             </li>
           {/*Hak Akses Admin*/}
             <li>
-              <Link
+              <span
                 href='/riwayat'
                 className={`daisy-menu-dropdown-toggle ${
                   riwayatToggle ? 'daisy-menu-dropdown-show' : ''
@@ -61,7 +61,7 @@ export default function Sidebar({ manajemen, riwayat }) {
               >
                 <IconHistory className='h-[20px] w-[20px]' />
                 Riwayat
-              </Link>
+              </span>
               <ul
                 className={`daisy-menu-dropdown ${
                   riwayatToggle ? 'daisy-menu-dropdown-show' : ''

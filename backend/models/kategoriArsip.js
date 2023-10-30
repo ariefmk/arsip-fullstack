@@ -1,22 +1,15 @@
 module.exports = (sequelize, dt) => {
-  const kategoriArsip = sequelize.define('KategoriArsip', {
-    id: {
-      type: dt.INTEGER(3),
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-      comment: 'Id kategori arsip'
-    },
-    nama: {
-      type: dt.TEXT,
-      allowNull: false,
-      comment: 'Nama kategori arsip'
-    },
+  const kategori = sequelize.define('KategoriArsip', {
     kode: {
       type: dt.STRING(10),
       allowNull: false,
       unique: true,
       comment: 'Kode kategori arsip'
+    },
+    nama: {
+      type: dt.TEXT,
+      allowNull: false,
+      comment: 'Nama kategori arsip'
     },
     bidang: {
       type: dt.INTEGER(3),
@@ -36,5 +29,5 @@ module.exports = (sequelize, dt) => {
     createdAt: 'dibuat',
     updatedAt: 'diubah'
   })
-  return kategoriArsip
+  return kategori
 }

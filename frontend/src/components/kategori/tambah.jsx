@@ -1,11 +1,12 @@
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { IconX } from '@tabler/icons-react'
 import { hurufKapital } from '@/lib/form'
 import { skemaKategoriTambah } from '@/lib/skema'
-
+import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
+import { Kesalahan } from '@/lib/errors'
 
 export default function Tambah({ referensi }) {
   const router = useRouter()
@@ -67,19 +68,22 @@ export default function Tambah({ referensi }) {
             Tambah Kategori Arsip
           </h1>
           <div className='flex flex-col gap-y-3'>
-            <select
-              className={`-px-[5px] h-[2.5rem] rounded-[5px] border-2 border-black bg-white outline-none focus:border-green-500`}
-              name='bidang'
-              {...register('bidang')}
-              onClick={() => setBidang(getValues('bidang'))}
-            >
-              <option value=''>Bidang</option>
-              <option value='kesra'>Kesra & Pelayanan</option>
-              <option value='pemerintahan'>Pemerintahan</option>
-              <option value='kewilayahan'>Kewilayahan</option>
-              <option value='keuangan'>Keuangan</option>
-              <option value='umum'>Umum & Perencanaan</option>
-            </select>
+            <div>
+              <select
+                className={`-px-[5px] h-[2.5rem] rounded-[5px] border-2 border-black bg-white outline-none focus:border-green-500`}
+                name='bidang'
+                {...register('bidang')}
+                onClick={() => setBidang(getValues('bidang'))}
+              >
+                <option value=''>Bidang</option>
+                <option value='kesra'>Kesra & Pelayanan</option>
+                <option value='pemerintahan'>Pemerintahan</option>
+                <option value='kewilayahan'>Kewilayahan</option>
+                <option value='keuangan'>Keuangan</option>
+                <option value='umum'>Umum & Perencanaan</option>
+              </select>
+              <Kesalahan errors={errors.bidang?.message} />
+            </div>
             <div className='flex justify-between gap-x-3'>
               <div className='w-full'>
                 <input
@@ -93,6 +97,7 @@ export default function Tambah({ referensi }) {
                   {...register('kategori')}
                   disabled={bidang ? false : true}
                 />
+                <Kesalahan errors={errors.kategori?.message} />
               </div>
               <div className='w-[100px]'>
                 <input
@@ -108,34 +113,20 @@ export default function Tambah({ referensi }) {
                   {...register('kode')}
                   disabled={bidang ? false : true}
                 />
+                <Kesalahan errors={errors.kode?.message} />
               </div>
             </div>
           </div>
           <div className='flex justify-center gap-x-4'>
-            <button
-              type='submit'
-              className={`h-[2rem] w-[80px] rounded-[5px] border-2 disabled:bg-gray-200`}
-              disabled={bidang ? false : true}
-            >
-              Tambah
-            </button>
-            <button
-              type='reset'
-              className='h-[2rem] w-[80px] rounded-[5px] border-2'
-              onClick={resetHandler}
-            >
-              Reset
-            </button>
+            <TombolTambah />
+            <TombolReset />
           </div>
         </form>
-        <button
+        <TutupModal
           onClick={() => {
             referensi.current.close()
           }}
-          className='daisy-btn daisy-btn-circle daisy-btn-ghost daisy-btn-sm absolute right-2 top-2'
-        >
-          <IconX className='h-[20px] w-[20px]' />
-        </button>
+        />
       </div>
       <button
         onClick={() => {

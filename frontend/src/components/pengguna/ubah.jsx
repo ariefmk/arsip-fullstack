@@ -13,7 +13,6 @@ export default function Ubah({ referensi, data }) {
 
   const {
     register,
-    unregister,
     handleSubmit,
     formState: { errors },
     reset,

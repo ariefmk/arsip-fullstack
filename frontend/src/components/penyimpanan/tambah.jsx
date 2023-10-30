@@ -1,61 +1,57 @@
-'use client'
 import { useState, useEffect } from 'react'
-import { IconX } from '@tabler/icons-react'
-import { TutupModal } from '@/lib/button'
-export default function Tambah({ referensi }) {
-  const [inputs, setInputs] = useState([{ nama: '', keterangan: '' }])
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { inputInisial } from '@/lib/class'
+import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
+import { Kesalahan } from '@/lib/errors'
 
-  const handleInputChange = (event, index, field) => {
-    const newInputs = [...inputs]
-    newInputs[index][field] = event.target.value
-    setInputs(newInputs)
+export default function Tambah({ referensi }) {
+  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const tambahPenyimpanan = async (data) => {
+    fetch('api/penyimpnan/tambah', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    }).then((hasil) => {
+      referensi.current.close()
+      router.refresh()
+    })
   }
-  const removeInput = (index) => {
-    const newInputs = [...inputs]
-    newInputs.splice(index, 1)
-    setInputs(newInputs)
-  }
-  useEffect(() => {
-    if (
-      inputs.length >= 1 &&
-      inputs[inputs.length - 1].nama &&
-      inputs[inputs.length - 1].keterangan
-    ) {
-      setInputs([...inputs, { nama: '', keterangan: '' }])
-    }
-  }, [inputs])
+
   return (
     <dialog className='daisy-modal' ref={referensi}>
       <div className='daisy-modal-box'>
-        <form>
-          <input type='text' placeholder='Kode' />
-          <input type='text' placeholder='Keterangan' />
-          {/*
+        <form onSubmit={handleSubmit(tambahPenyimpanan)}>
           <div>
-            {inputs.map((input, index) => (
-              <div key={index}>
-                <input
-                  type='text'
-                  value={input.nama}
-                  onChange={(e) => handleInputChange(e, index, 'nama')}
-                  placeholder='Nama'
-                />
-                <input
-                  type='text'
-                  value={input.keterangan}
-                  onChange={(e) => handleInputChange(e, index, 'keterangan')}
-                  placeholder='Keterangan'
-                />
-
-                {index > 0 && ( // Hanya tambahkan tombol "Remove" untuk pasangan input selain pasangan pertama
-                <button type='button' onClick={() => removeInput(index)}>
-                  Remove
-                </button>
-                )}
-              </div>
-            ))}
+            <input
+              type='text'
+              className={inputInisial}
+              placeholder='Kode'
+              {...register('kode')}
+            />
+            <Kesalahan errors={errors.kode?.message}/>
           </div>
-          */}
+          <div>
+            <input
+              type='text'
+              className={inputInisial}
+              placeholder='Keterangan'
+              {...register('keterangan')}
+            />
+            <Kesalahan errors={errors.keterangan?.message}/>
+          </div>
+          <div className='flex justify-center gap-x-4'>
+            <TombolTambah />
+            <TombolReset />
+          </div>
         </form>
         <TutupModal
           onClick={() => {

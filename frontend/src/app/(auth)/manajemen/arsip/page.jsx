@@ -13,6 +13,6 @@ export default async function ArsipPage() {
   const ambilData = await respon.json()
   console.log(ambilData)
   return (
-    <Arsip datalist={ambilData}/>
+    <Arsip datalist={ambilData.data.arsip} kategori={ambilData.data.kategori}/>
   )
 }

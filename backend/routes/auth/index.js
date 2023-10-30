@@ -4,4 +4,6 @@ module.exports = app => {
   require('./laporan')(router)
   require('./pengguna')(router)
   require('./kategori')(router)
+  require('./arsip')(router)
+  require('./penyimpanan')(router)
 }

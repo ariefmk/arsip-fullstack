@@ -65,12 +65,12 @@ db.kategori.belongsTo(db.bidangPengguna, {
 
 db.kategori.hasMany(db.arsip, {
   foreignKey: 'kategori',
-  sourceKey: 'id',
+  sourceKey: 'kode',
 })
 
 db.arsip.belongsTo(db.kategori, {
   foreignKey: 'kategori',
-  targetKey: 'id',
+  targetKey: 'kode',
 })
 
 db.dataPengguna.hasMany(db.arsip, {

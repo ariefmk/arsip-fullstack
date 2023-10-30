@@ -106,11 +106,16 @@ export const skemaArsipTambah = () => {
   return yup.object({
     kode: yup.string(),
     kategori: yup.string(),
-    jenis: yup.string(),
-    retensi: yup.date(),
+    jenis: yup.string().oneOf(['1', '2'], 'Pilih salah satu'),
+    retensi: yup.date().typeError('Format salah'),
     penyimpanan: yup.string(),
     perihal: yup.string(),
     visibilitas: yup.string(),
     pengguna: yup.string(),
+    berkas: yup.mixed().when('jenis', {
+      is: '2',
+      then: (berkas) =>
+        berkas.test('cek-berkas', 'Wajib diisi', (nilai) => nilai.length === 1),
+    }),
   })
 }

@@ -4,5 +4,6 @@ module.exports = {
   laporan: require('./laporan'),
   pengguna: require('./pengguna'),
   kategori: require('./kategori'),
-  arsip: require('./arsip')
+  arsip: require('./arsip'),
+  penyimpanan: require('./penyimpanan')
 }
