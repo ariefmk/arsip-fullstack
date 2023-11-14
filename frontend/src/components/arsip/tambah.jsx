@@ -1,14 +1,26 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRef, useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { inputInisial } from '@/lib/class'
 import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
+import { hanyaAngka } from '@/lib/form'
 import { skemaArsipTambah } from '@/lib/skema'
 import { Kesalahan } from '@/lib/errors'
 
 export default function Tambah({ referensi, kategori, penyimpanan }) {
-  const listKategori = [{ kode: '', nama: 'Kategori' }, ...kategori]
-  const [pilihKategori, setPilihKategori] = useState('')
+  const router = useRouter()
+  const [pilihKategori, setPilihKategori] = useState([
+    { kode: '', nama: 'Kategori' },
+    ...kategori,
+  ])
+  useEffect(() => {
+    setPilihKategori([{ kode: '', nama: 'Kategori' }, ...kategori])
+  }, [kategori])
+  const listKategori = kategori.map((data) => {
+    return data.kode
+  })
+  const [kodeArsip, setKodeArsip] = useState('')
   const {
     register,
     handleSubmit,
@@ -17,29 +29,64 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(skemaArsipTambah()),
+    resolver: yupResolver(skemaArsipTambah(listKategori)),
   })
 
   const tambahArsip = (data) => {
+    const tahun = data.retensi
+    const today = new Date()
+    data.retensi = new Date(
+      today.getFullYear() + tahun,
+      today.getMonth(),
+      today.getDate(),
+      today.getHours(),
+      today.getMinutes()
+    )
     console.log(data)
+
     const formData = new FormData()
     formData.append('kode', data.kode)
     formData.append('kategori', data.kategori)
+    formData.append('keterangan', data.keterangan)
     formData.append('jenis', data.jenis)
     formData.append('perihal', data.perihal)
-    formData.append('retensi', data.retensi)
+    formData.append('retensi', data.retensi.toISOString())
     formData.append('visibilitas', data.visibilitas)
     formData.append('pengguna', data.pengguna)
-    formData.append('berkas', data.berkas)
+    formData.append('berkas', data.berkas[0])
 
     fetch('/api/arsip/tambah', {
       method: 'POST',
       body: formData,
+    }).then(() => {
+      setTimeout(() => {
+        router.refresh()
+        reset()
+        referensi.current.close()
+        setPilihKategori([{ kode: '', nama: 'Kategori' }, ...kategori])
+      }, 1000)
     })
   }
+
   const handleKategori = (aksi) => {
-    setPilihKategori(getValues('kategori'))
-    console.log(pilihKategori)
+    const selectedKategori = getValues('kategori')
+
+    if (selectedKategori) {
+      // Mengambil kode kategori dari pilihKategori berdasarkan value yang dipilih
+      const selectedKategoriData = pilihKategori.find(
+        (data) => data.kode === selectedKategori
+      )
+
+      // Mengisi input kode dengan kode arsip berdasarkan kategori
+      if (selectedKategoriData) {
+        setKodeArsip(selectedKategoriData.arsip)
+        setValue('kode', selectedKategoriData.arsip)
+      }
+    } else {
+      // Reset kode arsip dan input kode jika kategori kosong
+      setKodeArsip('')
+      setValue('kode', '')
+    }
   }
 
   return (
@@ -54,6 +101,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
               type='text'
               className={`${inputInisial}`}
               placeholder='Kode Arsip'
+              disabled={true}
               {...register('kode')}
             />
             <Kesalahan errors={errors.kode?.message} />
@@ -61,17 +109,17 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
           <div>
             <select
               className={inputInisial}
-              value={pilihKategori}
-              onClick={handleKategori}
-              {...register('kategori')}
+              {...register('kategori', {
+                onChange: handleKategori,
+              })}
             >
-              {listKategori.map((data) => (
+              {pilihKategori.map((data) => (
                 <option key={data.kode} value={data.kode}>
                   {data.kode === '' ? data.nama : `${data.kode} - ${data.nama}`}
                 </option>
               ))}
             </select>
-            <Kesalahan errors={errors.kode?.message} />
+            <Kesalahan errors={errors.kategori?.message} />
           </div>
           <div>
             <select className={`${inputInisial}`} {...register('jenis')}>
@@ -83,10 +131,12 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
           </div>
           <div>
             <input
-              type='date'
+              type='text'
               className={`${inputInisial}`}
               name='retensi'
-              placeholder='Retensi'
+              placeholder='Retensi (tahun)'
+              inputMode='numeric'
+              onInput={hanyaAngka}
               {...register('retensi')}
             />
             <Kesalahan errors={errors.retensi?.message} />

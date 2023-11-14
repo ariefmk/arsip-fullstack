@@ -20,22 +20,34 @@ module.exports = (req, res) => {
     })
   }
   db.dataPengguna
-    .update(
-      {
-        nama: permintaan.nama,
-        alamat: permintaan.alamat,
-        kelamin: permintaan.kelamin,
-        nomorTelepon: permintaan.telepon,
-        tanggal: permintaan.tanggal,
+    .findOrCreate({
+      where: { nik: permintaan.nik },
+      defaults: {
+        nama: permintaan.nama || null,
+        alamat: permintaan.alamat || null,
+        jenisKelamin: permintaan.kelamin|| null,
+        nomorTelepon: permintaan.telepon || null,
+        tanggalLahir: permintaan.tanggal|| null,
       },
-      {
-        where: {
-          nik: permintaan.nik,
+    })
+    .then((hasil) => {
+      db.dataPengguna.update(
+        {
+          nama: permintaan.nama|| null,
+          alamat: permintaan.alamat || null,
+          jenisKelamin: permintaan.kelamin || null,
+          nomorTelepon: permintaan.telepon || null,
+          tanggalLahir: permintaan.tanggal || null,
         },
-      }
-    )
+        {
+          where: {
+            nik: permintaan.nik,
+          },
+        }
+      )
+    })
   return res.status(200).send({
     status: 200,
-    pesan: 'Data berhasil ditambahkan'
+    pesan: 'Data berhasil ditambahkan',
   })
 }

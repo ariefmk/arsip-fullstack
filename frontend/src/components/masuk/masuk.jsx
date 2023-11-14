@@ -135,9 +135,9 @@ export default function FormMasuk() {
           </div>
         </form>
       </div>
-      <div className='h-[24px]'>
+      <div className='flex items-center h-[24px]'>
         {pesanKesalahan && (
-          <p className='text-center font-semibold text-red-600 md:font-bold'>
+          <p className='text-center font-semibold text-xs text-red-600 md:font-bold'>
             {pesanKesalahan}
           </p>
         )}

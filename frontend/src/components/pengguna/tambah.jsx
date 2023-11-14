@@ -3,9 +3,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { IconCirclePlus, IconX } from '@tabler/icons-react'
 import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { inputInisial } from '@/lib/class'
 import { hanyaAngka } from '@/lib/form'
 import { skemaPenggunaTambah } from '@/lib/skema'
-import { TutupModal } from '@/lib/button'
+import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
 import { Kesalahan } from '@/lib/errors'
 
 export default function Tambah({ referensi, datalist }) {
@@ -21,6 +22,7 @@ export default function Tambah({ referensi, datalist }) {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
     getValues,
   } = useForm({
     resolver: yupResolver(skemaPenggunaTambah(datalist)),
@@ -81,7 +83,7 @@ export default function Tambah({ referensi, datalist }) {
 
   return (
     <dialog className='daisy-modal' ref={referensi}>
-      <div className='daisy-modal-box w-[700px] max-w-[700px]'>
+      <div className='daisy-modal-box max-w-[600px]'>
         <form
           className='flex flex-col gap-y-3'
           onSubmit={handleSubmit(tambahPengguna)}
@@ -90,32 +92,31 @@ export default function Tambah({ referensi, datalist }) {
           <h1 className='text-center text-2xl font-bold'>Tambah Pengguna</h1>
           <div className='flex flex-col gap-y-3'>
             <div className='flex justify-between gap-x-3'>
-              <div className='w-[120px]'>
+              <div className='w-[300px]'>
                 <select
-                  className='h-[2.5rem] w-[120px] rounded-[5px] border-2 border-black bg-white px-[5px] outline-none'
+                  className={`${inputInisial} border-black w-full`}
                   name='hak'
-                  {...register('hak')}
-                  onClick={() => {
-                    setAkses(getValues('hak'))
-                  }}
+                  {...register('hak', {
+                    onChange: () => {
+                      setAkses(getValues('hak'))
+                    },
+                  })}
                 >
                   <option value=''>Hak Akses</option>
                   <option value='Admin'>Admin</option>
                   <option value='Standar'>Standar</option>
                 </select>
-                <Kesalahan
-                  errors={errors.hak?.message}
-                />
+                <Kesalahan errors={errors.hak?.message} />
               </div>
               <div className='w-full'>
                 <input
                   type='text'
                   placeholder='NIK'
-                  className={`h-[2.5rem] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.nik
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='nik'
                   {...register('nik')}
                   inputMode='numeric'
@@ -123,73 +124,66 @@ export default function Tambah({ referensi, datalist }) {
                   onInput={hanyaAngka}
                   disabled={akses ? false : true}
                 />
-                <Kesalahan
-                  errors={errors.nik?.message}
-                />
+                <Kesalahan errors={errors.nik?.message} />
               </div>
               <div className='w-full'>
                 <input
                   type='password'
                   placeholder='Kata Sandi'
-                  className={`h-[2.5rem] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.kataSandi
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='kataSandi'
                   {...register('kataSandi')}
                   disabled={akses ? false : true}
                 />
-                <Kesalahan
-                  errors={errors.kataSandi?.message}
-                />
+                <Kesalahan errors={errors.kataSandi?.message} />
               </div>
             </div>
           </div>
           <h2 className='text-center text-xl font-semibold'>Data Pengguna</h2>
           <div className='flex flex-col gap-y-3'>
             <div className='flex justify-between gap-x-3'>
-              <div className='w-[400px]'>
+              <div className='w-[800px]'>
                 <input
                   type='text'
                   placeholder='Nama Lengkap'
-                  className={`h-[2.5rem] w-[250px] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.nama
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='nama'
                   {...register('nama')}
                   disabled={akses ? false : true}
                 />
-                <Kesalahan
-                  errors={errors.nama?.message}
-                />
+                <Kesalahan errors={errors.nama?.message} />
               </div>
               <div className='w-full'>
                 <select
-                  className={`h-[2.5rem] w-full rounded-[5px] border-2 bg-white px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.jabatan
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='jabatan'
-                  {...register('jabatan')}
                   disabled={akses === 'Standar' ? false : true}
-                  onClick={() => setJabatan(getValues('jabatan'))}
+                  {...register('jabatan', {
+                    onChange: () => setJabatan(getValues('jabatan')),
+                  })}
                 >
                   <option value=''>Jabatan</option>
                   <option value='Kepala Desa'>Kepala Desa</option>
                   <option value='Sekretaris'>Sekretaris</option>
                   <option value='Kepala Bidang'>Kepala Bidang</option>
                 </select>
-                <Kesalahan
-                  errors={errors.jabatan?.message}
-                />
+                <Kesalahan errors={errors.jabatan?.message} />
               </div>
               <div className=' w-full'>
                 <select
-                  className={`h-[2.5rem] w-full rounded-[5px] border-2 bg-white px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} w-full ${
                     errors.bidang
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
@@ -209,36 +203,32 @@ export default function Tambah({ referensi, datalist }) {
                   <option value='keuangan'>Keuangan</option>
                   <option value='umum'>Umum & Perencanaan</option>
                 </select>
-                <Kesalahan
-                  errors={errors.bidang?.message}
-                />
+                <Kesalahan errors={errors.bidang?.message} />
               </div>
             </div>
             <div className='flex justify-between gap-x-3'>
-              <div>
+              <div className='w-[150px]'>
                 <input
                   type='date'
                   placeholder='Tanggal Lahir'
-                  className={`h-[2.5rem] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.tanggal
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='tanggal'
                   {...register('tanggal')}
                   disabled={akses ? false : true}
                 />
-                <Kesalahan
-                  errors={errors.tanggal?.message}
-                />
+                <Kesalahan errors={errors.tanggal?.message} />
               </div>
-              <div className='w-full'>
+              <div className='w-[300px]'>
                 <select
-                  className={`h-[2.5rem] rounded-[5px] border-2 bg-white px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.kelamin
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='kelamin'
                   {...register('kelamin')}
                   disabled={akses ? false : true}
@@ -247,35 +237,31 @@ export default function Tambah({ referensi, datalist }) {
                   <option value='1'>Laki-Laki</option>
                   <option value='2'>Perempuan</option>
                 </select>
-                <Kesalahan
-                  errors={errors.kelamin?.message}
-                />
+                <Kesalahan errors={errors.kelamin?.message} />
               </div>
-              <div>
+              <div className='w-full'>
                 <input
                   type='text'
                   placeholder='Nomor Telepon'
-                  className={`h-[2.5rem] w-[250px] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.telepon
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='telepon'
                   {...register('telepon')}
                   onInput={hanyaAngka}
                   inputMode='numeric'
                   disabled={akses ? false : true}
                 />
-                <Kesalahan
-                  errors={errors.telepon?.message}
-                />
+                <Kesalahan errors={errors.telepon?.message} />
               </div>
             </div>
             <div>
               <input
                 type='text'
                 placeholder='Alamat'
-                className={`h-[2.5rem] w-full rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                className={`${inputInisial} w-full ${
                   errors.alamat
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
@@ -284,9 +270,7 @@ export default function Tambah({ referensi, datalist }) {
                 {...register('alamat')}
                 disabled={akses ? false : true}
               />
-                <Kesalahan
-                  errors={errors.alamat?.message}
-                />
+              <Kesalahan errors={errors.alamat?.message} />
             </div>
           </div>
           <div>
@@ -305,7 +289,7 @@ export default function Tambah({ referensi, datalist }) {
               <label
                 htmlFor='tambah-foto'
                 className={`flex h-[2.5rem] w-[120px] ${
-                  akses ? 'cursor-pointer' : 'cursor-not-allowed bg-gray-200'
+                  akses ? 'cursor-copy' : 'cursor-not-allowed bg-gray-200'
                 } items-center justify-center rounded-[5px] border-2`}
               >
                 <span>Foto Profil</span>
@@ -315,33 +299,18 @@ export default function Tambah({ referensi, datalist }) {
             <div ref={fileLabelRef}></div>
           </div>
           <div className='flex justify-center gap-x-4'>
-            <button
-              type='submit'
-              className='h-[2rem] w-[80px] rounded-[5px] border-2 disabled:bg-gray-200'
-              disabled={akses ? false : true}
-            >
-              Tambah
-            </button>
-            <button
-              type='button'
-              className='h-[2rem] w-[80px] rounded-[5px] border-2'
-              onClick={resetHandler}
-            >
-              Reset
-            </button>
+            <TombolTambah disabled={akses ? false : true} />
+            <TombolReset onClick={resetHandler} />
           </div>
         </form>
-        <button
+        <TutupModal
           onClick={() => {
             setAkses('')
             setJabatan('')
             reset()
             referensi.current.close()
           }}
-          className='daisy-btn daisy-btn-circle daisy-btn-ghost daisy-btn-sm absolute right-2 top-2'
-        >
-          <IconX className='h-[20px] w-[20px]' />
-        </button>
+        />
       </div>
       <button
         onClick={() => {

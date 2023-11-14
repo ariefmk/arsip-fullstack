@@ -33,27 +33,6 @@ bcrypt.hash(sandiAdmin, saltRounds, (error, hash) => {
   }
 })
 
-bcrypt.hash(sandiPengguna, saltRounds, (error, hash) => {
-  if (!error) {
-    db.pengguna
-      .create({
-        nik: nikPengguna,
-        kataSandi: hash,
-        hakAkses: 'Standar',
-      })
-      .then((hasil) => {
-        penggunaLog.info(
-          `Berhasil membuat pengguna dengan NIK ${nikPengguna} sebagai pengguna`,
-          logPengguna.tambah(hasil)
-        )
-      })
-      .catch((error) => {
-        penggunaLog.error(`Kesalahan membuat pengguna ${nikPengguna}`, error)
-      })
-  } else {
-    penggunaLog.error(`Gagal membuat pengguna ${nikPengguna}`, error)
-  }
-})
 
 db.bidangPengguna.create({
   nama: 'Kesra dan Pelayanan',

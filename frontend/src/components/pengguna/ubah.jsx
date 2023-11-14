@@ -23,7 +23,7 @@ export default function Ubah({ referensi, data }) {
   })
   const resetHandler = () => {
     fileLabelRef.current.textContent = ''
-    reset({ ...data })
+    reset({ ...data, kataSandi: '' })
   }
   useEffect(() => {
     setValue('hak', data.hak)

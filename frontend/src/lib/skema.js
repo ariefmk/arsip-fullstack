@@ -48,7 +48,7 @@ export const skemaPenggunaTambah = (datalist) => {
           )
           .required('Pilih salah satu'),
     }),
-    tanggal: yup.date().required('Wajib diisi').typeError('Format salah'),
+    tanggal: yup.date().required('Tanggal wajib diisi').typeError('Format salah'),
     kelamin: yup
       .string()
       .oneOf(['1', '2'], 'Pilih jenis kelamin')
@@ -102,15 +102,21 @@ export const skemaKategoriTambah = () => {
   })
 }
 
-export const skemaArsipTambah = () => {
+export const skemaArsipTambah = (kategori) => {
   return yup.object({
     kode: yup.string(),
-    kategori: yup.string(),
+    kategori: yup.string().oneOf(kategori, 'Pilih salah satu'),
     jenis: yup.string().oneOf(['1', '2'], 'Pilih salah satu'),
-    retensi: yup.date().typeError('Format salah'),
-    penyimpanan: yup.string(),
-    perihal: yup.string(),
-    visibilitas: yup.string(),
+    retensi: yup.number().typeError('Wajib diisi'),
+    penyimpanan: yup.string().when('jenis', {
+      is: '1',
+      then: (penyimpanan) => penyimpanan.required('Pilih salah satu'),
+    }),
+    perihal: yup.string().required('Wajib diisi'),
+    visibilitas: yup.string().when('jenis', {
+      is: '2',
+      then: (visibilitas) => visibilitas.required('Pilih salah satu'),
+    }),
     pengguna: yup.string(),
     berkas: yup.mixed().when('jenis', {
       is: '2',

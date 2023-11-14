@@ -25,7 +25,7 @@ module.exports = (req, res) => {
         if (!validasi(kueri.kataSandi)) {
           return res.status(401).send({
             status: 401,
-            pesan: 'Kata Sandi Salah',
+            pesan: 'Gagal masuk; NIK atau kata sandi tidak valid',
             data: null,
           })
         }
@@ -39,7 +39,7 @@ module.exports = (req, res) => {
 
         return res.status(200).send({
           status: 200,
-          pesan: 'Anda berhasil login dengan hak akses admin',
+          pesan: 'Anda berhasil masuk',
           data: {
             token,
           },
@@ -47,7 +47,7 @@ module.exports = (req, res) => {
       } else {
         return res.status(400).send({
           status: 400,
-          pesan: 'Pengguna Tidak Ditemukan!',
+          pesan: 'Gagal masuk; NIK atau kata sandi tidak valid',
           data: null,
         })
       }
