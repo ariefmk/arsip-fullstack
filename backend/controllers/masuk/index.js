@@ -16,6 +16,7 @@ module.exports = (req, res) => {
 
   pengguna
     .findAll({
+      include: 'DataPengguna',
       where: { nik },
       attributes: ['nik', 'hakAkses', 'kataSandi'],
     })
@@ -30,12 +31,17 @@ module.exports = (req, res) => {
           })
         }
 
-        const hakAkses = dataKueri.hakAkses
+        const hakAkses = dataKueri[0].hakAkses
+        const dataPengguna = dataKueri[0].DataPengguna
 
         // Gunakan kunci server untuk mengenkripsi pesan
-        const token = jwt.sign({ nik, hakAkses }, kunci.server, {
-          expiresIn: 43200,
-        })
+        const token = jwt.sign(
+          { nik, hakAkses },
+          kunci.server,
+          {
+            expiresIn: 43200,
+          }
+        )
 
         return res.status(200).send({
           status: 200,

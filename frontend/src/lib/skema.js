@@ -34,7 +34,7 @@ export const skemaPenggunaTambah = (datalist) => {
         jabatan
           .oneOf(
             ['Kepala Desa', 'Sekretaris', 'Kepala Bidang'],
-            'Pilih salah satu'
+            'Pilih salah satu',
           )
           .required('Pilih salah satu'),
     }),
@@ -44,11 +44,14 @@ export const skemaPenggunaTambah = (datalist) => {
         bidang
           .oneOf(
             ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-            'Pilih salah satu'
+            'Pilih salah satu',
           )
           .required('Pilih salah satu'),
     }),
-    tanggal: yup.date().required('Tanggal wajib diisi').typeError('Format salah'),
+    tanggal: yup
+      .date()
+      .required('Tanggal wajib diisi')
+      .typeError('Format salah'),
     kelamin: yup
       .string()
       .oneOf(['1', '2'], 'Pilih jenis kelamin')
@@ -72,14 +75,14 @@ export const skemaPenggunaUbah = () => {
       .string()
       .oneOf(
         ['kepala desa', 'sekretaris', 'kepala bidang'],
-        'Pilih salah satu'
+        'Pilih salah satu',
       ),
     bidang: yup.string().when('jabatan', {
       is: (jabatan) => jabatan === 'kepala bidang',
       then: (bidang) =>
         bidang.oneOf(
           ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-          'Pilih salah satu'
+          'Pilih salah satu',
         ),
     }),
     telepon: yup
@@ -95,7 +98,7 @@ export const skemaKategoriTambah = () => {
       .string()
       .oneOf(
         ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-        'Pilih salah satu'
+        'Pilih salah satu',
       ),
     kategori: yup.string().required('Nama kategori wajib diisi'),
     kode: yup.string().required('Kode kategori wajib diisi'),

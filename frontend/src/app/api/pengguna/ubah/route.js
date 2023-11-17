@@ -6,13 +6,13 @@ export async function PUT(permintaan) {
     const respon = await fetch(`${api.server}/auth/pengguna/ubah`, {
       method: 'PUT',
       headers: {
-        API_Key: api.key
+        API_Key: api.key,
       },
-      body: await permintaan.formData()
+      body: await permintaan.formData(),
     })
     return NextResponse.json({
       status: 200,
-      pesan: 'Data berhasil ditambahkan'
+      pesan: 'Data berhasil ditambahkan',
     })
   } catch (err) {
     return NextResponse.json({

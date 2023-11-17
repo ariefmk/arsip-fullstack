@@ -17,7 +17,7 @@ export default function Tambah({ referensi }) {
     fetch('api/penyimpnan/tambah', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     }).then((hasil) => {
@@ -37,7 +37,7 @@ export default function Tambah({ referensi }) {
               placeholder='Kode'
               {...register('kode')}
             />
-            <Kesalahan errors={errors.kode?.message}/>
+            <Kesalahan errors={errors.kode?.message} />
           </div>
           <div>
             <input
@@ -46,7 +46,7 @@ export default function Tambah({ referensi }) {
               placeholder='Keterangan'
               {...register('keterangan')}
             />
-            <Kesalahan errors={errors.keterangan?.message}/>
+            <Kesalahan errors={errors.keterangan?.message} />
           </div>
           <div className='flex justify-center gap-x-4'>
             <TombolTambah />

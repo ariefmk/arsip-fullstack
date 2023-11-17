@@ -9,7 +9,7 @@ export default function Hapus({ referensi, data }) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ kode}),
+      body: JSON.stringify({ kode }),
     }).then((hasil) => {
       referensi.current.close()
       router.refresh()

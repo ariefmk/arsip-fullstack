@@ -1,6 +1,6 @@
 module.exports = (req, res) => {
   const db = require('@/models')
-  const berkas = req.file
+  const berkas = req.file.buffer
   const permintaan = req.body
   db.arsip
     .create({

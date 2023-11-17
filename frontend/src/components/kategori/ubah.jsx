@@ -17,37 +17,36 @@ export default function Ubah({ referensi }) {
     resolver: yupResolver(skemaKategoriTambah),
   })
 
-
   const resetHandler = (aksi) => {
     reset()
     setBidang('')
   }
-  const tambahKategori = async(data) => {
-      switch (data.bidang) {
-        case 'kesra':
-          data.bidang = 1
-          break
-        case 'pemerintahan':
-          data.bidang = 2
-          break
-        case 'kewilayahan':
-          data.bidang = 3
-          break
-        case 'keuangan':
-          data.bidang = 4
-          break
-        case 'umum':
-          data.bidang = 5
-          break
-        default:
-          data.bidang = null
-      }
+  const tambahKategori = async (data) => {
+    switch (data.bidang) {
+      case 'kesra':
+        data.bidang = 1
+        break
+      case 'pemerintahan':
+        data.bidang = 2
+        break
+      case 'kewilayahan':
+        data.bidang = 3
+        break
+      case 'keuangan':
+        data.bidang = 4
+        break
+      case 'umum':
+        data.bidang = 5
+        break
+      default:
+        data.bidang = null
+    }
     const kirimData = await fetch('/api/kategori/tambah', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     const hasil = await kirimData.json()
     console.log(hasil)
@@ -56,7 +55,10 @@ export default function Ubah({ referensi }) {
   return (
     <dialog className='daisy-modal' ref={referensi}>
       <div className='daisy-modal-box max-w-[400px]'>
-        <form className='flex flex-col gap-y-3' onSubmit={handleSubmit(tambahKategori)}>
+        <form
+          className='flex flex-col gap-y-3'
+          onSubmit={handleSubmit(tambahKategori)}
+        >
           <h1 className='text-center text-2xl font-bold'>
             Ubah Kategori Arsip
           </h1>

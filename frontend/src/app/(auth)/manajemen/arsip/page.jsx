@@ -6,12 +6,12 @@ export default async function ArsipPage() {
   const respon = await fetch(`${api.server}/auth/arsip`, {
     method: 'GET',
     headers: {
-      API_Key: api.key
-    }
+      API_Key: api.key,
+    },
   })
 
   const ambilData = await respon.json()
   return (
-    <Arsip datalist={ambilData.data.arsip} kategori={ambilData.data.kategori}/>
+    <Arsip datalist={ambilData.data.arsip} kategori={ambilData.data.kategori} />
   )
 }

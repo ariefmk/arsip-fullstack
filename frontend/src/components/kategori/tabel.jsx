@@ -33,29 +33,34 @@ export default function Tabel({ datalist }) {
 
   return (
     <div>
-    <table
-      className='table-fixed w-full text-center'
-    >
-      <thead>
-        <tr>
-          <th className='w-[50px]'>No</th>
-          <th className='w-[80px]' onClick={() => requestSort('kode')}>Kode</th>
-          <th className=''onClick={() => requestSort('kategori')}>Kategori</th>
-          <th className='w-[200px]' onClick={() => requestSort('bidang')}>Bidang</th>
-          <th className='w-[100px]'>Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        {sortedData &&
-          sortedData.map((data, index) => (
-            <tr key={data.kode}
+      <table className='w-full table-fixed text-center'>
+        <thead>
+          <tr>
+            <th className='w-[50px]'>No</th>
+            <th className='w-[80px]' onClick={() => requestSort('kode')}>
+              Kode
+            </th>
+            <th className='' onClick={() => requestSort('kategori')}>
+              Kategori
+            </th>
+            <th className='w-[200px]' onClick={() => requestSort('bidang')}>
+              Bidang
+            </th>
+            <th className='w-[100px]'>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedData &&
+            sortedData.map((data, index) => (
+              <tr
+                key={data.kode}
                 className='h-[3rem] odd:bg-gray-200 even:bg-red-200 hover:bg-teal-100'
-            >
-              <td>{index + 1}</td>
-              <td>{data.kode}</td>
-              <td>{data.kategori}</td>
-              <td>{data.bidang}</td>
-              {/*
+              >
+                <td>{index + 1}</td>
+                <td>{data.kode}</td>
+                <td>{data.kategori}</td>
+                <td>{data.bidang}</td>
+                {/*
               <td>
                 <button
                   type='button'
@@ -69,23 +74,23 @@ export default function Tabel({ datalist }) {
                 </button>
               </td>
               */}
-              <td>
-                <button
+                <td>
+                  <button
                     className='flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-red-300 bg-sky-200 bg-white hover:bg-red-300 hover:font-bold hover:text-white'
-                  type='button'
-                  onClick={() => {
-                    setDataHapus(data)
-                    hapusRef.current.showModal()
-                  }}
-                >
-                  <p>Hapus</p>
-                  <IconCircleMinus className='h-[20px] w-[20px]' stroke={2} />
-                </button>
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
+                    type='button'
+                    onClick={() => {
+                      setDataHapus(data)
+                      hapusRef.current.showModal()
+                    }}
+                  >
+                    <p>Hapus</p>
+                    <IconCircleMinus className='h-[20px] w-[20px]' stroke={2} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
       {/*<Ubah referensi={ubahRef} data={dataUbah} />*/}
       <Hapus referensi={hapusRef} data={dataHapus} />
     </div>

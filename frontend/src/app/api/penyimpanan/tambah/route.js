@@ -9,14 +9,14 @@ export async function POST(permintaan) {
         'Content-Type': 'application/json',
         API_Key: api.key,
       },
-      body: JSON.stringify(await permintaan.json())
+      body: JSON.stringify(await permintaan.json()),
     })
 
     return NextResponse.json(await respon.json())
   } catch (err) {
     return NextResponse.json({
       status: 500,
-      pesan: 'Kesalahan Internal'
+      pesan: 'Kesalahan Internal',
     })
   }
 }

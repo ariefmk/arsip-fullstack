@@ -1,10 +1,15 @@
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
-import { IconHome, IconHistory, IconSettings2, IconReportAnalytics } from '@tabler/icons-react'
+import {
+  IconHome,
+  IconHistory,
+  IconSettings2,
+  IconReportAnalytics,
+} from '@tabler/icons-react'
 import { kapital, gantiSpasi } from '@/lib'
 
-export default function Sidebar({ manajemen, riwayat }) {
+export default function Sidebar({ akses }) {
   const [manajemenToggle, setManajemenToggle] = useState(false)
   const [riwayatToggle, setRiwayatToggle] = useState(false)
 
@@ -18,39 +23,46 @@ export default function Sidebar({ manajemen, riwayat }) {
               Beranda
             </Link>
           </li>
-            <li>
-              <span
-                href='/manajemen'
-                className={`daisy-menu-dropdown-toggle ${
-                  manajemenToggle ? 'daisy-menu-dropdown-show' : ''
-                }`}
-                onClick={() => setManajemenToggle(!manajemenToggle)}
-              >
-                <IconSettings2 className='h-[20px] w-[20px]' />
-                Manajemen
-              </span>
-              <ul
-                className={`daisy-menu-dropdown ${
-                  manajemenToggle ? 'daisy-menu-dropdown-show' : ''
-                }`}
-              >
-                {/*Hak Akses Admin*/}
+          <li>
+            <span
+              href='/manajemen'
+              className={`daisy-menu-dropdown-toggle ${
+                manajemenToggle ? 'daisy-menu-dropdown-show' : ''
+              }`}
+              onClick={() => setManajemenToggle(!manajemenToggle)}
+            >
+              <IconSettings2 className='h-[20px] w-[20px]' />
+              Manajemen
+            </span>
+            <ul
+              className={`daisy-menu-dropdown ${
+                manajemenToggle ? 'daisy-menu-dropdown-show' : ''
+              }`}
+            >
+              {/*Hak Akses Admin*/}
+              {akses === 'Admin' && (
                 <li>
                   <Link href='/manajemen/pengguna'>Pengguna</Link>
                 </li>
-                {/*Hak Akses Pengguna*/}
-                <li>
-                  <Link href='/manajemen/arsip'>Arsip</Link>
-                </li>
-                <li>
-                  <Link href='/manajemen/kategori'>Kategori Arsip</Link>
-                </li>
-                <li>
-                  <Link href='/manajemen/penyimpanan'>Penyimpanan</Link>
-                </li>
-              </ul>
-            </li>
+              )}
+              {/*Hak Akses Pengguna*/}
+              {akses === 'Standar' && (
+                <>
+                  <li>
+                    <Link href='/manajemen/arsip'>Arsip</Link>
+                  </li>
+                  <li>
+                    <Link href='/manajemen/kategori'>Kategori Arsip</Link>
+                  </li>
+                  <li>
+                    <Link href='/manajemen/penyimpanan'>Penyimpanan</Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </li>
           {/*Hak Akses Admin*/}
+          {akses === 'Admin' && (
             <li>
               <span
                 href='/riwayat'
@@ -78,12 +90,15 @@ export default function Sidebar({ manajemen, riwayat }) {
                 </li>
               </ul>
             </li>
-          <li>
-            <Link href='/laporan'>
-              <IconReportAnalytics className='h-[20px] w-[20px]' />
-              Laporan
-            </Link>
-          </li>
+          )}
+          {akses === 'Standar' && (
+            <li>
+              <Link href='/laporan'>
+                <IconReportAnalytics className='h-[20px] w-[20px]' />
+                Laporan
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </aside>

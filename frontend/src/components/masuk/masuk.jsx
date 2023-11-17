@@ -64,10 +64,11 @@ export default function FormMasuk() {
                 id='nik'
                 name='nik'
                 placeholder='NIK'
-                {...register('nik')}
                 inputMode='numeric'
                 onInput={hanyaAngka}
                 maxLength='16'
+                autoComplete='username'
+                {...register('nik')}
               ></input>
             </div>
             <div className='h-[20px] md:h-[24px]'>
@@ -98,6 +99,7 @@ export default function FormMasuk() {
                 id='kataSandi'
                 name='kataSandi'
                 placeholder='Kata Sandi'
+                autoComplete='current-password'
                 {...register('kataSandi')}
               ></input>
             </div>
@@ -135,9 +137,9 @@ export default function FormMasuk() {
           </div>
         </form>
       </div>
-      <div className='flex items-center h-[24px]'>
+      <div className='flex h-[24px] items-center'>
         {pesanKesalahan && (
-          <p className='text-center font-semibold text-xs text-red-600 md:font-bold'>
+          <p className='text-center text-xs font-semibold text-red-600 md:font-bold'>
             {pesanKesalahan}
           </p>
         )}

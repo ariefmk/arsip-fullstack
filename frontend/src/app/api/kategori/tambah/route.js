@@ -13,15 +13,15 @@ export async function POST(permintaan) {
       body: JSON.stringify({
         bidang: isi.bidang,
         kategori: isi.kategori,
-        kode: isi.kode
-      })
+        kode: isi.kode,
+      }),
     })
 
     return NextResponse.json(await respon.json())
   } catch (err) {
     return NextResponse.json({
       status: 500,
-      pesan: 'Kesalahan Internal'
+      pesan: 'Kesalahan Internal',
     })
   }
 }

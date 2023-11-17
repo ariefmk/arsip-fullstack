@@ -8,6 +8,6 @@ export async function GET() {
 
   return NextResponse.json({
     status: 200,
-    pesan: 'Anda berhasil keluar'
+    pesan: 'Anda berhasil keluar',
   })
 }

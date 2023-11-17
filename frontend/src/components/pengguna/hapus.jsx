@@ -94,11 +94,13 @@ export default function Hapus({ referensi, data }) {
             </button>
           </div>
         </div>
-          <button type='button' className='daisy-btn daisy-btn-circle daisy-btn-ghost daisy-btn-sm absolute right-2 top-2'
+        <button
+          type='button'
+          className='daisy-btn daisy-btn-circle daisy-btn-ghost daisy-btn-sm absolute right-2 top-2'
           onClick={() => {
             referensi.current.close()
           }}
-          >
+        >
           <IconX className='h-[20px] w-[20px]' />
         </button>
       </div>

@@ -3,8 +3,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { IconCirclePlus, IconX } from '@tabler/icons-react'
 import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { inputInisial } from '@/lib/class'
 import { hanyaAngka } from '@/lib/form'
 import { skemaPenggunaTambah } from '@/lib/skema'
+import { TutupModal, TombolSimpan, TombolReset } from '@/lib/button'
+import { Kesalahan } from '@/lib/errors'
 
 export default function Ubah({ referensi, data }) {
   const router = useRouter()
@@ -65,6 +68,8 @@ export default function Ubah({ referensi, data }) {
     formData.append('kelamin', data.kelamin)
     formData.append('telepon', data.telepon)
     formData.append('alamat', data.alamat)
+    formData.append('berkas', data.berkas[0])
+
     fetch('/api/pengguna/ubah', {
       method: 'PUT',
       body: formData,
@@ -77,18 +82,18 @@ export default function Ubah({ referensi, data }) {
 
   return (
     <dialog className='daisy-modal' ref={referensi}>
-      <div className='daisy-modal-box w-[700px] max-w-[700px]'>
+      <div className='daisy-modal-box max-w-[600px]'>
         <form
           className='flex flex-col gap-y-3'
           onSubmit={handleSubmit(ubahPengguna)}
           encType='multipart/form-data'
         >
           <h1 className='text-center text-2xl font-bold'>Ubah Pengguna</h1>
-          <div className='flex flex-col gap-y-3'>
-            <div className='flex justify-between gap-x-3'>
-              <div className='w-[120px]'>
+          <div className='flex flex-col gap-y-2'>
+            <div className='flex justify-between gap-x-2'>
+              <div className='w-[300px]'>
                 <select
-                  className='h-[2.5rem] w-[120px] rounded-[5px] border-2 border-black bg-white px-[5px] outline-none disabled:bg-gray-200'
+                  className={`${inputInisial} w-full border-black`}
                   name='hak'
                   disabled={true}
                   {...register('hak')}
@@ -102,7 +107,11 @@ export default function Ubah({ referensi, data }) {
                 <input
                   type='text'
                   placeholder='NIK'
-                  className='h-[2.5rem] rounded-[5px] border-2 border-black px-[5px] outline-none disabled:bg-gray-200'
+                  className={`${inputInisial} ${
+                    errors.nik
+                      ? 'border-error'
+                      : 'border-black focus:border-green-500'
+                  } w-full border-black`}
                   name='nik'
                   {...register('nik')}
                   inputMode='numeric'
@@ -110,21 +119,16 @@ export default function Ubah({ referensi, data }) {
                   onInput={hanyaAngka}
                   disabled={true}
                 />
-                {errors.nik?.message && (
-                  <span className='daisy-badge daisy-badge-outline top-[35px] text-center text-xs text-error md:text-sm'>
-                    {errors.nik?.message}
-                  </span>
-                )}
               </div>
               <div className='w-full'>
                 <input
                   type='password'
                   placeholder='Kata Sandi'
-                  className={`h-[2.5rem] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.kataSandi
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='kataSandi'
                   {...register('kataSandi')}
                 />
@@ -137,17 +141,17 @@ export default function Ubah({ referensi, data }) {
             </div>
           </div>
           <h2 className='text-center text-xl font-semibold'>Data Pengguna</h2>
-          <div className='flex flex-col gap-y-3'>
-            <div className='flex justify-between gap-x-3'>
-              <div className='w-[400px]'>
+          <div className='flex flex-col gap-y-2'>
+            <div className='flex justify-between gap-x-2'>
+              <div className='w-[800px]'>
                 <input
                   type='text'
                   placeholder='Nama Lengkap'
-                  className={`h-[2.5rem] w-[250px] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.nama
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='nama'
                   {...register('nama')}
                 />
@@ -159,11 +163,11 @@ export default function Ubah({ referensi, data }) {
               </div>
               <div className='w-full'>
                 <select
-                  className={`h-[2.5rem] w-full rounded-[5px] border-2 bg-white px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.jabatan
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='jabatan'
                   {...register('jabatan')}
                   disabled={true}
@@ -182,11 +186,11 @@ export default function Ubah({ referensi, data }) {
               </div>
               <div className=' w-full'>
                 <select
-                  className={`h-[2.5rem] w-full rounded-[5px] border-2 bg-white px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.bidang
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='bidang'
                   {...register('bidang')}
                   disabled={true}
@@ -205,16 +209,16 @@ export default function Ubah({ referensi, data }) {
                 )}
               </div>
             </div>
-            <div className='flex justify-between gap-x-3'>
-              <div>
+            <div className='flex justify-between gap-x-2'>
+              <div className='w-[150px]'>
                 <input
                   type='date'
                   placeholder='Tanggal Lahir'
-                  className={`h-[2.5rem] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.tanggal
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='tanggal'
                   {...register('tanggal')}
                 />
@@ -224,13 +228,13 @@ export default function Ubah({ referensi, data }) {
                   </span>
                 )}
               </div>
-              <div className='w-full'>
+              <div className='w-[300px]'>
                 <select
-                  className={`h-[2.5rem] rounded-[5px] border-2 bg-white px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.kelamin
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='kelamin'
                   {...register('kelamin')}
                 >
@@ -244,15 +248,15 @@ export default function Ubah({ referensi, data }) {
                   </span>
                 )}
               </div>
-              <div>
+              <div className='w-full'>
                 <input
                   type='text'
                   placeholder='Nomor Telepon'
-                  className={`h-[2.5rem] w-[250px] rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.telepon
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='telepon'
                   {...register('telepon')}
                   onInput={hanyaAngka}
@@ -269,11 +273,11 @@ export default function Ubah({ referensi, data }) {
               <input
                 type='text'
                 placeholder='Alamat'
-                className={`h-[2.5rem] w-full rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                className={`${inputInisial} ${
                   errors.alamat
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
-                }`}
+                } w-full`}
                 name='alamat'
                 {...register('alamat')}
               />
@@ -292,13 +296,19 @@ export default function Ubah({ referensi, data }) {
                 ref={fileInputRef}
                 accept='image/*'
                 hidden
-                onChange={(e) => {
-                  fileLabelRef.current.textContent = e.target.files[0].name
-                }}
+                {...register('berkas', {
+                  onChange: (e) => {
+                    if (e.target.files.length === 1) {
+                      fileLabelRef.current.textContent = e.target.files[0].name
+                    } else {
+                      fileLabelRef.current.textContent = ''
+                    }
+                  },
+                })}
               />
               <label
                 htmlFor={`ubah-foto-${data.nik}`}
-                className='flex h-[2.5rem] w-[120px] items-center justify-center rounded-[5px] border-2'
+                className='flex h-[2.5rem] w-[120px] cursor-copy items-center justify-center rounded-[5px] border-2 border-black'
               >
                 <span>Foto Profil</span>
                 <IconCirclePlus className='h-[20px] w-[20px]' />
@@ -307,30 +317,16 @@ export default function Ubah({ referensi, data }) {
             <div ref={fileLabelRef}></div>
           </div>
           <div className='flex justify-center gap-x-4'>
-            <button
-              type='submit'
-              className='h-[2rem] w-[80px] rounded-[5px] border-2 disabled:bg-gray-200'
-            >
-              Simpan
-            </button>
-            <button
-              type='button'
-              className='h-[2rem] w-[80px] rounded-[5px] border-2'
-              onClick={resetHandler}
-            >
-              Reset
-            </button>
+            <TombolSimpan />
+            <TombolReset onClick={resetHandler} />
           </div>
         </form>
-        <button
+        <TutupModal
           onClick={() => {
             reset()
             referensi.current.close()
           }}
-          className='daisy-btn daisy-btn-circle daisy-btn-ghost daisy-btn-sm absolute right-2 top-2'
-        >
-          <IconX className='h-[20px] w-[20px]' />
-        </button>
+        />
       </div>
       <button
         onClick={() => {

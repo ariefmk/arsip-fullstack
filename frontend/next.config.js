@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  poweredByHeader: false,
   compress: true,
+  distDir: 'build',
   // Konfigurasi
   /*
   async rewrites() {
@@ -18,45 +20,32 @@ const nextConfig = {
     ]
   },
   */
-  /*
   async redirects() {
     return [
       {
-        source: '/:path',
+        source: '/(beranda|manajemen.*|riwayat.*|laporan.*)',
         permanent: false,
         missing: [
           {
             type: 'cookie',
             key: 'hakAkses',
-          }
+          },
         ],
-        destination: '/'
+        destination: '/',
       },
       {
-        source: '/pengaturan/:path*',
+        source: '/',
         permanent: false,
-        missing: [
+        has: [
           {
             type: 'cookie',
             key: 'hakAkses',
-          }
+          },
         ],
-        destination: '/'
-      },
-      {
-        source: '/arsip/:path*',
-        permanent: false,
-        missing: [
-          {
-            type: 'cookie',
-            key: 'hakAkses',
-          }
-        ],
-        destination: '/'
+        destination: '/beranda',
       },
     ]
   },
-  */
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

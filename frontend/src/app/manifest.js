@@ -9,9 +9,8 @@ export default function manifest() {
       {
         src: '/favicon.png',
         sizes: 'any',
-        type: 'image/png'
-      }
-    ]
+        type: 'image/png',
+      },
+    ],
   }
 }
-

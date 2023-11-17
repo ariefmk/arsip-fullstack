@@ -22,8 +22,8 @@ export default function Tambah({ referensi, datalist }) {
     handleSubmit,
     formState: { errors },
     reset,
-    setValue,
     getValues,
+    setValue,
   } = useForm({
     resolver: yupResolver(skemaPenggunaTambah(datalist)),
   })
@@ -44,6 +44,7 @@ export default function Tambah({ referensi, datalist }) {
     formData.append('kelamin', data.kelamin)
     formData.append('telepon', data.telepon)
     formData.append('alamat', data.alamat)
+    formData.append('berkas', data.berkas[0])
     if (data.jabatan) {
       formData.append('jabatan', data.jabatan)
     }
@@ -69,6 +70,7 @@ export default function Tambah({ referensi, datalist }) {
       }
       formData.append('bidang', data.bidang)
     }
+
     fetch('/api/pengguna/tambah', {
       method: 'POST',
       body: formData,
@@ -90,11 +92,11 @@ export default function Tambah({ referensi, datalist }) {
           encType='multipart/form-data'
         >
           <h1 className='text-center text-2xl font-bold'>Tambah Pengguna</h1>
-          <div className='flex flex-col gap-y-3'>
-            <div className='flex justify-between gap-x-3'>
+          <div className='flex flex-col gap-y-2'>
+            <div className='flex justify-between gap-x-2'>
               <div className='w-[300px]'>
                 <select
-                  className={`${inputInisial} border-black w-full`}
+                  className={`${inputInisial} w-full border-black`}
                   name='hak'
                   {...register('hak', {
                     onChange: () => {
@@ -136,8 +138,8 @@ export default function Tambah({ referensi, datalist }) {
                       : 'border-black focus:border-green-500'
                   } w-full`}
                   name='kataSandi'
-                  {...register('kataSandi')}
                   disabled={akses ? false : true}
+                  {...register('kataSandi')}
                 />
                 <Kesalahan errors={errors.kataSandi?.message} />
               </div>
@@ -145,7 +147,7 @@ export default function Tambah({ referensi, datalist }) {
           </div>
           <h2 className='text-center text-xl font-semibold'>Data Pengguna</h2>
           <div className='flex flex-col gap-y-3'>
-            <div className='flex justify-between gap-x-3'>
+            <div className='flex justify-between gap-x-2'>
               <div className='w-[800px]'>
                 <input
                   type='text'
@@ -183,11 +185,11 @@ export default function Tambah({ referensi, datalist }) {
               </div>
               <div className=' w-full'>
                 <select
-                  className={`${inputInisial} w-full ${
+                  className={`${inputInisial} ${
                     errors.bidang
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   name='bidang'
                   {...register('bidang')}
                   disabled={
@@ -206,7 +208,7 @@ export default function Tambah({ referensi, datalist }) {
                 <Kesalahan errors={errors.bidang?.message} />
               </div>
             </div>
-            <div className='flex justify-between gap-x-3'>
+            <div className='flex justify-between gap-x-2'>
               <div className='w-[150px]'>
                 <input
                   type='date'
@@ -261,11 +263,11 @@ export default function Tambah({ referensi, datalist }) {
               <input
                 type='text'
                 placeholder='Alamat'
-                className={`${inputInisial} w-full ${
+                className={`${inputInisial} ${
                   errors.alamat
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
-                }`}
+                } w-full`}
                 name='alamat'
                 {...register('alamat')}
                 disabled={akses ? false : true}
@@ -281,14 +283,20 @@ export default function Tambah({ referensi, datalist }) {
                 ref={fileInputRef}
                 accept='image/*'
                 hidden
-                onChange={(e) => {
-                  fileLabelRef.current.textContent = e.target.files[0].name
-                }}
                 disabled={akses ? false : true}
+                {...register('berkas', {
+                  onChange: (e) => {
+                    if (e.target.files.length === 1) {
+                      fileLabelRef.current.textContent = e.target.files[0].name
+                    } else {
+                      fileLabelRef.current.textContent = ''
+                    }
+                  },
+                })}
               />
               <label
                 htmlFor='tambah-foto'
-                className={`flex h-[2.5rem] w-[120px] ${
+                className={`flex h-[2.5rem] w-[120px] border-black ${
                   akses ? 'cursor-copy' : 'cursor-not-allowed bg-gray-200'
                 } items-center justify-center rounded-[5px] border-2`}
               >

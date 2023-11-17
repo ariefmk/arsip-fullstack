@@ -6,7 +6,7 @@ export default function Penyimpanan() {
   const ref = useRef()
   return (
     <>
-      <Header referensi={ref}/>
+      <Header referensi={ref} />
       <Tambah referensi={ref} />
     </>
   )

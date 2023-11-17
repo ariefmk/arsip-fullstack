@@ -12,8 +12,7 @@ export default function Tabel({ datalist }) {
             <th colSpan='3'>Aksi</th>
           </tr>
         </thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
   )

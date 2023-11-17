@@ -5,11 +5,9 @@ export default async function KategoriPage() {
   const respon = await fetch(`${api.server}/auth/kategori`, {
     method: 'GET',
     headers: {
-      API_Key: api.key
-    }
+      API_Key: api.key,
+    },
   })
   const ambilData = await respon.json()
-  return (
-    <Kategori datalist={ambilData}/>
-  )
+  return <Kategori datalist={ambilData} />
 }

@@ -10,6 +10,8 @@ import { Kesalahan } from '@/lib/errors'
 
 export default function Tambah({ referensi, kategori, penyimpanan }) {
   const router = useRouter()
+  const [jenis, setJenis] = useState('')
+  const [visibilitas, setVisibilitas] = useState('')
   const [pilihKategori, setPilihKategori] = useState([
     { kode: '', nama: 'Kategori' },
     ...kategori,
@@ -40,9 +42,8 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
       today.getMonth(),
       today.getDate(),
       today.getHours(),
-      today.getMinutes()
+      today.getMinutes(),
     )
-    console.log(data)
 
     const formData = new FormData()
     formData.append('kode', data.kode)
@@ -74,7 +75,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
     if (selectedKategori) {
       // Mengambil kode kategori dari pilihKategori berdasarkan value yang dipilih
       const selectedKategoriData = pilihKategori.find(
-        (data) => data.kode === selectedKategori
+        (data) => data.kode === selectedKategori,
       )
 
       // Mengisi input kode dengan kode arsip berdasarkan kategori
@@ -91,103 +92,161 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
 
   return (
     <dialog className='daisy-modal' ref={referensi}>
-      <div className='daisy-modal-box'>
+      <div className='daisy-modal-box max-w-[900px]'>
         <form
           onSubmit={handleSubmit(tambahArsip)}
           encType='multipart/form-data'
         >
-          <div>
-            <input
-              type='text'
-              className={`${inputInisial}`}
-              placeholder='Kode Arsip'
-              disabled={true}
-              {...register('kode')}
-            />
-            <Kesalahan errors={errors.kode?.message} />
-          </div>
-          <div>
-            <select
-              className={inputInisial}
-              {...register('kategori', {
-                onChange: handleKategori,
-              })}
-            >
-              {pilihKategori.map((data) => (
-                <option key={data.kode} value={data.kode}>
-                  {data.kode === '' ? data.nama : `${data.kode} - ${data.nama}`}
-                </option>
-              ))}
-            </select>
-            <Kesalahan errors={errors.kategori?.message} />
-          </div>
-          <div>
-            <select className={`${inputInisial}`} {...register('jenis')}>
-              <option value=''>Jenis</option>
-              <option value='1'>Fisik</option>
-              <option value='2'>Digital</option>
-            </select>
-            <Kesalahan errors={errors.jenis?.message} />
-          </div>
-          <div>
-            <input
-              type='text'
-              className={`${inputInisial}`}
-              name='retensi'
-              placeholder='Retensi (tahun)'
-              inputMode='numeric'
-              onInput={hanyaAngka}
-              {...register('retensi')}
-            />
-            <Kesalahan errors={errors.retensi?.message} />
-          </div>
-          <div>
-            <select className={inputInisial} {...register('penyimpanan')}>
-              <option value=''>Penyimpanan</option>
-            </select>
-            <Kesalahan errors={errors.penyimpanan?.message} />
-          </div>
-          <div>
-            <input
-              type='text'
-              className={`${inputInisial}`}
-              placeholder='Perihal'
-              {...register('perihal')}
-            />
-            <Kesalahan errors={errors.perihal?.message} />
-          </div>
-          <div>
-            <textarea
-              className={`${inputInisial} resize-none`}
-              {...register('keterangan')}
-            />
-            <Kesalahan errors={errors.keterangan?.message} />
-          </div>
-          <div>
-            <select className={`${inputInisial}`} {...register('visibilitas')}>
-              <option value=''>Visibilitas</option>
-              <option value='0'>Mati</option>
-              <option value='1'>Hidup</option>
-            </select>
-            <Kesalahan errors={errors.visibilitas?.message} />
-          </div>
-          <div>
-            <input
-              type='text'
-              className={`${inputInisial}`}
-              placeholder='Visibilitas'
-              {...register('pengguna')}
-            />
-            <Kesalahan errors={errors.pengguna?.message} />
-          </div>
-          <div>
-            <input
-              type='file'
-              id='tambah-berkas'
-              accept='.pdf'
-              {...register('berkas')}
-            />
-            <Kesalahan errors={errors.berkas?.message} />
+          <h1 className='text-center text-2xl font-bold'>Tambah Arsip</h1>
+          <div className='flex flex-col gap-y-2'>
+            <div className='flex w-full gap-x-2'>
+              <div className=''>
+                <input
+                  type='text'
+                  className={`${inputInisial} w-[120px]`}
+                  placeholder='Kode Arsip'
+                  disabled={true}
+                  {...register('kode')}
+                />
+                <Kesalahan errors={errors.kode?.message} />
+              </div>
+              <div className='w-full'>
+                <select
+                  className={`${inputInisial} w-full ${
+                    errors.kategori
+                      ? 'border-error'
+                      : 'border-black focus:border-green-500'
+                  }`}
+                  {...register('kategori', {
+                    onChange: handleKategori,
+                  })}
+                >
+                  {pilihKategori.map((data) => (
+                    <option key={data.kode} value={data.kode}>
+                      {data.kode === ''
+                        ? data.nama
+                        : `${data.kode} - ${data.nama}`}
+                    </option>
+                  ))}
+                </select>
+                <Kesalahan errors={errors.kategori?.message} />
+              </div>
+              <div>
+                <select
+                  className={`${inputInisial} w-[120px] ${
+                    errors.jenis
+                      ? 'border-error'
+                      : 'border-black focus:border-green-500'
+                  }`}
+                  {...register('jenis', {
+                    onChange: () => setJenis(getValues('jenis')),
+                  })}
+                >
+                  <option value=''>Jenis</option>
+                  <option value='1'>Fisik</option>
+                  <option value='2'>Digital</option>
+                </select>
+                <Kesalahan errors={errors.jenis?.message} />
+              </div>
+              <div className=''>
+                <input
+                  type='text'
+                  className={`${inputInisial} w-[150px] ${
+                    errors.retensi
+                      ? 'border-error'
+                      : 'border-black focus:border-green-500'
+                  }`}
+                  name='retensi'
+                  placeholder='Retensi (tahun)'
+                  inputMode='numeric'
+                  onInput={hanyaAngka}
+                  {...register('retensi')}
+                />
+                <Kesalahan errors={errors.retensi?.message} className='' />
+              </div>
+              <div className='w-full'>
+                <select
+                  className={`${inputInisial} w-full ${
+                    errors.penyimpanan
+                      ? 'border-error'
+                      : 'border-black focus:border-green-500'
+                  }`}
+                  {...register('penyimpanan')}
+                  disabled={jenis === '1' ? false : true}
+                >
+                  <option value=''>Penyimpanan</option>
+                </select>
+                <Kesalahan errors={errors.penyimpanan?.message} />
+              </div>
+            </div>
+            <div className='w-full'>
+              <input
+                type='text'
+                className={`${inputInisial} w-full ${
+                  errors.perihal
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                }`}
+                placeholder='Perihal'
+                {...register('perihal')}
+              />
+              <Kesalahan errors={errors.perihal?.message} />
+            </div>
+            <div className='h-[5rem]'>
+              <textarea
+                className={`h-[5rem] ${inputInisial}  w-full resize-none ${
+                  errors.keterangan
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                }`}
+                placeholder='Keterangan'
+                {...register('keterangan')}
+              />
+              <Kesalahan errors={errors.keterangan?.message} />
+            </div>
+            <div className='flex gap-x-2'>
+              <div className='w-[120px]'>
+                <select
+                  className={`${inputInisial} w-[120px] ${
+                    errors.visibilitas
+                      ? 'border-error'
+                      : 'border-black focus:border-green-500'
+                  }`}
+                  disabled={jenis === '2' ? false : true}
+                  {...register('visibilitas', {
+                    onChange: () => setVisibilitas(getValues('visibilitas')),
+                  })}
+                >
+                  <option value=''>Visibilitas</option>
+                  <option value='0'>Mati</option>
+                  <option value='1'>Hidup</option>
+                </select>
+                <Kesalahan errors={errors.visibilitas?.message} />
+              </div>
+              <div className='w-full'>
+                <input
+                  type='text'
+                  className={`${inputInisial} w-full ${
+                    errors.pengguna
+                      ? 'border-error'
+                      : 'border-black focus:border-green-500'
+                  }`}
+                  placeholder='Pengguna'
+                  disabled={visibilitas === '1' && jenis === '2' ? false : true}
+                  {...register('pengguna')}
+                />
+                <Kesalahan errors={errors.pengguna?.message} />
+              </div>
+            </div>
+            <div>
+              <input
+                type='file'
+                id='tambah-berkas'
+                accept='.pdf'
+                {...register('berkas')}
+              />
+              <Kesalahan errors={errors.berkas?.message} />
+            </div>
           </div>
           <div className='flex justify-center gap-x-4'>
             <TombolTambah />
