@@ -55,7 +55,7 @@ export default function FormMasuk() {
                 />
               </label>
               <input
-                className={`h-[2.2rem] w-[14rem] border-2 pl-[2.5rem] pr-[.5rem] md:h-[2.5rem] md:w-[16rem] ${
+                className={`h-[2.2rem] w-[14rem] border-2 pl-[2.5rem] pr-[.5rem] placeholder:text-black md:h-[2.5rem] md:w-[16rem] ${
                   errors.nik
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
@@ -90,7 +90,7 @@ export default function FormMasuk() {
                 />
               </label>
               <input
-                className={`h-[2.2rem] w-[14rem] border-2 pl-[2.5rem] pr-[0.5rem] md:h-[2.5rem] md:w-[16rem] ${
+                className={`h-[2.2rem] w-[14rem] border-2 pl-[2.5rem] pr-[0.5rem] placeholder:text-black md:h-[2.5rem] md:w-[16rem] ${
                   errors.kataSandi
                     ? 'border-error'
                     : 'border-black focus:border-green-500'

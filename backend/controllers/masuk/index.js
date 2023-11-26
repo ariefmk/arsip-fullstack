@@ -32,7 +32,7 @@ module.exports = (req, res) => {
         }
 
         const hakAkses = dataKueri[0].hakAkses
-        const dataPengguna = dataKueri[0].DataPengguna
+        // const dataPengguna = dataKueri[0].DataPengguna
 
         // Gunakan kunci server untuk mengenkripsi pesan
         const token = jwt.sign(

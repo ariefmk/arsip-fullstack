@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IconX } from '@tabler/icons-react'
+import { inputInisial } from '@/lib/class'
 import { hurufKapital } from '@/lib/form'
 import { skemaKategoriTambah } from '@/lib/skema'
 import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
@@ -68,9 +69,13 @@ export default function Tambah({ referensi }) {
             Tambah Kategori Arsip
           </h1>
           <div className='flex flex-col gap-y-3'>
-            <div>
+            <div className={`w-full`}>
               <select
-                className={`-px-[5px] h-[2.5rem] rounded-[5px] border-2 border-black bg-white outline-none focus:border-green-500`}
+                className={`${inputInisial} ${
+                  errors.bidang
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                } w-full`}
                 name='bidang'
                 {...register('bidang')}
                 onClick={() => setBidang(getValues('bidang'))}
@@ -87,38 +92,51 @@ export default function Tambah({ referensi }) {
             <div className='flex justify-between gap-x-3'>
               <div className='w-full'>
                 <input
-                  className={`h-[2.5rem] w-full rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.kategori
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   type='text'
                   placeholder='Nama Kategori'
-                  {...register('kategori')}
                   disabled={bidang ? false : true}
+                  {...register('kategori')}
                 />
                 <Kesalahan errors={errors.kategori?.message} />
               </div>
-              <div className='w-[100px]'>
+              <div className='w-[150px]'>
                 <input
-                  className={`h-[2.5rem] w-full rounded-[5px] border-2 px-[5px] outline-none disabled:bg-gray-200 ${
+                  className={`${inputInisial} ${
                     errors.kode
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   type='text'
                   maxLength='3'
                   placeholder='Kode'
                   onInput={hurufKapital}
-                  {...register('kode')}
                   disabled={bidang ? false : true}
+                  {...register('kode')}
                 />
                 <Kesalahan errors={errors.kode?.message} />
               </div>
             </div>
+            <div className={`w-full`}>
+              <textarea
+                className={`${inputInisial} ${
+                  errors.keterangan
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                } h-[5rem] w-full resize-none`}
+                placeholder='Keterangan'
+                disabled={bidang ? false : true}
+                {...register('keterangan')}
+              />
+              <Kesalahan errors={errors.keterangan?.message} />
+            </div>
           </div>
           <div className='flex justify-center gap-x-4'>
-            <TombolTambah />
+            <TombolTambah disabled={bidang ? false : true} />
             <TombolReset />
           </div>
         </form>

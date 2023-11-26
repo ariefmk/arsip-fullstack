@@ -1,7 +1,12 @@
 module.exports = (req, res) => {
   const bcrypt = require('bcrypt')
   const db = require('@/models')
-  const berkas = req.file.buffer || undefined
+  let berkas
+  if (req.file && req.file.buffer !== undefined) {
+    berkas = req.file.buffer
+  } else {
+    berkas = undefined
+  }
   const permintaan = req.body
   bcrypt.hash(permintaan.kataSandi, 10, (error, hash) => {
     if (!error) {

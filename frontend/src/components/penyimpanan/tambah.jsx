@@ -28,25 +28,48 @@ export default function Tambah({ referensi }) {
 
   return (
     <dialog className='daisy-modal' ref={referensi}>
-      <div className='daisy-modal-box'>
-        <form onSubmit={handleSubmit(tambahPenyimpanan)}>
-          <div>
-            <input
-              type='text'
-              className={inputInisial}
-              placeholder='Kode'
-              {...register('kode')}
-            />
-            <Kesalahan errors={errors.kode?.message} />
+      <div className='daisy-modal-box max-w-[400px]'>
+        <form
+          className={`flex flex-col gap-y-3`}
+          onSubmit={handleSubmit(tambahPenyimpanan)}
+        >
+          <h1 className={`text-center text-2xl font-bold`}>
+            Tambah Penyimpanan Arsip
+          </h1>
+          <div className={`w-full`}>
+            <select
+              className={`${inputInisial} w-full`}
+              name='bidang'
+              {...register('bidang')}
+            >
+              <option value=''>Bidang</option>
+              <option value='kesra'>Kesra & Pelayanan</option>
+              <option value='pemerintahan'>Pemerintahan</option>
+              <option value='kewilayahan'>Kewilayahan</option>
+              <option value='keuangan'>Keuangan</option>
+              <option value='umum'>Umum & Perencanaan</option>
+            </select>
+            <Kesalahan errors={errors.bidang?.message} />
           </div>
-          <div>
-            <input
-              type='text'
-              className={inputInisial}
-              placeholder='Keterangan'
-              {...register('keterangan')}
-            />
-            <Kesalahan errors={errors.keterangan?.message} />
+          <div className={`flex flex-row gap-x-3`}>
+            <div className={``}>
+              <input
+                type='text'
+                className={`${inputInisial} w-[100px]`}
+                placeholder='Kode'
+                {...register('kode')}
+              />
+              <Kesalahan errors={errors.kode?.message} />
+            </div>
+            <div className={`w-full`}>
+              <input
+                type='text'
+                className={`${inputInisial} w-full`}
+                placeholder='Keterangan'
+                {...register('keterangan')}
+              />
+              <Kesalahan errors={errors.keterangan?.message} />
+            </div>
           </div>
           <div className='flex justify-center gap-x-4'>
             <TombolTambah />

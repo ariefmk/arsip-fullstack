@@ -6,4 +6,5 @@ module.exports = app => {
   require('./kategori')(router)
   require('./arsip')(router)
   require('./penyimpanan')(router)
+  require('./profil')(router)
 }

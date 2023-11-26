@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { IconCirclePlus, IconUserCircle, IconX } from '@tabler/icons-react'
 import { inputInisial } from '@/lib/class'
 import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
 import { hanyaAngka } from '@/lib/form'
@@ -16,6 +17,8 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
     { kode: '', nama: 'Kategori' },
     ...kategori,
   ])
+  const [dataKategori, setDataKategori] = useState('')
+
   useEffect(() => {
     setPilihKategori([{ kode: '', nama: 'Kategori' }, ...kategori])
   }, [kategori])
@@ -42,7 +45,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
       today.getMonth(),
       today.getDate(),
       today.getHours(),
-      today.getMinutes(),
+      today.getMinutes()
     )
 
     const formData = new FormData()
@@ -75,16 +78,18 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
     if (selectedKategori) {
       // Mengambil kode kategori dari pilihKategori berdasarkan value yang dipilih
       const selectedKategoriData = pilihKategori.find(
-        (data) => data.kode === selectedKategori,
+        (data) => data.kode === selectedKategori
       )
 
       // Mengisi input kode dengan kode arsip berdasarkan kategori
       if (selectedKategoriData) {
+        setDataKategori(selectedKategoriData.arsip)
         setKodeArsip(selectedKategoriData.arsip)
         setValue('kode', selectedKategoriData.arsip)
       }
     } else {
       // Reset kode arsip dan input kode jika kategori kosong
+      setDataKategori('')
       setKodeArsip('')
       setValue('kode', '')
     }
@@ -94,6 +99,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
     <dialog className='daisy-modal' ref={referensi}>
       <div className='daisy-modal-box max-w-[900px]'>
         <form
+          className={`flex flex-col gap-y-3`}
           onSubmit={handleSubmit(tambahArsip)}
           encType='multipart/form-data'
         >
@@ -103,9 +109,10 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
               <div className=''>
                 <input
                   type='text'
-                  className={`${inputInisial} w-[120px]`}
+                  className={`${inputInisial} w-[120px] border-black`}
                   placeholder='Kode Arsip'
                   disabled={true}
+                  readOnly
                   {...register('kode')}
                 />
                 <Kesalahan errors={errors.kode?.message} />
@@ -138,6 +145,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
                   }`}
+                  disabled={dataKategori ? false : true}
                   {...register('jenis', {
                     onChange: () => setJenis(getValues('jenis')),
                   })}
@@ -160,6 +168,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                   placeholder='Retensi (tahun)'
                   inputMode='numeric'
                   onInput={hanyaAngka}
+                  disabled={dataKategori ? false : true}
                   {...register('retensi')}
                 />
                 <Kesalahan errors={errors.retensi?.message} className='' />
@@ -172,7 +181,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                       : 'border-black focus:border-green-500'
                   }`}
                   {...register('penyimpanan')}
-                  disabled={jenis === '1' ? false : true}
+                  disabled={dataKategori !== '' && jenis === '1' ? false : true}
                 >
                   <option value=''>Penyimpanan</option>
                 </select>
@@ -188,6 +197,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                     : 'border-black focus:border-green-500'
                 }`}
                 placeholder='Perihal'
+                  disabled={dataKategori ? false : true}
                 {...register('perihal')}
               />
               <Kesalahan errors={errors.perihal?.message} />
@@ -200,6 +210,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                     : 'border-black focus:border-green-500'
                 }`}
                 placeholder='Keterangan'
+                  disabled={dataKategori ? false : true}
                 {...register('keterangan')}
               />
               <Kesalahan errors={errors.keterangan?.message} />
@@ -212,7 +223,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
                   }`}
-                  disabled={jenis === '2' ? false : true}
+                  disabled={dataKategori !== '' && jenis === '2' ? false : true}
                   {...register('visibilitas', {
                     onChange: () => setVisibilitas(getValues('visibilitas')),
                   })}
@@ -238,13 +249,21 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                 <Kesalahan errors={errors.pengguna?.message} />
               </div>
             </div>
-            <div>
+            <div className={`flex flex-col items-center justify-center`}>
               <input
                 type='file'
                 id='tambah-berkas'
                 accept='.pdf'
+                hidden
                 {...register('berkas')}
               />
+              <label
+                htmlFor={`tambah-berkas`}
+                className={`flex h-[2.5rem] w-[120px] cursor-copy items-center justify-center rounded-[5px] border-2 border-black`}
+              >
+                <span>Berkas</span>
+                <IconCirclePlus className='h-[20px] w-[20px]' />
+              </label>
               <Kesalahan errors={errors.berkas?.message} />
             </div>
           </div>

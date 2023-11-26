@@ -5,8 +5,8 @@ export const metadata = {
 
 export default function Layout(props) {
   return (
-    <html lang='id'>
-      <body className=''>{props.children}</body>
+    <html lang={`id`}>
+      <body>{props.children}</body>
     </html>
   )
 }

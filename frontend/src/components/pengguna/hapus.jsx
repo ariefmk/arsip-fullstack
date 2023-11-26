@@ -16,61 +16,68 @@ export default function Hapus({ referensi, data }) {
       router.refresh()
     })
   }
+  const dataPengguna = {
+    'Hak Akses': data.hak,
+    NIK: data.nik,
+    Nama: data.nama,
+    Jabatan: (() => {
+      if (!data.jabatan) {
+        return 'Tidak Ada'
+      } else {
+        return data.jabatan
+      }
+    })(),
+    Bidang: (() => {
+      switch (data.bidang) {
+        case 1:
+          return 'Kesra & Pelayanan'
+          break
+        case 2:
+          return 'Pemerintahan'
+          break
+        case 3:
+          return 'Kewilayahan'
+          break
+        case 4:
+          return 'Keuangan'
+          break
+        case 5:
+          return 'Umum & Perencanaan'
+          break
+        default:
+          return 'Tidak Ada'
+      }
+    })(),
+    'Tanggal Lahir': data.tanggal,
+    'Jenis Kelamin': (() => {
+      if (data.kelamin === 1) {
+        return 'Laki-Laki'
+      } else {
+        return 'Perempuan'
+      }
+    })(),
+    'Nomor Telepon': data.telepon,
+    Alamat: data.alamat,
+  }
+  console.log(dataPengguna)
+
   return (
     <dialog className='daisy-modal' ref={referensi}>
-      <div className='daisy-modal-box'>
+      <div className='daisy-modal-box max-w-[500px]'>
         {/*Kode hapus disini*/}
-        <div>
-          <h1 className='text-center text-lg'>
-            Apa anda ingin menghapus data berikut?
+        <div className={`flex flex-col items-center justify-center gap-y-4`}>
+          <h1 className='text-center text-xl'>
+            Yakin ingin menghapus data berikut?
           </h1>
           <table>
             <tbody>
-              <tr>
-                <td>Hak Akses</td>
-                <td>:</td>
-                <td>{data.hak}</td>
-              </tr>
-              <tr>
-                <td>NIK</td>
-                <td>:</td>
-                <td>{data.nik}</td>
-              </tr>
-              <tr>
-                <td>Nama</td>
-                <td>:</td>
-                <td>{data.nama}</td>
-              </tr>
-              <tr>
-                <td>Jabatan</td>
-                <td>:</td>
-                <td>{data.jabatan}</td>
-              </tr>
-              <tr>
-                <td>Bidang</td>
-                <td>:</td>
-                <td>{data.bidang}</td>
-              </tr>
-              <tr>
-                <td>Tanggal Lahir</td>
-                <td>:</td>
-                <td>{data.tanggal}</td>
-              </tr>
-              <tr>
-                <td>Jenis Kelamin</td>
-                <td>:</td>
-                <td>{data.kelamin}</td>
-              </tr>
-              <tr>
-                <td>Nomor Telepon</td>
-                <td>:</td>
-                <td>{data.telepon}</td>
-              </tr>
-              <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>{data.alamat}</td>
-              </tr>
+              {Object.entries(dataPengguna).map(([key, value]) => (
+                <tr key={key}>
+                  <td className='w-2/5'>{key}</td>
+                  <td className='w-[4%]'>:</td>
+                  <td className='w-2/3'>{value}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <div>

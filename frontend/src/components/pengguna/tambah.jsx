@@ -34,7 +34,8 @@ export default function Tambah({ referensi, datalist }) {
     setJabatan('')
   }
 
-  const tambahPengguna = async (data) => {
+  const tambahPengguna = (data) => {
+    // console.log(data)
     const formData = new FormData()
     formData.append('hak', data.hak)
     formData.append('nik', data.nik)
@@ -279,12 +280,12 @@ export default function Tambah({ referensi, datalist }) {
             <div className='flex flex-col items-center justify-center gap-y-3'>
               <input
                 type='file'
-                id='tambah-foto'
+                id={`tambah-foto`}
                 ref={fileInputRef}
                 accept='image/*'
                 hidden
-                disabled={akses ? false : true}
                 {...register('berkas', {
+                  disabled: akses ? false : true,
                   onChange: (e) => {
                     if (e.target.files.length === 1) {
                       fileLabelRef.current.textContent = e.target.files[0].name

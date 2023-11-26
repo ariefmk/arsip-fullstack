@@ -17,7 +17,7 @@ export const TombolTambah = ({ disabled, onClick, onChange }) => {
   return (
     <button
       type='submit'
-      className='h-[2rem] w-[80px] rounded-[5px] border-2 disabled:bg-gray-200'
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 disabled:bg-gray-200 disabled:cursor-not-allowed`}
       disabled={disabled}
       onClick={onClick}
       onChange={onChange}
@@ -62,5 +62,17 @@ export const TombolKeluar = () => {
     >
       Ya
     </Link>
+  )
+}
+
+export const TombolHapus = ({ onClick }) => {
+  return (
+    <button
+      type='button'
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2`}
+      onClick={onClick}
+    >
+      Hapus
+    </button>
   )
 }

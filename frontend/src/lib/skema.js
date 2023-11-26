@@ -34,7 +34,7 @@ export const skemaPenggunaTambah = (datalist) => {
         jabatan
           .oneOf(
             ['Kepala Desa', 'Sekretaris', 'Kepala Bidang'],
-            'Pilih salah satu',
+            'Pilih salah satu'
           )
           .required('Pilih salah satu'),
     }),
@@ -44,7 +44,7 @@ export const skemaPenggunaTambah = (datalist) => {
         bidang
           .oneOf(
             ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-            'Pilih salah satu',
+            'Pilih salah satu'
           )
           .required('Pilih salah satu'),
     }),
@@ -75,14 +75,14 @@ export const skemaPenggunaUbah = () => {
       .string()
       .oneOf(
         ['kepala desa', 'sekretaris', 'kepala bidang'],
-        'Pilih salah satu',
+        'Pilih salah satu'
       ),
     bidang: yup.string().when('jabatan', {
       is: (jabatan) => jabatan === 'kepala bidang',
       then: (bidang) =>
         bidang.oneOf(
           ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-          'Pilih salah satu',
+          'Pilih salah satu'
         ),
     }),
     telepon: yup
@@ -98,10 +98,11 @@ export const skemaKategoriTambah = () => {
       .string()
       .oneOf(
         ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-        'Pilih salah satu',
+        'Pilih salah satu'
       ),
     kategori: yup.string().required('Nama kategori wajib diisi'),
     kode: yup.string().required('Kode kategori wajib diisi'),
+    keterangan: yup.string().required('Keterangan wajib diisi'),
   })
 }
 
@@ -126,5 +127,38 @@ export const skemaArsipTambah = (kategori) => {
       then: (berkas) =>
         berkas.test('cek-berkas', 'Wajib diisi', (nilai) => nilai.length === 1),
     }),
+  })
+}
+
+export const skemaProfil = () => {
+  return yup.object({
+    nama: yup.string().required('Nama lengkap wajib diisi'),
+    tanggal: yup
+      .date()
+      .required('Tanggal wajib diisi')
+      .typeError('Tanggal wajib diisi'),
+    kelamin: yup
+      .string()
+      .oneOf(['1', '2'], 'Pilih jenis kelamin')
+      .required('Pilih jenis kelamin'),
+    telepon: yup
+      .string()
+      .required('Nomor telepon wajib diisi')
+      .matches(/^\d+$/, 'Nomor telepon hanya mengandung angka'),
+    alamat: yup.string().required('Alamat wajib diisi'),
+  })
+}
+
+export const skemaSandi = () => {
+  return yup.object({
+    baru: yup
+      .string()
+      .required('Wajib diisi')
+      .min(8, 'Kata sandi minimal 8 karakter'),
+    konfirmasi: yup
+      .string()
+      .required('Wajib diisi')
+      .min(8, 'Kata sandi minimal 8 karakter')
+      .oneOf([yup.ref('baru'), null], 'Konfirmasi kata sandi tidak sama')
   })
 }

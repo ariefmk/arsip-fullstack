@@ -2,7 +2,6 @@ import Header from '@/components/header'
 import Sidebar from '@/components/sidebar'
 import jwt from 'jsonwebtoken'
 import imageSize from 'image-size'
-import { createReadStream } from 'fs'
 import { cookies } from 'next/headers'
 import { api, kunci } from '@/config'
 export const revalidate = 0
