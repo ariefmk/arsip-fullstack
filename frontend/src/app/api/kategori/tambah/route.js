@@ -10,11 +10,7 @@ export async function POST(permintaan) {
         'Content-Type': 'application/json',
         API_Key: api.key,
       },
-      body: JSON.stringify({
-        bidang: isi.bidang,
-        kategori: isi.kategori,
-        kode: isi.kode,
-      }),
+      body: JSON.stringify(isi),
     })
 
     return NextResponse.json(await respon.json())

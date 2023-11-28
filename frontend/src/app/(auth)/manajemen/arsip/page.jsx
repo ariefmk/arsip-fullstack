@@ -10,8 +10,12 @@ export default async function ArsipPage() {
     },
   })
 
-  const ambilData = await respon.json()
+  const ambilData = (await respon.json()).data
   return (
-    <Arsip datalist={ambilData.data.arsip} kategori={ambilData.data.kategori} />
+    <Arsip
+      datalist={ambilData.arsip}
+      kategori={ambilData.kategori}
+      pengguna={ambilData.pengguna}
+    />
   )
 }

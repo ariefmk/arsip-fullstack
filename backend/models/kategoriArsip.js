@@ -14,7 +14,12 @@ module.exports = (sequelize, dt) => {
     bidang: {
       type: dt.INTEGER(3),
       allowNull: true,
-      comment: 'Kategori bidang'
+      comment: 'Kategori untuk bidang'
+    },
+    keterangan: {
+      type: dt.TEXT,
+      allowNull: false,
+      comment: 'Keterangan kategori arsip'
     },
     dibuat: {
       type: dt.DATE,

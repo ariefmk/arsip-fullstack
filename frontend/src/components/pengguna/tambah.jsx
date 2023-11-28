@@ -322,13 +322,14 @@ export default function Tambah({ referensi, datalist }) {
         />
       </div>
       <button
+        type='button'
+        className='daisy-modal-backdrop'
         onClick={() => {
           setAkses('')
           setJabatan('')
           reset()
           referensi.current.close()
         }}
-        className='daisy-modal-backdrop'
       />
     </dialog>
   )

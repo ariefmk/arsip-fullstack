@@ -41,7 +41,7 @@ export default function Profil({ pengguna }) {
   const ubahProfil = (data) => {
     const formData = new FormData()
     formData.append('nama', data.nama)
-    formData.append('tanggal', data.tanggal)
+    formData.append('tanggal', data.tanggal.toISOString())
     formData.append('kelamin', data.kelamin)
     formData.append('telepon', data.telepon)
     formData.append('alamat', data.alamat)

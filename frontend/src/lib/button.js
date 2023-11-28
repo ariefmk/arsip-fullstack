@@ -1,4 +1,4 @@
-import { IconX } from '@tabler/icons-react'
+import { IconX, IconEdit, IconCircleMinus } from '@tabler/icons-react'
 import Link from 'next/link'
 
 export const TutupModal = ({ onClick }) => {
@@ -17,7 +17,7 @@ export const TombolTambah = ({ disabled, onClick, onChange }) => {
   return (
     <button
       type='submit'
-      className={`h-[2rem] w-[80px] rounded-[5px] border-2 disabled:bg-gray-200 disabled:cursor-not-allowed`}
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 disabled:cursor-not-allowed disabled:bg-gray-200`}
       disabled={disabled}
       onClick={onClick}
       onChange={onChange}
@@ -73,6 +73,32 @@ export const TombolHapus = ({ onClick }) => {
       onClick={onClick}
     >
       Hapus
+    </button>
+  )
+}
+
+export const TombolAksiHapus = ({ className, onClick, onChange }) => {
+  return (
+    <button
+      type='button'
+      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-red-500 bg-white hover:bg-red-500 hover:text-white`}
+      onClick={onClick}
+      onChange={onChange}
+    >
+      <IconCircleMinus stroke={2} />
+    </button>
+  )
+}
+
+export const TombolAksiUbah = ({ className, onClick, onChange }) => {
+  return (
+    <button
+      type='button'
+      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-green-500 bg-white hover:bg-green-500 hover:text-white`}
+      onClick={onClick}
+      onChange={onChange}
+    >
+      <IconEdit stroke={2} />
     </button>
   )
 }

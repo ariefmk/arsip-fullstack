@@ -7,3 +7,8 @@ export const api = {
   server: process.env.API_SERVER,
   key: process.env.API_SERVER_KEY,
 }
+
+export const apiPublic= {
+  server: process.env.publicServer,
+  key: process.env.publicKey
+}

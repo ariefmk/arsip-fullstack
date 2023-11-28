@@ -1,4 +1,5 @@
-import { useForm } from 'react-hook-form'
+'use client'
+import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -8,8 +9,18 @@ import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
 import { hanyaAngka } from '@/lib/form'
 import { skemaArsipTambah } from '@/lib/skema'
 import { Kesalahan } from '@/lib/errors'
+// import { Select, SelectSection, SelectItem } from '@nextui-org/react'
+import Select from 'react-select'
 
-export default function Tambah({ referensi, kategori, penyimpanan }) {
+export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
+  const selectRef = useRef()
+  const options = pengguna.map((data) => {
+    return {
+      value: data.nik,
+      label: data.nama,
+    }
+  })
+  // console.log(options)
   const router = useRouter()
   const [jenis, setJenis] = useState('')
   const [visibilitas, setVisibilitas] = useState('')
@@ -32,6 +43,7 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
     reset,
     getValues,
     setValue,
+    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(skemaArsipTambah(listKategori)),
@@ -93,6 +105,52 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
       setKodeArsip('')
       setValue('kode', '')
     }
+  }
+
+  const selectStyles = {
+    control: (styles, state) => {
+      return {
+        alignItems: 'center',
+        backgroundColor: state.isDisabled ? '#e5e7eb' : '#fff',
+        borderColor: state.isFocused ? '#22c55e' : 'black',
+        borderRadius: 5,
+        borderWidth: 2,
+        boxShadow: undefined,
+        boxSizing: 'border-box',
+        cursor: 'default',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        label: 'control',
+        minHeight: 38,
+        // outline: '0 !important',
+        position: 'relative',
+        transition: 'all 100ms',
+        color: 'black',
+      }
+    },
+    indicatorSeparator: (styles) => {
+      return null
+    },
+    input: (styles) => {
+      //console.log(styles)
+      return {
+        ...styles,
+        color: 'black',
+      }
+    },
+    placeholder: (styles) => {
+      return { ...styles, color: 'black' }
+    },
+    dropdownIndicator: (styles) => {
+      return {
+        ...styles,
+        ':hover': {
+          color: 'black',
+        },
+        color: 'black',
+      }
+    },
   }
 
   return (
@@ -197,20 +255,20 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                     : 'border-black focus:border-green-500'
                 }`}
                 placeholder='Perihal'
-                  disabled={dataKategori ? false : true}
+                disabled={dataKategori ? false : true}
                 {...register('perihal')}
               />
               <Kesalahan errors={errors.perihal?.message} />
             </div>
-            <div className='h-[5rem]'>
+            <div>
               <textarea
-                className={`h-[5rem] ${inputInisial}  w-full resize-none ${
+                className={`block h-[5rem] ${inputInisial}  w-full resize-none ${
                   errors.keterangan
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
                 }`}
                 placeholder='Keterangan'
-                  disabled={dataKategori ? false : true}
+                disabled={dataKategori ? false : true}
                 {...register('keterangan')}
               />
               <Kesalahan errors={errors.keterangan?.message} />
@@ -225,7 +283,9 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                   }`}
                   disabled={dataKategori !== '' && jenis === '2' ? false : true}
                   {...register('visibilitas', {
-                    onChange: () => setVisibilitas(getValues('visibilitas')),
+                    onChange: () => {
+                      setVisibilitas(getValues('visibilitas'))
+                    },
                   })}
                 >
                   <option value=''>Visibilitas</option>
@@ -235,31 +295,54 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
                 <Kesalahan errors={errors.visibilitas?.message} />
               </div>
               <div className='w-full'>
-                <input
-                  type='text'
-                  className={`${inputInisial} w-full ${
-                    errors.pengguna
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  }`}
-                  placeholder='Pengguna'
-                  disabled={visibilitas === '1' && jenis === '2' ? false : true}
-                  {...register('pengguna')}
+                <Controller
+                  control={control}
+                  name='pengguna'
+                  render={({ field: { onChange } }) => (
+                    <Select
+                      placeholder='Pengguna'
+                      instanceId='pengguna'
+                      options={options}
+                      styles={selectStyles}
+                      ref={selectRef}
+                      isDisabled={
+                        visibilitas === '1' && jenis === '2' ? false : true
+                      }
+                      isMulti={true}
+                      onChange={(data) => {
+                        const hasil = Object.values(
+                          data.map((a) => {
+                            return a.value
+                          })
+                        )
+                        // console.log(hasil)
+                        onChange(hasil)
+                      }}
+                    />
+                  )}
                 />
                 <Kesalahan errors={errors.pengguna?.message} />
               </div>
             </div>
-            <div className={`flex flex-col items-center justify-center`}>
+            <div
+              className={`flex flex-col items-center justify-center gap-y-[8px]`}
+            >
               <input
                 type='file'
                 id='tambah-berkas'
                 accept='.pdf'
                 hidden
-                {...register('berkas')}
+                {...register('berkas', {
+                  disabled: dataKategori !== '' && jenis === '2' ? false : true,
+                })}
               />
               <label
                 htmlFor={`tambah-berkas`}
-                className={`flex h-[2.5rem] w-[120px] cursor-copy items-center justify-center rounded-[5px] border-2 border-black`}
+                className={`${
+                  dataKategori !== '' && jenis === '2'
+                    ? 'cursor-copy'
+                    : 'cursor-not-allowed bg-gray-200'
+                } flex h-[2.5rem] w-[120px] items-center justify-center rounded-[5px] border-2 border-black`}
               >
                 <span>Berkas</span>
                 <IconCirclePlus className='h-[20px] w-[20px]' />
@@ -268,10 +351,14 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
             </div>
           </div>
           <div className='flex justify-center gap-x-4'>
-            <TombolTambah />
+            <TombolTambah disabled={dataKategori ? false : true} />
             <TombolReset
               onClick={() => {
                 reset()
+                setVisibilitas('')
+                setJenis('')
+                setDataKategori('')
+                selectRef.current.clearValue()
               }}
             />
           </div>
@@ -279,12 +366,22 @@ export default function Tambah({ referensi, kategori, penyimpanan }) {
         <TutupModal
           onClick={() => {
             referensi.current.close()
+            reset()
+            setVisibilitas('')
+            setJenis('')
+            setDataKategori('')
+            selectRef.current.clearValue()
           }}
         />
       </div>
       <button
         onClick={() => {
           referensi.current.close()
+          reset()
+          setVisibilitas('')
+          setJenis('')
+          setDataKategori('')
+          selectRef.current.clearValue()
         }}
         className='daisy-modal-backdrop'
       />

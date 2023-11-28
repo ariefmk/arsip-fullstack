@@ -27,6 +27,7 @@ export default function Tambah({ referensi }) {
     setBidang('')
   }
   const tambahKategori = async (data) => {
+    console.log(data)
     switch (data.bidang) {
       case 'kesra':
         data.bidang = 1
@@ -55,6 +56,7 @@ export default function Tambah({ referensi }) {
     }).then((hasil) => {
       referensi.current.close()
       router.refresh()
+      reset()
     })
   }
 
@@ -122,12 +124,13 @@ export default function Tambah({ referensi }) {
               </div>
             </div>
             <div className={`w-full`}>
-              <textarea
+              <input
+                type='text'
                 className={`${inputInisial} ${
                   errors.keterangan
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
-                } h-[5rem] w-full resize-none`}
+                } w-full block`}
                 placeholder='Keterangan'
                 disabled={bidang ? false : true}
                 {...register('keterangan')}

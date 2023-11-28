@@ -10,7 +10,7 @@ export default function Masuk() {
     backgroundPosition: 'center',
     backgroundSize: 'cover',
   }
-  console.log(mampari)
+  // console.log(mampari)
   return (
     <main
       style={background}

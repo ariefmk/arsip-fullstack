@@ -7,4 +7,5 @@ module.exports = app => {
   require('./arsip')(router)
   require('./penyimpanan')(router)
   require('./profil')(router)
+  require('./beranda')(router)
 }

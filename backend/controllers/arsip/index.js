@@ -1,4 +1,5 @@
 module.exports = {
   tambah: require('./tambah'),
-  list: require('./list')
+  list: require('./list'),
+  lihat: require('./lihat')
 }

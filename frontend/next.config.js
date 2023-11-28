@@ -46,6 +46,10 @@ const nextConfig = {
       },
     ]
   },
+  env: {
+    publicServer: 'http://localhost:3001',
+    publicKey: 'kantordesamampari1212'
+  }
 }
 
 module.exports = nextConfig

@@ -110,22 +110,54 @@ export const skemaArsipTambah = (kategori) => {
   return yup.object({
     kode: yup.string(),
     kategori: yup.string().oneOf(kategori, 'Pilih salah satu'),
-    jenis: yup.string().oneOf(['1', '2'], 'Pilih salah satu'),
-    retensi: yup.number().typeError('Wajib diisi'),
+    jenis: yup.string().when('kategori', {
+      is: (kategori) => kategori !== '',
+      then: (jenis) =>
+        jenis
+          .oneOf(['1', '2'], 'Pilih salah satu')
+          .required('Pilih salah satu'),
+    }),
+    retensi: yup.number().when('kategori', {
+      is: (kategori) => kategori !== '',
+      then: (retensi) =>
+        retensi
+          .typeError('Retensi wajib diisi')
+          .required('Retensi wajib diisi'),
+    }),
     penyimpanan: yup.string().when('jenis', {
       is: '1',
       then: (penyimpanan) => penyimpanan.required('Pilih salah satu'),
     }),
-    perihal: yup.string().required('Wajib diisi'),
+    perihal: yup.string().when('kategori', {
+      is: (kategori) => kategori !== '',
+      then: (perihal) => perihal.required('Perihal wajib diisi'),
+    }),
+    keterangan: yup.string().when('kategori', {
+      is: (kategori) => kategori !== '',
+      then: (keterangan) => keterangan.required('Keterangan wajib diisi'),
+    }),
     visibilitas: yup.string().when('jenis', {
       is: '2',
       then: (visibilitas) => visibilitas.required('Pilih salah satu'),
     }),
-    pengguna: yup.string(),
+    pengguna: yup
+      .array()
+      .of(yup.string())
+      .when('visibilitas', {
+        is: '1',
+        then: (pengguna) =>
+          pengguna
+            .min(1, 'Pilih pengguna minimal satu')
+            .required('Pilih pengguna'),
+      }),
     berkas: yup.mixed().when('jenis', {
       is: '2',
       then: (berkas) =>
-        berkas.test('cek-berkas', 'Wajib diisi', (nilai) => nilai.length === 1),
+        berkas.test(
+          'cek-berkas',
+          'Tambahkan berkas',
+          (nilai) => nilai.length === 1
+        ),
     }),
   })
 }
@@ -159,6 +191,6 @@ export const skemaSandi = () => {
       .string()
       .required('Wajib diisi')
       .min(8, 'Kata sandi minimal 8 karakter')
-      .oneOf([yup.ref('baru'), null], 'Konfirmasi kata sandi tidak sama')
+      .oneOf([yup.ref('baru'), null], 'Konfirmasi kata sandi tidak sama'),
   })
 }

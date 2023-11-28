@@ -1,6 +1,7 @@
 'use client'
 import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
 import { useState, useRef, useEffect } from 'react'
+import { TombolAksiHapus, TombolAksiUbah } from '@/lib/button'
 import Hapus from './hapus'
 import Ubah from './ubah'
 import { kapital } from '@/lib'
@@ -57,11 +58,11 @@ export default function Tabel({ datalist }) {
             <th className='w-[200px]' onClick={() => requestSort('nama')}>
               Nama
             </th>
-            <th className='w-[120px]' onClick={() => requestSort('bidang')}>
-              Bidang
-            </th>
             <th className='w-[140px]' onClick={() => requestSort('jabatan')}>
               Jabatan
+            </th>
+            <th className='w-[120px]' onClick={() => requestSort('bidang')}>
+              Bidang
             </th>
             <th className='w-[160px]' onClick={() => requestSort('tanggal')}>
               Tanggal Lahir
@@ -75,7 +76,7 @@ export default function Tabel({ datalist }) {
             <th className='w-[160px]' onClick={() => requestSort('alamat')}>
               Alamat
             </th>
-            <th className='w-[200px]' colSpan='2'>
+            <th className='w-[100px]' colSpan='2'>
               Aksi
             </th>
           </tr>
@@ -91,6 +92,7 @@ export default function Tabel({ datalist }) {
                 <td>{kapital(data.hak)}</td>
                 <td>{data.nik}</td>
                 <td>{data.nama}</td>
+                <td>{data.jabatan}</td>
                 <td>
                   {data.bidang === 1
                     ? 'Kesra & Pelayanan'
@@ -104,7 +106,6 @@ export default function Tabel({ datalist }) {
                     ? 'Umum & Perencanaan'
                     : null}
                 </td>
-                <td>{data.jabatan}</td>
                 <td>{data.tanggal}</td>
                 <td>
                   {data.kelamin === 1
@@ -117,29 +118,23 @@ export default function Tabel({ datalist }) {
                 <td className='truncate hover:whitespace-normal'>
                   {data.alamat}
                 </td>
-                <td className='w-[100px]'>
-                  <button
-                    className='flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-sky-200 bg-white hover:bg-green-300 hover:font-bold hover:text-white'
+                <td className='w-[50px]'>
+                  <TombolAksiUbah
+                    className={`h-[2rem] w-full`}
                     onClick={() => {
                       setDataUbah(data)
                       ubahRef.current.showModal()
                     }}
-                  >
-                    <p>Ubah</p>
-                    <IconEdit className='h-[20px] w-[20px]' stroke={2} />
-                  </button>
+                  />
                 </td>
-                <td className='w-[100px]'>
-                  <button
-                    className='flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-red-300 bg-sky-200 bg-white hover:bg-red-300 hover:font-bold hover:text-white'
+                <td className='w-[50px]'>
+                  <TombolAksiHapus
+                    className={`h-[2rem] w-full`}
                     onClick={() => {
                       setDataHapus(data)
                       hapusRef.current.showModal()
                     }}
-                  >
-                    <p>Hapus</p>
-                    <IconCircleMinus className='h-[20px] w-[20px]' stroke={2} />
-                  </button>
+                  />
                 </td>
               </tr>
             ))}

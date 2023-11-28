@@ -1,5 +1,6 @@
 import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
 import { useState, useRef, useEffect } from 'react'
+import { TombolAksiHapus, TombolAksiUbah } from '@/lib/button'
 import Hapus from './hapus'
 //import Ubah from './ubah'
 
@@ -35,18 +36,41 @@ export default function Tabel({ datalist }) {
     <div>
       <table className='w-full table-fixed text-center'>
         <thead>
-          <tr>
+          <tr className={`h-[2rem]`}>
             <th className='w-[50px]'>No</th>
-            <th className='w-[80px]' onClick={() => requestSort('kode')}>
+            <th
+              className='w-[80px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('kode')}
+            >
               Kode
             </th>
-            <th className='' onClick={() => requestSort('kategori')}>
+            <th
+              className='w-[300px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('kategori')}
+            >
               Kategori
             </th>
-            <th className='w-[200px]' onClick={() => requestSort('bidang')}>
+            <th
+              className='w-[200px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('bidang')}
+            >
               Bidang
             </th>
-            <th className='w-[100px]'>Aksi</th>
+            <th
+              className={`w-[150px] cursor-pointer hover:bg-gray-200`}
+              onClick={() => requestSort('jumlah')}
+            >
+              Jumlah Berkas
+            </th>
+            <th
+              className={`cursor-pointer hover:bg-gray-200`}
+              onClick={() => requestSort('keterangan')}
+            >
+              Keterangan
+            </th>
+            <th className='w-[100px]' colSpan='2'>
+              Aksi
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -60,32 +84,19 @@ export default function Tabel({ datalist }) {
                 <td>{data.kode}</td>
                 <td>{data.kategori}</td>
                 <td>{data.bidang}</td>
-                {/*
-              <td>
-                <button
-                  type='button'
-                  onClick={() => {
-                    setDataUbah(data)
-                    ubahRef.current.showModal()
-                  }}
-                >
-                  <p>Ubah</p>
-                  <IconEdit className='h-[20px] w-[20px]' stroke={2} />
-                </button>
-              </td>
-              */}
-                <td>
-                  <button
-                    className='flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-red-300 bg-sky-200 bg-white hover:bg-red-300 hover:font-bold hover:text-white'
-                    type='button'
+                <td>{data.jumlah} Berkas</td>
+                <td>{data.keterangan}</td>
+                <td className={`w-[50px]`}>
+                  <TombolAksiUbah className={`h-[2rem] w-full`} />
+                </td>
+                <td className={`w-[50px]`}>
+                  <TombolAksiHapus
+                    className={`h-[2rem] w-full`}
                     onClick={() => {
                       setDataHapus(data)
                       hapusRef.current.showModal()
                     }}
-                  >
-                    <p>Hapus</p>
-                    <IconCircleMinus className='h-[20px] w-[20px]' stroke={2} />
-                  </button>
+                  />
                 </td>
               </tr>
             ))}
