@@ -1,7 +1,7 @@
 module.exports = (req, res) => {
   const db = require('@/models')
   const permintaan = req.body
-  console.log(permintaan)
+ //  console.log(permintaan)
 
   db.kategori
     .create({

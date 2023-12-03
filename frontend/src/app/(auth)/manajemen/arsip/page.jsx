@@ -16,6 +16,7 @@ export default async function ArsipPage() {
       datalist={ambilData.arsip}
       kategori={ambilData.kategori}
       pengguna={ambilData.pengguna}
+      penyimpanan={ambilData.penyimpanan}
     />
   )
 }

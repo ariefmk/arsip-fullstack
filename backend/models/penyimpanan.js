@@ -15,12 +15,20 @@ module.exports = (sequelize, dt) => {
         unique: true,
         comment: 'Kode penyimpanan arsip',
       },
+      bidang: {
+        type: dt.INTEGER(3),
+        allowNull: true,
+      },
+      nama: {
+        type: dt.TEXT,
+        allowNull: false
+      },
       keterangan: {
         type: dt.TEXT,
         allowNull: false,
       },
-      metadata: {
-        type: dt.JSON,
+      lokasi: {
+        type: dt.TEXT,
         allowNull: true,
       },
       dibuat: {

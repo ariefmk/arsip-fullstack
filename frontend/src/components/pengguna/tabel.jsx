@@ -106,7 +106,14 @@ export default function Tabel({ datalist }) {
                     ? 'Umum & Perencanaan'
                     : null}
                 </td>
-                <td>{data.tanggal}</td>
+                <td>
+                  {new Date(data.tanggal).toLocaleString('id-Id', {
+                    weekday: 'short',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                  })}
+                </td>
                 <td>
                   {data.kelamin === 1
                     ? 'Laki-Laki'

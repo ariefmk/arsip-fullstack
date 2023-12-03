@@ -11,7 +11,7 @@ export default function Hapus({ referensi, data }) {
       },
       body: JSON.stringify({ nik }),
     }).then((hasil) => {
-      console.log(hasil)
+      //console.log(hasil)
       referensi.current.close()
       router.refresh()
     })
@@ -59,7 +59,7 @@ export default function Hapus({ referensi, data }) {
     'Nomor Telepon': data.telepon,
     Alamat: data.alamat,
   }
-  console.log(dataPengguna)
+  // console.log(dataPengguna)
 
   return (
     <dialog className='daisy-modal' ref={referensi}>

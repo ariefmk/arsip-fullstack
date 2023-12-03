@@ -13,7 +13,7 @@ export async function PUT(permintaan, { params }) {
       }
     )
 
-    console.log(await respon.json())
+   // console.log(await respon.json())
     return NextResponse.json(await respon.json())
   } catch (err) {
     return NextResponse.json({

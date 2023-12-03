@@ -1,6 +1,6 @@
 module.exports = (req, res) => {
   const db = require('@/models')
-  console.log(req.body)
+  // console.log(req.body)
   const permintaan = req.body
   if (req.params.jenis === 'data') {
     let berkas

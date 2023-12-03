@@ -74,12 +74,20 @@ module.exports = async (req, res) => {
       kategori: data.KategoriArsip.nama,
     }
   })
+  const penyimpanan = (await db.penyimpanan.findAll()).map((data) => {
+    return {
+      kode: data.kode,
+      nama: data.nama
+    }
+  })
+  console.log(penyimpanan)
   res.status(200).send({
     status: 200,
     data: {
       kategori: daftarKategori,
       arsip,
       pengguna,
+      penyimpanan
     },
   })
 }

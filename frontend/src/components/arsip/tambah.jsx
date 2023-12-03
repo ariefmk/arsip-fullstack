@@ -20,6 +20,41 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
       label: data.nama,
     }
   })
+  /*
+  const options = [
+    {
+      value: 'a',
+      label: 'b',
+    },
+    {
+      value: 'a',
+      label: 'b',
+    },
+    {
+      value: 'a',
+      label: 'b',
+    },
+    // {
+      value: 'a',
+      label: 'b',
+    },
+    {
+      value: 'a',
+      label: 'b',
+    },
+    {
+      value: 'a',
+      label: 'b',
+    },
+    {
+      value: 'a',
+      label: 'b',
+    },
+    {
+      value: 'a',
+      label: 'b',
+    },
+  ] */ // console.log(options)
   // console.log(options)
   const router = useRouter()
   const [jenis, setJenis] = useState('')
@@ -28,12 +63,19 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
     { kode: '', nama: 'Kategori' },
     ...kategori,
   ])
+  const [pilihPenyimpanan, setPilihPenyimpanan] = useState([
+    { kode: '', nama: 'Penyimpanan' },
+    ...penyimpanan,
+  ])
   const [dataKategori, setDataKategori] = useState('')
 
   useEffect(() => {
     setPilihKategori([{ kode: '', nama: 'Kategori' }, ...kategori])
   }, [kategori])
   const listKategori = kategori.map((data) => {
+    return data.kode
+  })
+  const listPenyimpanan = penyimpanan.map((data) => {
     return data.kode
   })
   const [kodeArsip, setKodeArsip] = useState('')
@@ -46,7 +88,7 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
     control,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(skemaArsipTambah(listKategori)),
+    resolver: yupResolver(skemaArsipTambah(listKategori, listPenyimpanan)),
   })
 
   const tambahArsip = (data) => {
@@ -69,8 +111,10 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
     formData.append('retensi', data.retensi.toISOString())
     formData.append('visibilitas', data.visibilitas)
     formData.append('pengguna', data.pengguna)
-    formData.append('berkas', data.berkas[0])
-
+    formData.append('penyimpanan', data.penyimpanan)
+    if (data.berkas) {
+      formData.append('berkas', data.berkas[0])
+    }
     fetch('/api/arsip/tambah', {
       method: 'POST',
       body: formData,
@@ -151,10 +195,18 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
         color: 'black',
       }
     },
+    menu: (styles) => {
+      //console.log(styles)
+      return { ...styles, zIndex: 10, position: 'absolute' }
+    },
+    menuList: (styles) => {
+      // console.log(styles)
+      return { ...styles, maxHeight: '100px' }
+    },
   }
 
   return (
-    <dialog className='daisy-modal' ref={referensi}>
+    <dialog className='z-2 daisy-modal' ref={referensi}>
       <div className='daisy-modal-box max-w-[900px]'>
         <form
           className={`flex flex-col gap-y-3`}
@@ -170,18 +222,17 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
                   className={`${inputInisial} w-[120px] border-black`}
                   placeholder='Kode Arsip'
                   disabled={true}
-                  readOnly
                   {...register('kode')}
                 />
                 <Kesalahan errors={errors.kode?.message} />
               </div>
               <div className='w-full'>
                 <select
-                  className={`${inputInisial} w-full ${
+                  className={`${inputInisial} ${
                     errors.kategori
                       ? 'border-error'
                       : 'border-black focus:border-green-500'
-                  }`}
+                  } w-full`}
                   {...register('kategori', {
                     onChange: handleKategori,
                   })}
@@ -241,7 +292,13 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
                   {...register('penyimpanan')}
                   disabled={dataKategori !== '' && jenis === '1' ? false : true}
                 >
-                  <option value=''>Penyimpanan</option>
+                  {pilihPenyimpanan.map((data) => (
+                    <option key={data.kode} value={data.kode}>
+                      {data.kode === ''
+                        ? data.nama
+                        : `${data.kode} - ${data.nama}`}
+                    </option>
+                  ))}
                 </select>
                 <Kesalahan errors={errors.penyimpanan?.message} />
               </div>

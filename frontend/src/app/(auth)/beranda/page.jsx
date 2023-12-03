@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
 import { kunci, api } from '@/config'
 import Beranda from '@/components/beranda'
+export const revalidate = 0
+
 
 export default async function BerandaPage() {
   /*
@@ -23,6 +25,6 @@ export default async function BerandaPage() {
 
   const data = (await respon.json()).data
   return (
-    <Beranda data={data.jumlah} />
+    <Beranda data={data.jumlah} grafik={data.grafik} />
   )
 }

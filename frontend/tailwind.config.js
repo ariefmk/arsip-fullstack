@@ -1,10 +1,6 @@
-// import { nextui } from '@nextui-org/react'
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
-    // './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       backgroundImage: {
@@ -24,7 +20,7 @@ module.exports = {
       circle: 'circle',
     },
   },
-  plugins: [require('daisyui') /*nextui()*/],
+  plugins: [require('daisyui')],
   daisyui: {
     themes: ['light'],
     base: true,

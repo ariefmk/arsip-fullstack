@@ -3,11 +3,11 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { inputInisial } from '@/lib/class'
-import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
+import { TutupModal, TombolSimpan, TombolReset } from '@/lib/button'
 import { Kesalahan } from '@/lib/errors'
 import { skemaPenyimpananTambah } from '@/lib/skema'
 
-export default function Tambah({ referensi, kode }) {
+export default function Ubah({ referensi, data }) {
   const router = useRouter()
   const {
     register,
@@ -15,52 +15,62 @@ export default function Tambah({ referensi, kode }) {
     setValue,
     reset,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(skemaPenyimpananTambah()) })
-
-  const tambahPenyimpanan = async (data) => {
-    fetch('/api/penyimpanan/tambah', {
-      method: 'POST',
+  } = useForm()
+  useEffect(() => {
+    setValue('bidang', data.bidang)
+    setValue('kode', data.kode)
+    setValue('nama', data.nama)
+    setValue('keterangan', data.keterangan)
+    setValue('lokasi', data.lokasi)
+  }, [setValue, data])
+  const ubahPenyimpanan = async (dataUbah) => {
+    console.log(dataUbah)
+    const formData = new FormData()
+    formData.append('kode', dataUbah.kode)
+    formData.append('nama', dataUbah.nama)
+    formData.append('keterangan', dataUbah.keterangan)
+    formData.append('lokasi', dataUbah.lokasi)
+    dataUbah = {
+      kode: dataUbah.kode,
+      nama: dataUbah.nama,
+      keterangan: dataUbah.keterangan,
+      lokasi: dataUbah.lokasi,
+    }
+    fetch('/api/penyimpanan/ubah', {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(dataUbah),
     }).then((hasil) => {
       referensi.current.close()
       router.refresh()
-      reset()
     })
   }
 
-  useEffect(() => {
-    setValue('kode', kode)
-  }, [kode, setValue])
   return (
-    <dialog className='daisy-modal' ref={referensi}>
-      <div className='daisy-modal-box max-w-[400px]'>
+    <dialog className={`daisy-modal`} ref={referensi}>
+      <div className={`daisy-modal-box max-w-[400px]`}>
         <form
           className={`flex flex-col gap-y-3`}
-          onSubmit={handleSubmit(tambahPenyimpanan)}
+          onSubmit={handleSubmit(ubahPenyimpanan)}
         >
           <h1 className={`text-center text-2xl font-bold`}>
-            Tambah Penyimpanan Arsip
+            Ubah Penyimpanan Arsip
           </h1>
           <div className={`w-full`}>
-            <select
+            <input
+              type='text'
               className={`${inputInisial} ${
                 errors.bidang
                   ? 'border-error'
                   : 'border-black focus:border-green-500'
               } w-full`}
               name='bidang'
+              disabled={true}
+              placeholder='Bidang'
               {...register('bidang')}
-            >
-              <option value=''>Bidang</option>
-              <option value='1'>Kesra & Pelayanan</option>
-              <option value='2'>Pemerintahan</option>
-              <option value='3'>Kewilayahan</option>
-              <option value='4'>Keuangan</option>
-              <option value='5'>Umum & Perencanaan</option>
-            </select>
+            />
             <Kesalahan errors={errors.bidang?.message} />
           </div>
           <div className={`flex flex-row gap-x-3`}>
@@ -70,9 +80,7 @@ export default function Tambah({ referensi, kode }) {
                 className={`${inputInisial} w-[100px] border-black read-only:cursor-not-allowed read-only:bg-gray-200`}
                 placeholder='Kode'
                 disabled={true}
-                {...register('kode', {
-                  value: kode,
-                })}
+                {...register('kode', {})}
               />
               <Kesalahan errors={errors.kode?.message} />
             </div>
@@ -117,8 +125,12 @@ export default function Tambah({ referensi, kode }) {
             <Kesalahan errors={errors.lokasi?.message} />
           </div>
           <div className='flex justify-center gap-x-4'>
-            <TombolTambah />
-            <TombolReset onClick={() => {reset()}}/>
+            <TombolSimpan />
+            <TombolReset
+              onClick={() => {
+                reset()
+              }}
+            />
           </div>
         </form>
         <TutupModal

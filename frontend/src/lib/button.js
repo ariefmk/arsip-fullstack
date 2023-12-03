@@ -1,4 +1,9 @@
-import { IconX, IconEdit, IconCircleMinus } from '@tabler/icons-react'
+import {
+  IconX,
+  IconEdit,
+  IconCircleMinus,
+  IconDownload,
+} from '@tabler/icons-react'
 import Link from 'next/link'
 
 export const TutupModal = ({ onClick }) => {
@@ -77,6 +82,18 @@ export const TombolHapus = ({ onClick }) => {
   )
 }
 
+export const TombolBatal = ({ onClick}) => {
+  return (
+    <button
+      type='button'
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2`}
+      onClick={onClick}
+    >
+      Tidak
+    </button>
+  )
+}
+
 export const TombolAksiHapus = ({ className, onClick, onChange }) => {
   return (
     <button
@@ -99,6 +116,19 @@ export const TombolAksiUbah = ({ className, onClick, onChange }) => {
       onChange={onChange}
     >
       <IconEdit stroke={2} />
+    </button>
+  )
+}
+
+export const TombolAksiUnduh = ({ className, onClick, onChange }) => {
+  return (
+    <button
+      type='button'
+      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-blue-500 bg-white hover:bg-blue-500 hover:text-white`}
+      onClick={onClick}
+      onChange={onChange}
+    >
+      <IconDownload stroke={2} />
     </button>
   )
 }

@@ -1,7 +1,15 @@
 import { useRouter } from 'next/navigation'
+import { TutupModal, TombolHapus, TombolBatal } from '@/lib/button'
 import { IconX } from '@tabler/icons-react'
 
 export default function Hapus({ referensi, data }) {
+  data = {
+    Kode: data.kode,
+    Kategori: data.kategori,
+    Bidang: data.bidang,
+    'Jumlah Berkas': `${data.jumlah} Berkas`,
+    Keterangan: data.keterangan,
+  }
   const router = useRouter()
   const hapusHandler = (kode) => {
     fetch('/api/kategori/hapus', {
@@ -17,10 +25,22 @@ export default function Hapus({ referensi, data }) {
   }
   return (
     <dialog className='daisy-modal' ref={referensi}>
-      <div className='daisy-modal-box'>
-        <div>
-          <h1>Apa anda ingin menghapus data berikut?</h1>
-          <table>
+      <div className={`daisy-modal-box max-w-[500px]`}>
+        <div className={`flex flex-col items-center justify-center gap-y-4`}>
+          <h1 className={`text-center text-xl`}>
+            Yakin ingin menghapus data berikut?
+          </h1>
+          <table className={`w-[400px]`}>
+            <tbody>
+              {Object.entries(data).map(([key, value]) => (
+                <tr key={key}>
+                  <td className={`w-2/5`}>{key}</td>
+                  <td className={`w-[4%]`}>:</td>
+                  <td className={`w-2/4`}>{value}</td>
+                </tr>
+              ))}
+            </tbody>
+            {/*
             <tbody>
               <tr>
                 <td>Kode</td>
@@ -37,27 +57,19 @@ export default function Hapus({ referensi, data }) {
                 <td>:</td>
                 <td>{data.bidang}</td>
               </tr>
-            </tbody>
+            </tbody>*/}
           </table>
-          <div>
-            <button
-              type='button'
-              className='h-2rem w-[80px] rounded-[5px] border-2'
+          <div className={`flex justify-center gap-x-3`}>
+            <TombolHapus
               onClick={() => {
                 hapusHandler(data.kode)
               }}
-            >
-              Hapus
-            </button>
-            <button
-              type='button'
-              className='h-2rem w-[80px] rounded-[5px] border-2'
+            />
+            <TombolBatal
               onClick={() => {
                 referensi.current.close()
               }}
-            >
-              Tidak
-            </button>
+            />
           </div>
         </div>
         <button

@@ -106,7 +106,16 @@ export const skemaKategoriTambah = () => {
   })
 }
 
-export const skemaArsipTambah = (kategori) => {
+export const skemaPenyimpananTambah = () => {
+  return yup.object({
+    bidang: yup.string().oneOf(['1','2','3','4','5'], 'Pilih salah satu'),
+    nama: yup.string().required('Nama wajib diisi'),
+    keterangan: yup.string().required('Keterangan wajib diisi'),
+    lokasi: yup.string().required('Informasi lokasi wajib diisi')
+  })
+}
+
+export const skemaArsipTambah = (kategori,dataPenyimpanan) => {
   return yup.object({
     kode: yup.string(),
     kategori: yup.string().oneOf(kategori, 'Pilih salah satu'),
@@ -126,7 +135,7 @@ export const skemaArsipTambah = (kategori) => {
     }),
     penyimpanan: yup.string().when('jenis', {
       is: '1',
-      then: (penyimpanan) => penyimpanan.required('Pilih salah satu'),
+      then: (penyimpanan) => penyimpanan.oneOf(dataPenyimpanan, 'Pilih salah satu').required('Pilih salah satu'),
     }),
     perihal: yup.string().when('kategori', {
       is: (kategori) => kategori !== '',

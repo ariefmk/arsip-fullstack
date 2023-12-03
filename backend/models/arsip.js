@@ -79,7 +79,7 @@ module.exports = (sequelize, dt) => {
       comment: 'Riwayat arsip'
     },
     penyimpanan: {
-      type: dt.INTEGER(3),
+      type: dt.STRING(10),
       allowNull: true,
       comment: 'Id penyimpanan arsip'
     },

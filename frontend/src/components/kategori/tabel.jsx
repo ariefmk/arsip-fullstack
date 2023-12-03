@@ -2,7 +2,7 @@ import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
 import { useState, useRef, useEffect } from 'react'
 import { TombolAksiHapus, TombolAksiUbah } from '@/lib/button'
 import Hapus from './hapus'
-//import Ubah from './ubah'
+import Ubah from './ubah'
 
 export default function Tabel({ datalist }) {
   const [sortedData, setSortedData] = useState([...datalist])
@@ -87,7 +87,14 @@ export default function Tabel({ datalist }) {
                 <td>{data.jumlah} Berkas</td>
                 <td>{data.keterangan}</td>
                 <td className={`w-[50px]`}>
-                  <TombolAksiUbah className={`h-[2rem] w-full`} />
+                  <TombolAksiUbah
+                    className={`h-[2rem] w-full`}
+                    onClick={() => {
+                      console.log('a')
+                      setDataUbah(data)
+                      ubahRef.current.showModal()
+                    }}
+                  />
                 </td>
                 <td className={`w-[50px]`}>
                   <TombolAksiHapus
@@ -102,7 +109,7 @@ export default function Tabel({ datalist }) {
             ))}
         </tbody>
       </table>
-      {/*<Ubah referensi={ubahRef} data={dataUbah} />*/}
+      <Ubah referensi={ubahRef} data={dataUbah} />
       <Hapus referensi={hapusRef} data={dataHapus} />
     </div>
   )

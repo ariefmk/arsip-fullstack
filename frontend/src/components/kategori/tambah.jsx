@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { IconX } from '@tabler/icons-react'
 import { inputInisial } from '@/lib/class'
 import { hurufKapital } from '@/lib/form'
 import { skemaKategoriTambah } from '@/lib/skema'
@@ -27,7 +26,7 @@ export default function Tambah({ referensi }) {
     setBidang('')
   }
   const tambahKategori = async (data) => {
-    console.log(data)
+    // console.log(data)
     switch (data.bidang) {
       case 'kesra':
         data.bidang = 1
@@ -91,7 +90,23 @@ export default function Tambah({ referensi }) {
               </select>
               <Kesalahan errors={errors.bidang?.message} />
             </div>
-            <div className='flex justify-between gap-x-3'>
+            <div className='flex gap-x-3'>
+              <div className='w-[150px]'>
+                <input
+                  className={`${inputInisial} ${
+                    errors.kode
+                      ? 'border-error'
+                      : 'border-black focus:border-green-500'
+                  } w-full`}
+                  type='text'
+                  maxLength='3'
+                  placeholder='Kode Kategori'
+                  onInput={hurufKapital}
+                  disabled={bidang ? false : true}
+                  {...register('kode')}
+                />
+                <Kesalahan errors={errors.kode?.message} />
+              </div>
               <div className='w-full'>
                 <input
                   className={`${inputInisial} ${
@@ -106,22 +121,6 @@ export default function Tambah({ referensi }) {
                 />
                 <Kesalahan errors={errors.kategori?.message} />
               </div>
-              <div className='w-[150px]'>
-                <input
-                  className={`${inputInisial} ${
-                    errors.kode
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  } w-full`}
-                  type='text'
-                  maxLength='3'
-                  placeholder='Kode'
-                  onInput={hurufKapital}
-                  disabled={bidang ? false : true}
-                  {...register('kode')}
-                />
-                <Kesalahan errors={errors.kode?.message} />
-              </div>
             </div>
             <div className={`w-full`}>
               <input
@@ -130,7 +129,7 @@ export default function Tambah({ referensi }) {
                   errors.keterangan
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
-                } w-full block`}
+                } w-full`}
                 placeholder='Keterangan'
                 disabled={bidang ? false : true}
                 {...register('keterangan')}

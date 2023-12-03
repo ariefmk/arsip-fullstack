@@ -53,7 +53,7 @@ export default function Profil({ pengguna }) {
     })
   }
   const ubahSandi = (data) => {
-    console.log(data)
+    //console.log(data)
     const formData = new FormData()
     formData.append('sandiBaru', data.baru)
     fetch(`/api/profil/sandi/${pengguna.nik}`, {

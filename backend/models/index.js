@@ -33,7 +33,6 @@ db.dataPengguna = require('./dataPengguna')(sequelize, Sequelize)
 db.arsip = require('./arsip')(sequelize, Sequelize)
 db.penyimpanan = require('./penyimpanan')(sequelize, Sequelize)
 db.kategori = require('./kategoriArsip')(sequelize, Sequelize)
-
 db.pengguna.hasOne(db.dataPengguna, {
   foreignKey: 'nik',
   sourceKey: 'nik',
@@ -86,11 +85,19 @@ db.arsip.belongsTo(db.dataPengguna, {
 
 db.penyimpanan.hasMany(db.arsip, {
   foreignKey: 'penyimpanan',
-  sourceKey: 'id'
+  sourceKey: 'kode',
 })
 
 db.arsip.belongsTo(db.penyimpanan, {
   foreignKey: 'penyimpanan',
-  targetKey: 'id'
+  targetKey: 'kode',
+})
+db.bidangPengguna.hasMany(db.penyimpanan, {
+  foreignKey: 'bidang',
+  sourceKey: 'id',
+})
+db.penyimpanan.belongsTo(db.bidangPengguna, {
+  foreignKey: 'bidang',
+  targetKey: 'id',
 })
 module.exports = db

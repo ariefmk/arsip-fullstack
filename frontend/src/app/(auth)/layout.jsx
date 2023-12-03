@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import imageSize from 'image-size'
 import { cookies } from 'next/headers'
 import { api, kunci } from '@/config'
+import { redirect } from 'next/navigation'
 export const revalidate = 0
 
 export default async function Layout({ children }) {
@@ -19,29 +20,33 @@ export default async function Layout({ children }) {
     }
   )
   const ambil = await respon.json()
-  let gambar = {}
-  if (ambil.data.foto) {
-    const berkas = new Buffer.from(ambil.data.foto).toString('base64')
-    const buffer = Buffer.from(ambil.data.foto)
-    const dimensi = imageSize(buffer)
-    gambar = {
-      media: berkas,
-      height: dimensi.height,
-      width: dimensi.width,
+  if (ambil.status === 200) {
+    let gambar = {}
+    if (ambil.data.foto) {
+      const berkas = new Buffer.from(ambil.data.foto).toString('base64')
+      const buffer = Buffer.from(ambil.data.foto)
+      const dimensi = imageSize(buffer)
+      gambar = {
+        media: berkas,
+        height: dimensi.height,
+        width: dimensi.width,
+      }
     }
+    const dataPengguna = {
+      nama: ambil.data.nama,
+      nik: ambil.data.nik,
+      gambar,
+    }
+    return (
+      <>
+        <Header pengguna={dataPengguna} />
+        <div className=''>
+          <Sidebar akses={pengguna.hakAkses} />
+          <main className='md:ml-[15rem]'>{children}</main>
+        </div>
+      </>
+    )
+  } else {
+    redirect('/keluar')
   }
-  const dataPengguna = {
-    nama: ambil.data.nama,
-    nik: ambil.data.nik,
-    gambar,
-  }
-  return (
-    <>
-      <Header pengguna={dataPengguna} />
-      <div className=''>
-        <Sidebar akses={pengguna.hakAkses} />
-        <main className='md:ml-[15rem]'>{children}</main>
-      </div>
-    </>
-  )
 }

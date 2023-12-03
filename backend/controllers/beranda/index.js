@@ -3,7 +3,11 @@ module.exports = async (req, res) => {
 
   const sekarang = new Date()
   const awalBulan = new Date(sekarang.getFullYear(), sekarang.getMonth(), 1)
-  const akhirBulan = new Date(sekarang.getFullYear(), sekarang.getMonth() + 1, 0)
+  const akhirBulan = new Date(
+    sekarang.getFullYear(),
+    sekarang.getMonth() + 1,
+    0
+  )
 
   const jumlah = {
     arsip: await db.arsip.count(),
@@ -14,19 +18,31 @@ module.exports = async (req, res) => {
         dibuat: {
           [db.Op.and]: {
             [db.Op.gte]: awalBulan,
-            [db.Op.lte]: akhirBulan
-          }
-        }
+            [db.Op.lte]: akhirBulan,
+          },
+        },
+      },
+    }),
+  }
+
+  const grafik = {
+    kategori: (await db.kategori.findAll({ include: db.arsip })).map((data) => {
+      console.log(data.Arsips)
+      return {
+        kode: data.kode,
+        kategori: data.nama,
+        berkas: data.Arsips.length,
       }
     }),
   }
 
-  console.log(jumlah)
+  console.log(grafik)
 
   return res.status(200).send({
     pesan: 'sukses',
     data: {
-      jumlah
-    }
+      jumlah,
+      grafik,
+    },
   })
 }

@@ -1,13 +1,15 @@
 'use client'
 import Header from '@/components/tabel/header'
+import Tabel from './tabel'
 import Tambah from './tambah'
 import { useRef } from 'react'
-export default function Penyimpanan() {
+export default function Penyimpanan({kode, datalist}) {
   const ref = useRef()
   return (
     <>
       <Header referensi={ref} />
-      <Tambah referensi={ref} />
+      <Tabel datalist={datalist}/>
+      <Tambah referensi={ref} kode={kode} />
     </>
   )
 }

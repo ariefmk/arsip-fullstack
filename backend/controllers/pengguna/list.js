@@ -19,11 +19,7 @@ module.exports = (req, res) => {
             alamat: dataPengguna.alamat,
             kelamin: dataPengguna.jenisKelamin,
             telepon: dataPengguna.nomorTelepon,
-            tanggal: new Date(dataPengguna.tanggalLahir).toLocaleString('id-Id', {
-              weekday: 'short',
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit'}),
+            tanggal: dataPengguna.tanggalLahir,
             jabatan: dataPengguna.jabatan,
             bidang: dataPengguna.bidang
           }

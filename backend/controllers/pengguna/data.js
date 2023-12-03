@@ -8,18 +8,23 @@ module.exports = async (req, res) => {
       },
     })
     .then((kueri) => {
-      kueri = kueri[0]
-      const data = {
-        nik: kueri.nik,
-        nama: kueri.nama,
-        foto: kueri.foto,
+      if (kueri.length === 1) {
+        kueri = kueri[0]
+        const data = {
+          nik: kueri.nik,
+          nama: kueri.nama,
+          foto: kueri.foto,
+        }
+        return res.status(200).send({
+          status: 200,
+          pesan: 'ok',
+          data,
+        })
+      } else {
+        return res.status(404).send({
+          status: 404,
+        })
       }
-
       // console.log(data)
-      return res.status(200).send({
-        status: 200,
-        pesan: 'ok',
-        data,
-      })
     })
 }
