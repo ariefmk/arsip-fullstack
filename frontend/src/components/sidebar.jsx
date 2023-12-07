@@ -62,7 +62,7 @@ export default function Sidebar({ akses }) {
             </ul>
           </li>
           {/*Hak Akses Admin*/}
-          {akses === 'Admin' && (
+          {/*akses === 'Admin' && (
             <li>
               <span
                 href='/riwayat'
@@ -90,7 +90,7 @@ export default function Sidebar({ akses }) {
                 </li>
               </ul>
             </li>
-          )}
+          )*/}
           {akses === 'Standar' && (
             <li>
               <Link href='/laporan'>

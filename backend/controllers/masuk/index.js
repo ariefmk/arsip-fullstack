@@ -15,14 +15,13 @@ module.exports = (req, res) => {
   }
 
   pengguna
-    .findAll({
+    .findOne({
       include: 'DataPengguna',
       where: { nik },
       attributes: ['nik', 'hakAkses', 'kataSandi'],
     })
-    .then((dataKueri) => {
-      const kueri = dataKueri[0]
-      if (dataKueri.length === 1) {
+    .then((kueri) => {
+      if (kueri) {
         if (!validasi(kueri.kataSandi)) {
           return res.status(401).send({
             status: 401,
@@ -30,13 +29,13 @@ module.exports = (req, res) => {
             data: null,
           })
         }
+        console.log(kueri)
 
-        const hakAkses = dataKueri[0].hakAkses
         // const dataPengguna = dataKueri[0].DataPengguna
 
         // Gunakan kunci server untuk mengenkripsi pesan
         const token = jwt.sign(
-          { nik, hakAkses },
+          { nik, hakAkses: kueri.hakAkses, nama: kueri.DataPengguna.nama },
           kunci.server,
           {
             expiresIn: 43200,

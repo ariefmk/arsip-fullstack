@@ -1,6 +1,7 @@
 import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
 import { useState, useRef, useEffect } from 'react'
 import { TombolAksiHapus, TombolAksiUbah } from '@/lib/button'
+import { tableHeader } from '@/lib/class'
 import Hapus from './hapus'
 import Ubah from './ubah'
 
@@ -33,37 +34,37 @@ export default function Tabel({ datalist }) {
   }
 
   return (
-    <div>
+    <div className={`px-[2rem]`}>
       <table className='w-full table-fixed text-center'>
         <thead>
-          <tr className={`h-[2rem]`}>
+          <tr className={`h-[2rem] border-b-2 border-black`}>
             <th className='w-[50px]'>No</th>
             <th
-              className='w-[80px] cursor-pointer hover:bg-gray-200'
+              className={`${tableHeader} w-[80px]`}
               onClick={() => requestSort('kode')}
             >
               Kode
             </th>
             <th
-              className='w-[300px] cursor-pointer hover:bg-gray-200'
+              className={`${tableHeader} w-[300px]`}
               onClick={() => requestSort('kategori')}
             >
               Kategori
             </th>
             <th
-              className='w-[200px] cursor-pointer hover:bg-gray-200'
+              className={`${tableHeader} w-[200px]`}
               onClick={() => requestSort('bidang')}
             >
               Bidang
             </th>
             <th
-              className={`w-[150px] cursor-pointer hover:bg-gray-200`}
+              className={`${tableHeader} w-[150px]`}
               onClick={() => requestSort('jumlah')}
             >
               Jumlah Berkas
             </th>
             <th
-              className={`cursor-pointer hover:bg-gray-200`}
+              className={`${tableHeader}`}
               onClick={() => requestSort('keterangan')}
             >
               Keterangan
@@ -78,7 +79,7 @@ export default function Tabel({ datalist }) {
             sortedData.map((data, index) => (
               <tr
                 key={data.kode}
-                className='h-[3rem] odd:bg-gray-200 even:bg-red-200 hover:bg-teal-100'
+                className='h-[3rem] border-b-2 border-gray-200 hover:bg-gray-100'
               >
                 <td>{index + 1}</td>
                 <td>{data.kode}</td>

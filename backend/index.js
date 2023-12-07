@@ -53,7 +53,6 @@ app.listen(process.env.PORT || 443, () => {
   const pesan = `Server berjalan pada port ${process.env.PORT || 443}`
   sistemLog.info(pesan)
 })
-
 db.sequelize
   .sync()
   .then(() => {

@@ -3,7 +3,7 @@ import { TutupModal, TombolHapus, TombolBatal } from '@/lib/button'
 import { IconX } from '@tabler/icons-react'
 
 export default function Hapus({ referensi, data }) {
-  data = {
+  const dataHapus = {
     Kode: data.kode,
     Kategori: data.kategori,
     Bidang: data.bidang,
@@ -32,7 +32,7 @@ export default function Hapus({ referensi, data }) {
           </h1>
           <table className={`w-[400px]`}>
             <tbody>
-              {Object.entries(data).map(([key, value]) => (
+              {Object.entries(dataHapus).map(([key, value]) => (
                 <tr key={key}>
                   <td className={`w-2/5`}>{key}</td>
                   <td className={`w-[4%]`}>:</td>
@@ -72,15 +72,11 @@ export default function Hapus({ referensi, data }) {
             />
           </div>
         </div>
-        <button
-          type='button'
-          className='daisy-button-sm daisy-btn daisy-btn-circle daisy-btn-ghost absolute right-2 top-2'
+        <TutupModal
           onClick={() => {
             referensi.current.close()
           }}
-        >
-          <IconX className='h-[20px] w-[20px]' />
-        </button>
+        />
       </div>
       <button
         type='button'

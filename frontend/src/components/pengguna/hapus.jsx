@@ -62,7 +62,7 @@ export default function Hapus({ referensi, data }) {
   // console.log(dataPengguna)
 
   return (
-    <dialog className='daisy-modal' ref={referensi}>
+    <dialog className='daisy-modal z-0' ref={referensi}>
       <div className='daisy-modal-box max-w-[500px]'>
         {/*Kode hapus disini*/}
         <div className={`flex flex-col items-center justify-center gap-y-4`}>
@@ -80,7 +80,7 @@ export default function Hapus({ referensi, data }) {
               ))}
             </tbody>
           </table>
-          <div>
+          <div className={`flex flex-row gap-x-3`}>
             <button
               type='button'
               className='h-2rem w-[80px] rounded-[5px] border-2'

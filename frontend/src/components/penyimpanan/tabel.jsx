@@ -1,5 +1,9 @@
+'use client'
 import { useState, useEffect, useRef } from 'react'
+import { jsPDF } from 'jspdf'
+import { apiPublic as api } from '@/config'
 import { TombolAksiHapus, TombolAksiUbah, TombolAksiUnduh } from '@/lib/button'
+import { labelPenyimpanan } from '@/lib/label'
 import Ubah from './ubah'
 import Hapus from './hapus'
 
@@ -33,11 +37,39 @@ export default function Tabel({ datalist }) {
     })
     setSortedData(sorted)
   }
+  const unduhHandler = async (kode) => {
+    const respon = await fetch(`${api.server}/auth/penyimpanan/unduh`, {
+      method: 'POST',
+      headers: {
+        API_Key: api.key,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({kode})
+    })
+    const berkas = await respon.blob()
+      let link = document.createElement('a')
+      link.href = URL.createObjectURL(berkas)
+      link.target = '_blank'
+      //link.download = `${new Date()}.pdf`
+      link.click()
+    console.log(berkas)
+    /*
+    const berkas = await respon.arrayBuffer()
+    const pdf = new Blob([berkas], { type: 'application/pdf' })
+    let link = document.createElement('a')
+    link.href = window.URL.createObjectURL(pdf)
+    link.target = '_blank'
+    //link.download = `${new Date()}.pdf`
+    link.click()
+    */
+  }
   return (
-    <div className={`w-full overflow-x-auto`}>
+    <div className={`w-full overflow-x-auto px-[2rem]`}>
       <table className={`w-full table-fixed text-center`}>
         <thead>
-          <tr className={`h-[2rem] text-center text-base`}>
+          <tr
+            className={`h-[2rem] border-b-2 border-black text-center text-base`}
+          >
             <th className={`w-[50px]`}>No</th>
             <th
               className={`w-[80px]`}
@@ -48,20 +80,20 @@ export default function Tabel({ datalist }) {
               Kode
             </th>
             <th
-              className={`w-[200px]`}
-              onClick={() => {
-                requestSort('bidang')
-              }}
-            >
-              Bidang
-            </th>
-            <th
               className={`w-[400px]`}
               onClick={() => {
                 requestSort('nama')
               }}
             >
               Nama
+            </th>
+            <th
+              className={`w-[200px]`}
+              onClick={() => {
+                requestSort('bidang')
+              }}
+            >
+              Bidang
             </th>
             <th
               onClick={() => {
@@ -85,15 +117,23 @@ export default function Tabel({ datalist }) {
         <tbody>
           {sortedData &&
             sortedData.map((data, index) => (
-              <tr key={data.kode}>
+              <tr
+                key={data.kode}
+                className={`h-[3rem] border-b-2 border-gray-200 hover:bg-gray-100`}
+              >
                 <td>{index + 1}</td>
                 <td>{data.kode}</td>
-                <td>{data.bidang}</td>
                 <td>{data.nama}</td>
+                <td>{data.bidang}</td>
                 <td>{data.lokasi}</td>
                 <td>{data.keterangan}</td>
                 <td className={`w-[50px]`}>
-                  <TombolAksiUnduh className={`w-full`} />
+                  <TombolAksiUnduh
+                    className={`h-[2rem] w-full`}
+                    onClick={() => {
+                      unduhHandler(data.kode)
+                    }}
+                  />
                 </td>
                 <td className={`w-[50px]`}>
                   <TombolAksiUbah
@@ -106,7 +146,7 @@ export default function Tabel({ datalist }) {
                 </td>
                 <td className={`w-[50px]`}>
                   <TombolAksiHapus
-                    className={`w-full`}
+                    className={`h-[2rem] w-full`}
                     onClick={() => {
                       setDataHapus(data)
                       hapusRef.current.showModal()

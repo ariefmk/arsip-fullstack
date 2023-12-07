@@ -45,9 +45,11 @@ module.exports = async (req, res) => {
     },
     attributes: ['nik', 'nama'],
   })
-  const daftarArsip = await db.arsip.findAll({ include: 'KategoriArsip' })
 
-  const arsip = await daftarArsip.map((data) => {
+  const arsip = await (
+    await db.arsip.findAll({ include: [db.kategori, db.penyimpanan] })
+  ).map((data) => {
+    console.log(data)
     return {
       id: data.id,
       kode: data.kodeArsip,
@@ -71,23 +73,29 @@ module.exports = async (req, res) => {
           return null
         }
       })(),
-      kategori: data.KategoriArsip.nama,
+      kategori: {
+        kode: data.KategoriArsip.kode,
+        nama: data.KategoriArsip.nama
+      },
+      penyimpanan: data.penyimpanan,
+      retensi: data.retensi,
+      visibilitas: data.visibilitas,
+      pengguna: data.pengguna
     }
   })
   const penyimpanan = (await db.penyimpanan.findAll()).map((data) => {
     return {
       kode: data.kode,
-      nama: data.nama
+      nama: data.nama,
     }
   })
-  console.log(penyimpanan)
   res.status(200).send({
     status: 200,
     data: {
       kategori: daftarKategori,
       arsip,
       pengguna,
-      penyimpanan
+      penyimpanan,
     },
   })
 }

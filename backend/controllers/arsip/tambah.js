@@ -20,8 +20,10 @@ module.exports = (req, res) => {
         }
       })(),
       pengguna: (() => {
-        if (permintaan.pengguna !== '"undefined"') {
+        if (permintaan.pengguna !== 'undefined') {
           return permintaan.pengguna
+        } else {
+          return null
         }
       })(),
       lampiran: (() => {

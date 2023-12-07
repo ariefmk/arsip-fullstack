@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
-    "@nextui-org/react": "^2.2.9",
+    "@react-pdf/renderer": "^3.1.14",
     "@tabler/icons-react": "^2.38.0",
     "autoprefixer": "^10.4.14",
     "chart.js": "^4.4.0",
@@ -21,6 +21,7 @@
     "image-size": "^1.0.2",
     "jose": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^2.5.1",
     "next": "^13.5.4",
     "postcss": "^8.4.31",
     "qrcode": "^1.5.3",

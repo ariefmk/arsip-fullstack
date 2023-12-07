@@ -1,10 +1,10 @@
 module.exports = (req, res) => {
-  const { kategori } = require('@/models')
-  const { kode } = req.body
+  const { penyimpanan } = require('@/models')
+  const permintaan = req.body
 
-  kategori.destroy({
+  penyimpanan.destroy({
     where: {
-      kode,
+      kode: permintaan.kode,
     },
   })
 

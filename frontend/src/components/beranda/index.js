@@ -3,21 +3,26 @@ import Arsip from './arsip'
 import Kartu from './kartu'
 import { useRef } from 'react'
 
-export default function Beranda({ data, grafik }) {
+export default function Beranda({ data, grafik,pengguna }) {
   const kategoriRef = useRef()
   return (
     <div className='flex items-center justify-center '>
       <div className='flex flex-col items-center justify-center text-center'>
-        <h1 className='mb-4 mt-10 text-3xl'>Selamat Datang, Admin!</h1>
-        <div className='grid grid-cols-3 gap-4'>
-          <Kartu judul='Pengguna' nilai={data.pengguna} />
+        <h1 className='mb-4 mt-10 text-3xl'>Selamat Datang, {pengguna.nama}!</h1>
+        <div className='grid grid-cols-3 gap-4 auto-cols-max'>
+          <Kartu judul='Jumlah Pengguna' nilai={data.pengguna} />
           <Kartu
-            judul='Arsip'
+            judul='Jumlah Arsip'
             nilai={data.arsip}
             onClick={() => {
               kategoriRef.current.showModal()
             }}
           />
+
+          <Kartu judul='Jumlah Arsip' nilai={7} />
+          <Kartu judul='Jumlah Kategori Arsip' nilai={2} />
+          <Kartu judul='Jumlah Arsip Bulan Ini' nilai={7} />
+          {/*
           <Kartu judul='Aktivitas Hari Ini' nilai={0} />
           <Kartu judul='Kategori' nilai={0} />
           {/*Umum*}

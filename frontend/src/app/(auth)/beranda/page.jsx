@@ -6,25 +6,16 @@ import { kunci, api } from '@/config'
 import Beranda from '@/components/beranda'
 export const revalidate = 0
 
-
 export default async function BerandaPage() {
-  /*
-  const akses = cookies().get('hakAkses')
-  if (akses !== undefined) {
-    const hakAkses = jwt.verify(cookies().get('hakAkses').value, kunci.server)
-  } else {
-    console.log('Tidak ada akses')
-  }*/
+  const akses = jwt.verify(cookies().get('hakAkses').value, kunci.server)
 
   const respon = await fetch(`${api.server}/auth/`, {
     method: 'GET',
     headers: {
-      API_Key: api.key
-    }
+      API_Key: api.key,
+    },
   })
 
   const data = (await respon.json()).data
-  return (
-    <Beranda data={data.jumlah} grafik={data.grafik} />
-  )
+  return <Beranda pengguna={akses} data={data.jumlah} grafik={data.grafik} />
 }

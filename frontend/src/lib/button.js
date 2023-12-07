@@ -3,6 +3,7 @@ import {
   IconEdit,
   IconCircleMinus,
   IconDownload,
+  IconEye,
 } from '@tabler/icons-react'
 import Link from 'next/link'
 
@@ -70,11 +71,11 @@ export const TombolKeluar = () => {
   )
 }
 
-export const TombolHapus = ({ onClick }) => {
+export const TombolHapus = ({className, onClick }) => {
   return (
     <button
       type='button'
-      className={`h-[2rem] w-[80px] rounded-[5px] border-2`}
+      className={`bg-red-500 border-red-500 text-white font-bold h-[2rem] w-[80px] rounded-[5px]`}
       onClick={onClick}
     >
       Hapus
@@ -82,11 +83,11 @@ export const TombolHapus = ({ onClick }) => {
   )
 }
 
-export const TombolBatal = ({ onClick}) => {
+export const TombolBatal = ({className, onClick }) => {
   return (
     <button
       type='button'
-      className={`h-[2rem] w-[80px] rounded-[5px] border-2`}
+      className={`bg-blue-500 border-blue-500 text-white font-bold h-[2rem] w-[80px] rounded-[5px]`}
       onClick={onClick}
     >
       Tidak
@@ -129,6 +130,18 @@ export const TombolAksiUnduh = ({ className, onClick, onChange }) => {
       onChange={onChange}
     >
       <IconDownload stroke={2} />
+    </button>
+  )
+}
+
+export const TombolAksiLihat = ({ className, onClick, onChange }) => {
+  return (
+    <button
+      type='button'
+      className={`${className} flex flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-sky-200 bg-white hover:bg-green-300 hover:font-bold hover:text-white`}
+      onClick={onClick}
+    >
+      <IconEye stroke={2} />
     </button>
   )
 }

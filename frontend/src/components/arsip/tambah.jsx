@@ -14,48 +14,7 @@ import Select from 'react-select'
 
 export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
   const selectRef = useRef()
-  const options = pengguna.map((data) => {
-    return {
-      value: data.nik,
-      label: data.nama,
-    }
-  })
-  /*
-  const options = [
-    {
-      value: 'a',
-      label: 'b',
-    },
-    {
-      value: 'a',
-      label: 'b',
-    },
-    {
-      value: 'a',
-      label: 'b',
-    },
-    // {
-      value: 'a',
-      label: 'b',
-    },
-    {
-      value: 'a',
-      label: 'b',
-    },
-    {
-      value: 'a',
-      label: 'b',
-    },
-    {
-      value: 'a',
-      label: 'b',
-    },
-    {
-      value: 'a',
-      label: 'b',
-    },
-  ] */ // console.log(options)
-  // console.log(options)
+
   const router = useRouter()
   const [jenis, setJenis] = useState('')
   const [visibilitas, setVisibilitas] = useState('')
@@ -124,6 +83,9 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
         reset()
         referensi.current.close()
         setPilihKategori([{ kode: '', nama: 'Kategori' }, ...kategori])
+        setVisibilitas('')
+        setJenis('')
+        setDataKategori('')
       }, 1000)
     })
   }
@@ -132,7 +94,6 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
     const selectedKategori = getValues('kategori')
 
     if (selectedKategori) {
-      // Mengambil kode kategori dari pilihKategori berdasarkan value yang dipilih
       const selectedKategoriData = pilihKategori.find(
         (data) => data.kode === selectedKategori
       )
@@ -357,9 +318,14 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
                   name='pengguna'
                   render={({ field: { onChange } }) => (
                     <Select
-                      placeholder='Pengguna'
+                      placeholder='Yang dapat melihat'
                       instanceId='pengguna'
-                      options={options}
+                      options={pengguna.map((data) => {
+                        return {
+                          value: data.nik,
+                          label: data.nama,
+                        }
+                      })}
                       styles={selectStyles}
                       ref={selectRef}
                       isDisabled={

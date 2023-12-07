@@ -3,12 +3,24 @@ import { TutupModal, TombolHapus, TombolBatal } from '@/lib/button'
 
 export default function Hapus({ referensi, data }) {
   const router = useRouter()
-  data = {
+  const datalist = {
     Kode: data.kode,
     Bidang: data.bidang,
     Nama: data.nama,
     'Informasi Lokasi': data.lokasi,
-    Keterangan: data.keterangan
+    Keterangan: data.keterangan,
+  }
+  const hapusHandler = (kode) => {
+    fetch('/api/penyimpanan/hapus', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ kode }),
+    }).then(() => {
+      router.refresh()
+      referensi.current.close()
+    })
   }
   return (
     <dialog className={`daisy-modal`} ref={referensi}>
@@ -19,9 +31,9 @@ export default function Hapus({ referensi, data }) {
           </h1>
           <table className={`w-[400px]`}>
             <tbody>
-              {Object.entries(data).map(([key, value]) => (
+              {Object.entries(datalist).map(([key, value]) => (
                 <tr key={key}>
-                  <td classNamw={`w-2/5`}>{key}</td>
+                  <td className={`w-2/5`}>{key}</td>
                   <td className={`w-[4%]`}>:</td>
                   <td className={`w-2/4`}>{value}</td>
                 </tr>
@@ -29,8 +41,12 @@ export default function Hapus({ referensi, data }) {
             </tbody>
           </table>
           <div className={`flex items-center justify-center gap-x-3`}>
-            <TombolHapus/>
-            <TombolBatal/>
+            <TombolHapus
+              onClick={() => {
+                hapusHandler(data.kode)
+              }}
+            />
+            <TombolBatal />
           </div>
         </div>
         <TutupModal

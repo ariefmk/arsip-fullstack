@@ -9,7 +9,7 @@ export default function Arsip({ datalist, kategori, pengguna, penyimpanan }) {
   return (
     <>
       <Header referensi={ref} />
-      <Tabel datalist={datalist}/>
+      <Tabel datalist={datalist} penyimpanan={penyimpanan}/>
       <Tambah referensi={ref} kategori={kategori} pengguna={pengguna} penyimpanan={penyimpanan} />
     </>
   )
