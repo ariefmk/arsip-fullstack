@@ -23,7 +23,7 @@ export const TombolTambah = ({ disabled, onClick, onChange }) => {
   return (
     <button
       type='submit'
-      className={`h-[2rem] w-[80px] rounded-[5px] border-2 disabled:cursor-not-allowed disabled:bg-gray-200`}
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-green-400 bg-green-500 font-semibold text-white disabled:cursor-not-allowed disabled:border-2 disabled:border-gray-100 disabled:bg-gray-200 disabled:text-gray-800`}
       disabled={disabled}
       onClick={onClick}
       onChange={onChange}
@@ -36,7 +36,7 @@ export const TombolSimpan = ({ disabled, onClick, onChange }) => {
   return (
     <button
       type='submit'
-      className='h-[2rem] w-[80px] rounded-[5px] border-2 disabled:bg-gray-200'
+      className='h-[2rem] w-[80px] rounded-[5px] border-2 border-green-400 bg-green-500 font-semibold text-white disabled:bg-gray-200'
       disabled={disabled}
       onClick={onClick}
       onChange={onChange}
@@ -46,11 +46,29 @@ export const TombolSimpan = ({ disabled, onClick, onChange }) => {
   )
 }
 
-export const TombolReset = ({ disabled, onClick, onChange }) => {
+export const TombolUnduh = (props) => {
+  const { disabled, onClick, onChange, form } = props
+  return (
+    <button
+      type='submit'
+      form={form}
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-green-400 bg-green-500 font-semibold text-white disabled:bg-gray-200`}
+      disabled={disabled}
+      onClick={onClick}
+      onChange={onChange}
+    >
+      Unduh
+    </button>
+  )
+}
+
+export const TombolReset = (props) => {
+  const { disabled, onClick, onChange, form } = props
   return (
     <button
       type='button'
-      className='h-[2rem] w-[80px] rounded-[5px] border-2'
+      form={form}
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-red-400 bg-red-500 font-semibold text-white`}
       disabled={disabled}
       onClick={onClick}
       onChange={onChange}
@@ -60,22 +78,24 @@ export const TombolReset = ({ disabled, onClick, onChange }) => {
   )
 }
 
-export const TombolKeluar = () => {
-  return (
-    <Link
-      href='/keluar'
-      className='flex h-[2rem] w-[80px] items-center justify-center rounded-[5px] border-2 text-center'
-    >
-      Ya
-    </Link>
-  )
-}
-
-export const TombolHapus = ({className, onClick }) => {
+export const TombolKeluar = (props) => {
+  const { onClick } = props
   return (
     <button
       type='button'
-      className={`bg-red-500 border-red-500 text-white font-bold h-[2rem] w-[80px] rounded-[5px]`}
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-red-400 bg-red-500 font-semibold text-white`}
+      onClick={onClick}
+    >
+      Ya
+    </button>
+  )
+}
+
+export const TombolHapus = ({ className, onClick }) => {
+  return (
+    <button
+      type='button'
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-red-400 bg-red-500 font-semibold text-white`}
       onClick={onClick}
     >
       Hapus
@@ -83,11 +103,11 @@ export const TombolHapus = ({className, onClick }) => {
   )
 }
 
-export const TombolBatal = ({className, onClick }) => {
+export const TombolBatal = ({ className, onClick }) => {
   return (
     <button
       type='button'
-      className={`bg-blue-500 border-blue-500 text-white font-bold h-[2rem] w-[80px] rounded-[5px]`}
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-blue-400 bg-blue-500 font-semibold text-white`}
       onClick={onClick}
     >
       Tidak

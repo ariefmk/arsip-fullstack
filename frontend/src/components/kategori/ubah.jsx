@@ -40,7 +40,7 @@ export default function Ubah({ referensi, data }) {
     })
   }
   return (
-    <dialog className={`daisy-modal`} ref={referensi}>
+    <dialog className={`daisy-modal backdrop-blur-[2px]`} ref={referensi}>
       <div className={`daisy-modal-box max-w-[400px]`}>
         <form
           className={`flex flex-col gap-y-3`}

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation'
 import { TutupModal, TombolHapus, TombolBatal } from '@/lib/button'
+import { ModalHapus } from '@/lib/modal'
 
 export default function Hapus({ referensi, data }) {
   const router = useRouter()
@@ -23,6 +24,19 @@ export default function Hapus({ referensi, data }) {
     })
   }
   return (
+    <ModalHapus referensi={referensi}>
+      <TombolHapus
+        onClick={() => {
+          hapusHandler(data.kode)
+        }}
+      />
+      <TombolBatal
+        onClick={() => {
+          referensi.current.close()
+        }}
+      />
+    </ModalHapus>
+    /*
     <dialog className={`daisy-modal`} ref={referensi}>
       <div className={`daisy-modal-box max-w-[500px]`}>
         <div className={`flex flex-col items-center justify-center gap-y-4`}>
@@ -63,5 +77,6 @@ export default function Hapus({ referensi, data }) {
         }}
       />
     </dialog>
+    */
   )
 }

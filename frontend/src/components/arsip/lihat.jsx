@@ -1,14 +1,14 @@
 import { TutupModal } from '@/lib/button'
 
-export default function Lihat({ referensi, berkas }) {
+export default function Lihat(props) {
 
+  const { referensi, berkas } = props
   const pengguna = berkas.pembuat
   const tahun1 = new Date(berkas.retensi)
   const tahun2 = new Date()
   const retensi = tahun1.getFullYear() - tahun2.getFullYear()
-  //console.log(berkas.penyimpanan)
   return (
-    <dialog className={`daisy-modal`} ref={referensi}>
+    <dialog className={`daisy-modal backdrop-blur-[2px]`} ref={referensi}>
       <div className={`daisy-modal-box ${berkas.jenis==='Digital' &&'max-w-[900px]'}`}>
         <div>
           <h1 className={`text-center text-2xl font-bold`}>Rincian Arsip</h1>

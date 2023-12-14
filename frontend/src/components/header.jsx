@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { TutupModal, TombolKeluar } from '@/lib/button'
+import { TutupModal, TombolKeluar, TombolBatal } from '@/lib/button'
 import { IconUserCircle } from '@tabler/icons-react'
 
 export default function Header({ pengguna }) {
@@ -34,7 +34,7 @@ export default function Header({ pengguna }) {
               <IconUserCircle
                 color='#0362a1'
                 stroke={1.2}
-                className='w-full h-full'
+                className='h-full w-full'
               />
             )}
           </button>
@@ -57,53 +57,27 @@ export default function Header({ pengguna }) {
               >
                 <span>Keluar</span>
               </button>
-              {/*
-              <Link href='/keluar' className='hover:font-bold'>
-                Keluar
-              </Link>
-              */}
             </li>
           </ul>
         </div>
       </div>
-      <dialog className='daisy-modal' ref={referensi}>
-        <div className='daisy-modal-box max-w-[250px]'>
+      <dialog className='daisy-modal backdrop-blur-[2px]' ref={referensi}>
+        <div className='daisy-modal-box max-w-[250px] relative bottom-[60px]'>
           <h1 className='mb-[2rem] text-center text-2xl font-bold'>Keluar?</h1>
           <div className='flex w-full flex-row justify-center gap-x-2'>
-            {/*<TombolKeluar />*/}
-            <button
-              type='button'
-              className='h-[2rem] w-[80px] rounded-[5px] border-2'
+            <TombolKeluar
               onClick={() => {
                 router.push('/keluar')
                 router.refresh()
               }}
-            >
-              Ya
-            </button>
-            <button
-              type='button'
-              className='h-[2rem] w-[80px] rounded-[5px] border-2'
+            />
+            <TombolBatal
               onClick={() => {
                 referensi.current.close()
               }}
-            >
-              Tidak
-            </button>
+            />
           </div>
-          <TutupModal
-            onClick={() => {
-              referensi.current.close()
-            }}
-          />
         </div>
-        <button
-          type='button'
-          className='daisy-modal-backdrop'
-          onClick={() => {
-            referensi.current.close()
-          }}
-        />
       </dialog>
     </header>
   )

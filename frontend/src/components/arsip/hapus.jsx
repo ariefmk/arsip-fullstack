@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { IconAlertCircle } from '@tabler/icons-react'
 import { TutupModal, TombolHapus, TombolBatal } from '@/lib/button'
+import { ModalHapus } from '@/lib/modal'
 
 export default function Hapus({ referensi, data }) {
   const router = useRouter()
@@ -19,6 +20,20 @@ export default function Hapus({ referensi, data }) {
   }
 
   return (
+    <ModalHapus referensi={referensi}>
+      <TombolHapus
+        className={'bg-red-500'}
+        onClick={() => {
+          hapusHandler(data.kode)
+        }}
+      />
+      <TombolBatal
+        onClick={() => {
+          referensi.current.close()
+        }}
+      />
+    </ModalHapus>
+    /*
     <dialog className={`daisy-modal backdrop-blur-[3px]	`} ref={referensi}>
       <div
         className={`daisy-modal-box relative bottom-[60px] max-w-[350px] p-[12px]`}
@@ -67,7 +82,6 @@ export default function Hapus({ referensi, data }) {
               </tr>
             </tbody>
           </table>
-          */}
           <div className={`mb-[4px] flex justify-center gap-x-3`}>
             <TombolHapus
               className={'bg-red-500'}
@@ -95,7 +109,7 @@ export default function Hapus({ referensi, data }) {
         }}
         className={`daisy-modal-backdrop`}
       />
-    */}
     </dialog>
+    */
   )
 }

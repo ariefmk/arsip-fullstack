@@ -1,5 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { IconX } from '@tabler/icons-react'
+import { TutupModal, TombolHapus, TombolBatal } from '@/lib/button'
+import { ModalHapus } from '@/lib/modal'
 
 export default function Hapus({ referensi, data }) {
   const router = useRouter()
@@ -62,9 +64,22 @@ export default function Hapus({ referensi, data }) {
   // console.log(dataPengguna)
 
   return (
+    <ModalHapus referensi={referensi}>
+      <TombolHapus
+        onClick={() => {
+          hapusHandler(data.nik)
+        }}
+      />
+      <TombolBatal
+        onClick={() => {
+          referensi.current.close()
+        }}
+      />
+    </ModalHapus>
+    /*
     <dialog className='daisy-modal z-0' ref={referensi}>
       <div className='daisy-modal-box max-w-[500px]'>
-        {/*Kode hapus disini*/}
+        {/*Kode hapus disini
         <div className={`flex flex-col items-center justify-center gap-y-4`}>
           <h1 className='text-center text-xl'>
             Yakin ingin menghapus data berikut?
@@ -119,5 +134,6 @@ export default function Hapus({ referensi, data }) {
         }}
       />
     </dialog>
+  */
   )
 }

@@ -11,7 +11,7 @@ module.exports = (req, res) => {
       jenis: permintaan.jenis,
       status: '0', // Belum dikonfigurasi
       retensi: permintaan.retensi,
-      pembuat: '6311041302010001', // Belum dikonfigurasi
+      pembuat: permintaan.pembuat,
       visibilitas: (() => {
         if (permintaan.visibilitas !== 'undefined') {
           return permintaan.visibilitas

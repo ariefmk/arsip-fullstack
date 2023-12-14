@@ -1,8 +1,7 @@
 module.exports = app => {
-  const { laporan } = require('../../controllers')
-  app.get('/laporan/unduh', laporan.unduh)
+  const { unduh, list } = require('@/controllers').laporan
+  app.get('/laporan', list)
+  // app.post('/laporan/unduh', unduh)
+  app.get('/laporan/unduh', unduh)
   // Testing
-  app.post('/laporan', (req, res) => {
-    res.send('hello world')
-  })
 }

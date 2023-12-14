@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation'
 import { TutupModal, TombolHapus, TombolBatal } from '@/lib/button'
+import { ModalHapus } from '@/lib/modal'
 import { IconX } from '@tabler/icons-react'
 
 export default function Hapus({ referensi, data }) {
@@ -24,6 +25,19 @@ export default function Hapus({ referensi, data }) {
     })
   }
   return (
+    <ModalHapus referensi={referensi}>
+      <TombolHapus
+        onClick={() => {
+          hapusHandler(data.kode)
+        }}
+      />
+      <TombolBatal
+        onClick={() => {
+          referensi.current.close()
+        }}
+      />
+    </ModalHapus>
+    /*
     <dialog className='daisy-modal' ref={referensi}>
       <div className={`daisy-modal-box max-w-[500px]`}>
         <div className={`flex flex-col items-center justify-center gap-y-4`}>
@@ -57,7 +71,7 @@ export default function Hapus({ referensi, data }) {
                 <td>:</td>
                 <td>{data.bidang}</td>
               </tr>
-            </tbody>*/}
+            </tbody>
           </table>
           <div className={`flex justify-center gap-x-3`}>
             <TombolHapus
@@ -86,5 +100,6 @@ export default function Hapus({ referensi, data }) {
         }}
       />
     </dialog>
+    */
   )
 }

@@ -134,7 +134,7 @@ module.exports = async (req, res) => {
       align: 'center',
       maxWidth: 68,
     })
-  console.log(dokumen.output('arraybuffer'))
+  // console.log(dokumen.output('arraybuffer'))
 
   res.setHeader('Content-Type', 'application/pdf')
   return res.status(200).send(Buffer.from(dokumen.output('arraybuffer')))

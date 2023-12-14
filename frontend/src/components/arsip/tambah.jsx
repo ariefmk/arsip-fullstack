@@ -9,10 +9,12 @@ import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
 import { hanyaAngka } from '@/lib/form'
 import { skemaArsipTambah } from '@/lib/skema'
 import { Kesalahan } from '@/lib/errors'
-// import { Select, SelectSection, SelectItem } from '@nextui-org/react'
+import Input from '@/lib/form/input'
+import Textarea from '@/lib/form/textarea'
 import Select from 'react-select'
 
-export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
+export default function Tambah(props) {
+  const { nik, referensi, kategori, pengguna, penyimpanan } = props
   const selectRef = useRef()
 
   const router = useRouter()
@@ -71,6 +73,7 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
     formData.append('visibilitas', data.visibilitas)
     formData.append('pengguna', data.pengguna)
     formData.append('penyimpanan', data.penyimpanan)
+    formData.append('pembuat', nik)
     if (data.berkas) {
       formData.append('berkas', data.berkas[0])
     }
@@ -128,7 +131,6 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
         justifyContent: 'space-between',
         label: 'control',
         minHeight: 38,
-        // outline: '0 !important',
         position: 'relative',
         transition: 'all 100ms',
         color: 'black',
@@ -157,17 +159,15 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
       }
     },
     menu: (styles) => {
-      //console.log(styles)
       return { ...styles, zIndex: 10, position: 'absolute' }
     },
     menuList: (styles) => {
-      // console.log(styles)
       return { ...styles, maxHeight: '100px' }
     },
   }
 
   return (
-    <dialog className='z-2 daisy-modal' ref={referensi}>
+    <dialog className='z-2 daisy-modal backdrop-blur-[3px]' ref={referensi}>
       <div className='daisy-modal-box max-w-[900px]'>
         <form
           className={`flex flex-col gap-y-3`}
@@ -175,110 +175,99 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
           encType='multipart/form-data'
         >
           <h1 className='text-center text-2xl font-bold'>Tambah Arsip</h1>
-          <div className='flex flex-col gap-y-2'>
-            <div className='flex w-full gap-x-2'>
-              <div className=''>
-                <input
-                  type='text'
-                  className={`${inputInisial} w-[120px] border-black`}
-                  placeholder='Kode Arsip'
-                  disabled={true}
-                  {...register('kode')}
-                />
-                <Kesalahan errors={errors.kode?.message} />
-              </div>
-              <div className='w-full'>
-                <select
-                  className={`${inputInisial} ${
-                    errors.kategori
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  } w-full`}
-                  {...register('kategori', {
-                    onChange: handleKategori,
-                  })}
-                >
-                  {pilihKategori.map((data) => (
-                    <option key={data.kode} value={data.kode}>
-                      {data.kode === ''
-                        ? data.nama
-                        : `${data.kode} - ${data.nama}`}
-                    </option>
-                  ))}
-                </select>
-                <Kesalahan errors={errors.kategori?.message} />
-              </div>
-              <div>
-                <select
-                  className={`${inputInisial} w-[120px] ${
-                    errors.jenis
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  }`}
-                  disabled={dataKategori ? false : true}
-                  {...register('jenis', {
-                    onChange: () => setJenis(getValues('jenis')),
-                  })}
-                >
-                  <option value=''>Jenis</option>
-                  <option value='1'>Fisik</option>
-                  <option value='2'>Digital</option>
-                </select>
-                <Kesalahan errors={errors.jenis?.message} />
-              </div>
-              <div className=''>
-                <input
-                  type='text'
-                  className={`${inputInisial} w-[150px] ${
-                    errors.retensi
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  }`}
-                  name='retensi'
-                  placeholder='Retensi (tahun)'
-                  inputMode='numeric'
-                  onInput={hanyaAngka}
-                  disabled={dataKategori ? false : true}
-                  {...register('retensi')}
-                />
-                <Kesalahan errors={errors.retensi?.message} className='' />
-              </div>
-              <div className='w-full'>
-                <select
-                  className={`${inputInisial} w-full ${
-                    errors.penyimpanan
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  }`}
-                  {...register('penyimpanan')}
-                  disabled={dataKategori !== '' && jenis === '1' ? false : true}
-                >
-                  {pilihPenyimpanan.map((data) => (
-                    <option key={data.kode} value={data.kode}>
-                      {data.kode === ''
-                        ? data.nama
-                        : `${data.kode} - ${data.nama}`}
-                    </option>
-                  ))}
-                </select>
-                <Kesalahan errors={errors.penyimpanan?.message} />
-              </div>
+          <div className='grid grid-cols-12 gap-3'>
+            <Input
+              divClass={`col-span-2`}
+              type='text'
+              name='kode-arsip'
+              placeholder='Kode Arsip'
+              disabled={true}
+              errors={errors.kode}
+              register={register('kode')}
+              label={true}
+            />
+            <div className={`col-span-3`}>
+              <select
+                className={`${inputInisial} ${
+                  errors.kategori
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                } w-full`}
+                {...register('kategori', {
+                  onChange: handleKategori,
+                })}
+              >
+                {pilihKategori.map((data) => (
+                  <option key={data.kode} value={data.kode}>
+                    {data.kode === ''
+                      ? data.nama
+                      : `${data.kode} - ${data.nama}`}
+                  </option>
+                ))}
+              </select>
+              <Kesalahan errors={errors.kategori?.message} />
             </div>
-            <div className='w-full'>
-              <input
-                type='text'
+            <div className={`col-span-2`}>
+              <select
                 className={`${inputInisial} w-full ${
-                  errors.perihal
+                  errors.jenis
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
                 }`}
-                placeholder='Perihal'
                 disabled={dataKategori ? false : true}
-                {...register('perihal')}
-              />
-              <Kesalahan errors={errors.perihal?.message} />
+                {...register('jenis', {
+                  onChange: () => setJenis(getValues('jenis')),
+                })}
+              >
+                <option value=''>Jenis</option>
+                <option value='1'>Fisik</option>
+                <option value='2'>Digital</option>
+              </select>
+              <Kesalahan errors={errors.jenis?.message} />
             </div>
-            <div>
+            <Input
+              divClass={`col-span-2`}
+              type='text'
+              placeholder='Retensi (tahun)'
+              name='retensi'
+              inputMode='numeric'
+              onInput={hanyaAngka}
+              disabled={dataKategori ? false : true}
+              errors={errors.retensi}
+              label={true}
+              register={register('retensi')}
+            />
+            <div className={`col-span-3`}>
+              <select
+                className={`${inputInisial} ${
+                  errors.penyimpanan
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                } w-full`}
+                {...register('penyimpanan')}
+                disabled={dataKategori !== '' && jenis === '1' ? false : true}
+              >
+                {pilihPenyimpanan.map((data) => (
+                  <option key={data.kode} value={data.kode}>
+                    {data.kode === ''
+                      ? data.nama
+                      : `${data.kode} - ${data.nama}`}
+                  </option>
+                ))}
+              </select>
+              <Kesalahan errors={errors.penyimpanan?.message} />
+            </div>
+            <Input
+              divClass={`col-span-12`}
+              type='text'
+              placeholder='Perihal'
+              disabled={dataKategori ? false : true}
+              errors={errors.perihal}
+              register={register('perihal')}
+              label={true}
+            />
+            {/*
+            <div className={`col-span-12`}>
               <textarea
                 className={`block h-[5rem] ${inputInisial}  w-full resize-none ${
                   errors.keterangan
@@ -290,71 +279,76 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
                 {...register('keterangan')}
               />
               <Kesalahan errors={errors.keterangan?.message} />
+            </div>*/}
+            <Textarea
+              divClass={`col-span-12`}
+              placeholder='Keterangan'
+              label={true}
+              register={register('keterangan')}
+              errors={errors.keterangan}
+              disabled={dataKategori ? false : true}
+            />
+            <div className='col-span-2'>
+              <select
+                className={`${inputInisial} ${
+                  errors.visibilitas
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                } w-full`}
+                disabled={dataKategori !== '' && jenis === '2' ? false : true}
+                {...register('visibilitas', {
+                  onChange: () => {
+                    setVisibilitas(getValues('visibilitas'))
+                  },
+                })}
+              >
+                <option value=''>Visibilitas</option>
+                <option value='0'>Mati</option>
+                <option value='1'>Hidup</option>
+              </select>
+              <Kesalahan errors={errors.visibilitas?.message} />
             </div>
-            <div className='flex gap-x-2'>
-              <div className='w-[120px]'>
-                <select
-                  className={`${inputInisial} w-[120px] ${
-                    errors.visibilitas
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  }`}
-                  disabled={dataKategori !== '' && jenis === '2' ? false : true}
-                  {...register('visibilitas', {
-                    onChange: () => {
-                      setVisibilitas(getValues('visibilitas'))
-                    },
-                  })}
-                >
-                  <option value=''>Visibilitas</option>
-                  <option value='0'>Mati</option>
-                  <option value='1'>Hidup</option>
-                </select>
-                <Kesalahan errors={errors.visibilitas?.message} />
-              </div>
-              <div className='w-full'>
-                <Controller
-                  control={control}
-                  name='pengguna'
-                  render={({ field: { onChange } }) => (
-                    <Select
-                      placeholder='Yang dapat melihat'
-                      instanceId='pengguna'
-                      options={pengguna.map((data) => {
-                        return {
-                          value: data.nik,
-                          label: data.nama,
-                        }
-                      })}
-                      styles={selectStyles}
-                      ref={selectRef}
-                      isDisabled={
-                        visibilitas === '1' && jenis === '2' ? false : true
+            <div className={`col-span-10`}>
+              <Controller
+                control={control}
+                name='pengguna'
+                render={({ field: { onChange } }) => (
+                  <Select
+                    placeholder='Yang dapat melihat'
+                    instanceId='pengguna'
+                    options={pengguna.map((data) => {
+                      return {
+                        value: data.nik,
+                        label: data.nama,
                       }
-                      isMulti={true}
-                      onChange={(data) => {
-                        const hasil = Object.values(
-                          data.map((a) => {
-                            return a.value
-                          })
-                        )
-                        // console.log(hasil)
-                        onChange(hasil)
-                      }}
-                    />
-                  )}
-                />
-                <Kesalahan errors={errors.pengguna?.message} />
-              </div>
+                    })}
+                    styles={selectStyles}
+                    ref={selectRef}
+                    isDisabled={
+                      visibilitas === '1' && jenis === '2' ? false : true
+                    }
+                    isMulti={true}
+                    onChange={(data) => {
+                      const hasil = Object.values(
+                        data.map((a) => {
+                          return a.value
+                        })
+                      )
+                      onChange(hasil)
+                    }}
+                  />
+                )}
+              />
+              <Kesalahan errors={errors.pengguna?.message} />
             </div>
             <div
-              className={`flex flex-col items-center justify-center gap-y-[8px]`}
+              className={`col-span-12 flex flex-col items-center justify-center gap-y-[8px] place-self-center`}
             >
               <input
                 type='file'
                 id='tambah-berkas'
                 accept='.pdf'
-                hidden
+                hidden={true}
                 {...register('berkas', {
                   disabled: dataKategori !== '' && jenis === '2' ? false : true,
                 })}
@@ -365,7 +359,7 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
                   dataKategori !== '' && jenis === '2'
                     ? 'cursor-copy'
                     : 'cursor-not-allowed bg-gray-200'
-                } flex h-[2.5rem] w-[120px] items-center justify-center rounded-[5px] border-2 border-black`}
+                } flex h-[2.5rem] w-[120px] items-center justify-center gap-x-1 rounded-[5px] border-2 border-black`}
               >
                 <span>Berkas</span>
                 <IconCirclePlus className='h-[20px] w-[20px]' />
@@ -397,17 +391,6 @@ export default function Tambah({ referensi, kategori, pengguna, penyimpanan }) {
           }}
         />
       </div>
-      <button
-        onClick={() => {
-          referensi.current.close()
-          reset()
-          setVisibilitas('')
-          setJenis('')
-          setDataKategori('')
-          selectRef.current.clearValue()
-        }}
-        className='daisy-modal-backdrop'
-      />
     </dialog>
   )
 }

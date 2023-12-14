@@ -85,7 +85,7 @@ export default function Tambah({ referensi, datalist }) {
   }
 
   return (
-    <dialog className='daisy-modal' ref={referensi}>
+    <dialog className='daisy-modal backdrop-blur-[2px]' ref={referensi}>
       <div className='daisy-modal-box max-w-[600px]'>
         <form
           className='flex flex-col gap-y-3'
@@ -321,6 +321,7 @@ export default function Tambah({ referensi, datalist }) {
           }}
         />
       </div>
+      {/*
       <button
         type='button'
         className='daisy-modal-backdrop'
@@ -330,7 +331,7 @@ export default function Tambah({ referensi, datalist }) {
           reset()
           referensi.current.close()
         }}
-      />
+      />*/}
     </dialog>
   )
 }

@@ -2,7 +2,7 @@
 const nextConfig = {
   poweredByHeader: false,
   compress: true,
-  distDir: 'build',
+  //distDir: 'build',
   // Konfigurasi
   /*
   async rewrites() {

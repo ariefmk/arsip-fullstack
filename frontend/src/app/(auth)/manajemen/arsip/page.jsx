@@ -6,7 +6,6 @@ export const revalidate = 0
 
 export default async function ArsipPage() {
   const { nik } = jwt.verify(cookies().get('hakAkses').value, kunci.server)
-  console.log(nik)
   const respon = await fetch(`${api.server}/auth/arsip`, {
     method: 'GET',
     headers: {
@@ -14,12 +13,14 @@ export default async function ArsipPage() {
     },
   })
   const { arsip, kategori, pengguna, penyimpanan } = (await respon.json()).data
+
   return (
     <Arsip
       datalist={arsip}
       kategori={kategori}
       pengguna={pengguna}
       penyimpanan={penyimpanan}
+      nik={nik}
     />
   )
 }
