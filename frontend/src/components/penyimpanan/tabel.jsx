@@ -44,24 +44,14 @@ export default function Tabel({ datalist }) {
         API_Key: api.key,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({kode})
+      body: JSON.stringify({ kode }),
     })
     const berkas = await respon.blob()
-      let link = document.createElement('a')
-      link.href = URL.createObjectURL(berkas)
-      link.target = '_blank'
-      //link.download = `${new Date()}.pdf`
-      link.click()
-    console.log(berkas)
-    /*
-    const berkas = await respon.arrayBuffer()
-    const pdf = new Blob([berkas], { type: 'application/pdf' })
     let link = document.createElement('a')
-    link.href = window.URL.createObjectURL(pdf)
+    link.href = URL.createObjectURL(berkas)
     link.target = '_blank'
     //link.download = `${new Date()}.pdf`
     link.click()
-    */
   }
   return (
     <div className={`w-full overflow-x-auto px-[2rem]`}>

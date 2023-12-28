@@ -1,4 +1,3 @@
-// Controllers masuk aplikasi
 module.exports = (req, res) => {
   require('dotenv').config()
   const bcrypt = require('bcrypt')
@@ -6,12 +5,10 @@ module.exports = (req, res) => {
   const { pengguna } = require('@/models')
   const { kunci } = require('@/config')
 
-  // Verifikasi data inputan masuk pengguna
-  const payload = jwt.verify(req.body.token, kunci.klien)
-  const nik = payload.nik
+  const { nik, kataSandi } = jwt.verify(req.body.token, kunci.klien)
 
   const validasi = (sandiDb) => {
-    return bcrypt.compareSync(payload.kataSandi, sandiDb)
+    return bcrypt.compareSync(kataSandi, sandiDb)
   }
 
   pengguna
@@ -29,18 +26,20 @@ module.exports = (req, res) => {
             data: null,
           })
         }
-        console.log(kueri)
-
-        // const dataPengguna = dataKueri[0].DataPengguna
-
-        // Gunakan kunci server untuk mengenkripsi pesan
-        const token = jwt.sign(
-          { nik, hakAkses: kueri.hakAkses, nama: kueri.DataPengguna.nama },
-          kunci.server,
-          {
-            expiresIn: 43200,
+        const tokenData = {
+          nik,
+          hakAkses: kueri.hakAkses,
+          nama: kueri.DataPengguna.nama,
+        }
+        if (kueri.hakAkses === 'Standar') {
+          tokenData.jabatan = kueri.DataPengguna.jabatan
+          if (tokenData.jabatan === 'Kepala Bidang') {
+            tokenData.bidang = kueri.DataPengguna.bidang
           }
-        )
+        }
+        const token = jwt.sign(tokenData, kunci.server, {
+          expiresIn: 43200,
+        })
 
         return res.status(200).send({
           status: 200,

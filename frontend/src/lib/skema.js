@@ -108,14 +108,14 @@ export const skemaKategoriTambah = () => {
 
 export const skemaPenyimpananTambah = () => {
   return yup.object({
-    bidang: yup.string().oneOf(['1','2','3','4','5'], 'Pilih salah satu'),
+    bidang: yup.string().oneOf(['1', '2', '3', '4', '5'], 'Pilih salah satu'),
     nama: yup.string().required('Nama wajib diisi'),
     keterangan: yup.string().required('Keterangan wajib diisi'),
-    lokasi: yup.string().required('Informasi lokasi wajib diisi')
+    lokasi: yup.string().required('Informasi lokasi wajib diisi'),
   })
 }
 
-export const skemaArsipTambah = (kategori,dataPenyimpanan) => {
+export const skemaArsipTambah = (kategori, dataPenyimpanan) => {
   return yup.object({
     kode: yup.string(),
     kategori: yup.string().oneOf(kategori, 'Pilih salah satu'),
@@ -135,11 +135,14 @@ export const skemaArsipTambah = (kategori,dataPenyimpanan) => {
     }),
     penyimpanan: yup.string().when('jenis', {
       is: '1',
-      then: (penyimpanan) => penyimpanan.oneOf(dataPenyimpanan, 'Pilih salah satu').required('Pilih salah satu'),
+      then: (penyimpanan) =>
+        penyimpanan
+          .oneOf(dataPenyimpanan, 'Pilih salah satu')
+          .required('Pilih salah satu'),
     }),
     perihal: yup.string().when('kategori', {
       is: (kategori) => kategori !== '',
-      then: (perihal) => perihal.required('Perihal wajib diisi'),
+      then: (perihal) => perihal.required('Perihal arsip wajib diisi'),
     }),
     keterangan: yup.string().when('kategori', {
       is: (kategori) => kategori !== '',
@@ -167,6 +170,26 @@ export const skemaArsipTambah = (kategori,dataPenyimpanan) => {
           'Tambahkan berkas',
           (nilai) => nilai.length === 1
         ),
+    }),
+  })
+}
+
+export const skemaArsipUbah = (dataPenyimpanan) => {
+  return yup.object({
+    kode: yup.string(),
+    jenis: yup.string().oneOf(['Fisik', 'Digital']),
+    penyimpanan: yup.string().when('jenis', {
+      is: 'Fisik',
+      then: (penyimpanan) =>
+        penyimpanan
+          .oneOf(dataPenyimpanan, 'Pilih salah satu')
+          .required('Pilih salah satu'),
+    }),
+    perihal: yup.string().required('Perihal arsip wajib diisi'),
+    keterangan: yup.string().required('Keterangan wajib diisi'),
+    visibilitas: yup.string().when('jenis', {
+      is: 'Digital',
+      then: (visibilitas) => visibilitas.required('Pilih salah satu'),
     }),
   })
 }
@@ -201,5 +224,24 @@ export const skemaSandi = () => {
       .required('Wajib diisi')
       .min(8, 'Kata sandi minimal 8 karakter')
       .oneOf([yup.ref('baru'), null], 'Konfirmasi kata sandi tidak sama'),
+  })
+}
+
+export const skemaLaporan = () => {
+  return yup.object({
+    kategori: yup
+      .array()
+      .of(yup.string())
+      .min(1, 'Pilih kategori minimal satu')
+      .required('Pilih kategori'),
+    tujuan: yup.string().required('Tujuan pembuatan laporan wajib diisi'),
+    awal: yup
+      .date()
+      .required('Periode awal wajib diisi')
+      .typeError('Periode awal wajib diisi'),
+    akhir: yup
+      .date()
+      .required('Periode akhir wajib diisi')
+      .typeError('Periode akhir wajib diisi'),
   })
 }

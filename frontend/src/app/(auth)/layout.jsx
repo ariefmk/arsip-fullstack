@@ -40,10 +40,8 @@ export default async function Layout({ children }) {
     return (
       <>
         <Header pengguna={dataPengguna} />
-        <div className=''>
-          <Sidebar akses={pengguna.hakAkses} />
-          <main className='md:ml-[15rem]'>{children}</main>
-        </div>
+        <Sidebar pengguna={pengguna} />
+        <main className='md:ml-[15rem]'>{children}</main>
       </>
     )
   } else {

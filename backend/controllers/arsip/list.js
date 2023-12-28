@@ -1,5 +1,6 @@
 module.exports = async (req, res) => {
   const db = require('@/models')
+  const { jabatan, bidang } = req.headers
 
   const ambilKodeArsip = async (kategori) => {
     const arsipTerakhir = await db.arsip.findOne({
@@ -20,12 +21,19 @@ module.exports = async (req, res) => {
 
     const nomorBerkasFormatted = nomorSelanjutnya.toString().padStart(4, '0')
 
-    // Gabungkan kode kategori dengan nomor berkas yang telah diformat
     const kodeArsip = kategori + nomorBerkasFormatted
 
     return kodeArsip
   }
-  const kategori = await db.kategori.findAll()
+  const kategori = await db.kategori.findAll({
+    where: (() => {
+      if (jabatan !== 'Kepala Bidang' || bidang === '5') {
+        return null
+      } else {
+        return { bidang }
+      }
+    })(),
+  })
   const daftarKategori = await Promise.all(
     kategori.map(async (data) => {
       const kodeArsip = await buatKodeArsip(data.kode)
@@ -47,9 +55,22 @@ module.exports = async (req, res) => {
   })
 
   const arsip = await (
-    await db.arsip.findAll({ include: [db.kategori, db.penyimpanan] })
+    await db.arsip.findAll({
+      include: [
+        {
+          model: db.kategori,
+          where: (() => {
+            if (jabatan !== 'Kepala Bidang' || bidang === '5') {
+              return null
+            } else {
+              return { bidang }
+            }
+          })(),
+        },
+        db.penyimpanan,
+      ],
+    })
   ).map((data) => {
-    console.log(data)
     return {
       id: data.id,
       kode: data.kodeArsip,
@@ -64,6 +85,7 @@ module.exports = async (req, res) => {
       }),
       nama: data.nama,
       keterangan: data.keterangan,
+      persetujuan: data.disahkan,
       jenis: (() => {
         if (data.jenis === 1) {
           return 'Fisik'
@@ -75,12 +97,12 @@ module.exports = async (req, res) => {
       })(),
       kategori: {
         kode: data.KategoriArsip.kode,
-        nama: data.KategoriArsip.nama
+        nama: data.KategoriArsip.nama,
       },
       penyimpanan: data.penyimpanan,
       retensi: data.retensi,
       visibilitas: data.visibilitas,
-      pengguna: data.pengguna
+      pengguna: data.pengguna,
     }
   })
   const penyimpanan = (await db.penyimpanan.findAll()).map((data) => {

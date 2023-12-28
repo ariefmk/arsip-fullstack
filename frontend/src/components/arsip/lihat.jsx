@@ -1,15 +1,19 @@
 import { TutupModal } from '@/lib/button'
 
 export default function Lihat(props) {
-
   const { referensi, berkas } = props
   const pengguna = berkas.pembuat
   const tahun1 = new Date(berkas.retensi)
   const tahun2 = new Date()
+  // console.log(berkas.retensi)
   const retensi = tahun1.getFullYear() - tahun2.getFullYear()
   return (
     <dialog className={`daisy-modal backdrop-blur-[2px]`} ref={referensi}>
-      <div className={`daisy-modal-box ${berkas.jenis==='Digital' &&'max-w-[900px]'}`}>
+      <div
+        className={`daisy-modal-box ${
+          berkas.jenis === 'Digital' && 'max-w-[900px]'
+        }`}
+      >
         <div>
           <h1 className={`text-center text-2xl font-bold`}>Rincian Arsip</h1>
           <div className={`flex flex-row justify-center gap-x-3`}>
@@ -17,12 +21,9 @@ export default function Lihat(props) {
               <div className={`w-[800px] border-2 border-black`}>
                 <object
                   data={URL.createObjectURL(
-                    new Blob(
-                      [new Uint8Array(berkas.lampiran.data).buffer],
-                      {
-                        type: 'application/pdf',
-                      }
-                    )
+                    new Blob([new Uint8Array(berkas.lampiran.data).buffer], {
+                      type: 'application/pdf',
+                    })
                   )}
                   width='100%'
                   height='100%'
@@ -36,7 +37,10 @@ export default function Lihat(props) {
                     <tr className={`border-b-2 border-gray-200`}>
                       <td>Kode Arsip</td>
                       <td>:</td>
-                      <td>{}{berkas.kode}</td>
+                      <td>
+                        {}
+                        {berkas.kode}
+                      </td>
                     </tr>
                     <tr className={`border-b-2 border-gray-200`}>
                       <td>Perihal</td>
@@ -105,17 +109,38 @@ export default function Lihat(props) {
                               }`}
                           </td>
                         </tr>
-                        <tr>
-                          <td>Persetujuan</td>
-                          <td>:</td>
-                          <td>
-                            {berkas.persetujuan
-                              ? 'Disetujui'
-                              : 'Belum Disetujui'}
-                          </td>
-                        </tr>
                       </>
                     )}
+                    <tr className={`border-b-2 border-gray-200`}>
+                      <td>Status Persetujuan</td>
+                      <td>:</td>
+                      <td>
+                        {berkas.persetujuan
+                          ? `${berkas.persetujuan.length} Persetujuan`
+                          : 'Belum Disetujui'}
+                      </td>
+                    </tr>
+                    {berkas.persetujuan &&
+                      berkas.persetujuan.map((data, index) => {
+                        return (
+                          <tr
+                            key={index}
+                            className={`border-b-2 border-gray-200`}
+                          >
+                            <td>Persetujuan {index + 1}</td>
+                            <td>:</td>
+                            <td>{`${data.jabatan} (${new Date(
+                              data.waktu
+                            ).toLocaleString('id-ID', {
+                              year: '2-digit',
+                              month: '2-digit',
+                              day: '2-digit',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })})`}</td>
+                          </tr>
+                        )
+                      })}
                   </tbody>
                 </table>
               </div>

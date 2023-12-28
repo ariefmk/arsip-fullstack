@@ -1,5 +1,6 @@
 export default function Input(props) {
   const {
+    referensi,
     label,
     name,
     register,
@@ -12,11 +13,13 @@ export default function Input(props) {
     onInput,
     inputMode,
     value,
-    onChange
+    onChange,
+    pattern
   } = props
   return (
     <div className={`${divClass} relative`}>
       <input
+        ref={referensi}
         type={type}
         id={name}
         className={`${inputClass} ${label && 'pt-2'} ${
@@ -24,6 +27,7 @@ export default function Input(props) {
         } peer block h-[2.5rem] w-full rounded-[5px] border-2 px-[5px] opacity-100 outline-none placeholder:text-black disabled:cursor-not-allowed disabled:bg-gray-200`}
         placeholder={label ? '' : placeholder}
         name={name}
+        pattern={pattern}
         onInput={onInput}
         inputMode={inputMode}
         disabled={disabled}

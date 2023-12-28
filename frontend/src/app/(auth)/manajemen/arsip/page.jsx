@@ -5,12 +5,17 @@ import { api, kunci } from '@/config'
 export const revalidate = 0
 
 export default async function ArsipPage() {
-  const { nik } = jwt.verify(cookies().get('hakAkses').value, kunci.server)
+  const { nik, jabatan, bidang } = jwt.verify(cookies().get('hakAkses').value, kunci.server)
+  const myHeaders = {
+    API_Key: api.key,
+    jabatan,
+  }
+  if (jabatan === 'Kepala Bidang') {
+    myHeaders.bidang = bidang
+  }
   const respon = await fetch(`${api.server}/auth/arsip`, {
     method: 'GET',
-    headers: {
-      API_Key: api.key,
-    },
+    headers: myHeaders,
   })
   const { arsip, kategori, pengguna, penyimpanan } = (await respon.json()).data
 
@@ -21,6 +26,7 @@ export default async function ArsipPage() {
       pengguna={pengguna}
       penyimpanan={penyimpanan}
       nik={nik}
+      jabatan={jabatan}
     />
   )
 }

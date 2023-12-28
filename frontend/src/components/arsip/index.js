@@ -5,13 +5,19 @@ import Tambah from './tambah'
 import Tabel from './tabel'
 
 export default function Arsip(props) {
-  const { nik, datalist, kategori, pengguna, penyimpanan }= props
+  const { nik, jabatan, datalist, kategori, pengguna, penyimpanan } = props
   const ref = useRef()
   return (
     <>
-      <Header referensi={ref} />
-      <Tabel datalist={datalist} penyimpanan={penyimpanan}/>
-      <Tambah referensi={ref} nik={nik} kategori={kategori} pengguna={pengguna} penyimpanan={penyimpanan} />
+      <Header referensi={ref} jabatan={jabatan} />
+      <Tabel datalist={datalist} penyimpanan={penyimpanan} jabatan={jabatan} />
+      <Tambah
+        referensi={ref}
+        nik={nik}
+        kategori={kategori}
+        pengguna={pengguna}
+        penyimpanan={penyimpanan}
+      />
     </>
   )
 }

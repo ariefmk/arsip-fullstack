@@ -9,7 +9,10 @@ import {
 } from '@tabler/icons-react'
 import { kapital, gantiSpasi } from '@/lib'
 
-export default function Sidebar({ akses }) {
+export default function Sidebar(props) {
+  const { pengguna } = props
+  // console.log(pengguna)
+  // console.log(pengguna.akses)
   const [manajemenToggle, setManajemenToggle] = useState(false)
   const [riwayatToggle, setRiwayatToggle] = useState(false)
 
@@ -40,23 +43,28 @@ export default function Sidebar({ akses }) {
               }`}
             >
               {/*Hak Akses Admin*/}
-              {akses === 'Admin' && (
+              {pengguna.hakAkses === 'Admin' && (
                 <li>
                   <Link href='/manajemen/pengguna'>Pengguna</Link>
                 </li>
               )}
               {/*Hak Akses Pengguna*/}
-              {akses === 'Standar' && (
+              {pengguna.hakAkses === 'Standar' && (
                 <>
                   <li>
                     <Link href='/manajemen/arsip'>Arsip</Link>
                   </li>
-                  <li>
-                    <Link href='/manajemen/kategori'>Kategori Arsip</Link>
-                  </li>
-                  <li>
-                    <Link href='/manajemen/penyimpanan'>Penyimpanan</Link>
-                  </li>
+                  {pengguna.jabatan === 'Kepala Bidang' &&
+                    pengguna.bidang === 5 && (
+                      <>
+                        <li>
+                          <Link href='/manajemen/kategori'>Kategori Arsip</Link>
+                        </li>
+                        <li>
+                          <Link href='/manajemen/penyimpanan'>Penyimpanan</Link>
+                        </li>
+                      </>
+                    )}
                 </>
               )}
             </ul>
@@ -91,14 +99,17 @@ export default function Sidebar({ akses }) {
               </ul>
             </li>
           )*/}
-          {akses === 'Standar' && (
-            <li>
-              <Link href='/laporan'>
-                <IconReportAnalytics className='h-[20px] w-[20px]' />
-                Laporan
-              </Link>
-            </li>
-          )}
+          {pengguna.hakAkses === 'Standar' &&
+            (pengguna.jabatan === 'Kepala Desa' ||
+              pengguna.jabatan === 'Sekretaris' ||
+              pengguna.bidang === 5) && (
+              <li>
+                <Link href='/laporan'>
+                  <IconReportAnalytics className='h-[20px] w-[20px]' />
+                  Laporan
+                </Link>
+              </li>
+            )}
         </ul>
       </div>
     </aside>

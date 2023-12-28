@@ -35,8 +35,6 @@ export default function Ubah({ referensi, data }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(dataUbah),
-    }).then(() => {
-      router.refresh()
     })
   }
   return (

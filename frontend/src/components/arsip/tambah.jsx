@@ -10,6 +10,7 @@ import { hanyaAngka } from '@/lib/form'
 import { skemaArsipTambah } from '@/lib/skema'
 import { Kesalahan } from '@/lib/errors'
 import Input from '@/lib/form/input'
+import Pilih from '@/lib/form/select'
 import Textarea from '@/lib/form/textarea'
 import Select from 'react-select'
 
@@ -260,26 +261,12 @@ export default function Tambah(props) {
             <Input
               divClass={`col-span-12`}
               type='text'
-              placeholder='Perihal'
+              placeholder='Perihal Arsip'
               disabled={dataKategori ? false : true}
               errors={errors.perihal}
               register={register('perihal')}
               label={true}
             />
-            {/*
-            <div className={`col-span-12`}>
-              <textarea
-                className={`block h-[5rem] ${inputInisial}  w-full resize-none ${
-                  errors.keterangan
-                    ? 'border-error'
-                    : 'border-black focus:border-green-500'
-                }`}
-                placeholder='Keterangan'
-                disabled={dataKategori ? false : true}
-                {...register('keterangan')}
-              />
-              <Kesalahan errors={errors.keterangan?.message} />
-            </div>*/}
             <Textarea
               divClass={`col-span-12`}
               placeholder='Keterangan'

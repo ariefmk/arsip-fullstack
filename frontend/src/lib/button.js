@@ -4,6 +4,8 @@ import {
   IconCircleMinus,
   IconDownload,
   IconEye,
+  IconCheck,
+  IconChecks,
 } from '@tabler/icons-react'
 import Link from 'next/link'
 
@@ -52,7 +54,7 @@ export const TombolUnduh = (props) => {
     <button
       type='submit'
       form={form}
-      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-green-400 bg-green-500 font-semibold text-white disabled:bg-gray-200`}
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-green-400 bg-green-500 font-semibold text-white disabled:cursor-not-allowed disabled:border-2 disabled:border-gray-100 disabled:bg-gray-200 disabled:text-gray-800`}
       disabled={disabled}
       onClick={onClick}
       onChange={onChange}
@@ -68,7 +70,7 @@ export const TombolReset = (props) => {
     <button
       type='button'
       form={form}
-      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-red-400 bg-red-500 font-semibold text-white`}
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-red-400 bg-red-500 font-semibold text-white disabled:cursor-not-allowed disabled:border-2 disabled:border-gray-100 disabled:bg-gray-200 disabled:text-gray-800`}
       disabled={disabled}
       onClick={onClick}
       onChange={onChange}
@@ -115,6 +117,19 @@ export const TombolBatal = ({ className, onClick }) => {
   )
 }
 
+export const TombolSetujui = (props) => {
+  const { onClick } = props
+  return (
+    <button
+      type='button'
+      className={`h-[2rem] w-[80px] rounded-[5px] border-2 border-green-400 bg-green-500 font-semibold text-white`}
+      onClick={onClick}
+    >
+      Setujui
+    </button>
+  )
+}
+
 export const TombolAksiHapus = ({ className, onClick, onChange }) => {
   return (
     <button
@@ -132,7 +147,7 @@ export const TombolAksiUbah = ({ className, onClick, onChange }) => {
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-green-500 bg-white hover:bg-green-500 hover:text-white`}
+      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-blue-500 bg-white hover:bg-blue-500 hover:text-white`}
       onClick={onClick}
       onChange={onChange}
     >
@@ -145,7 +160,7 @@ export const TombolAksiUnduh = ({ className, onClick, onChange }) => {
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-blue-500 bg-white hover:bg-blue-500 hover:text-white`}
+      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-green-500 bg-white hover:bg-green-500 hover:text-white`}
       onClick={onClick}
       onChange={onChange}
     >
@@ -158,10 +173,25 @@ export const TombolAksiLihat = ({ className, onClick, onChange }) => {
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-sky-200 bg-white hover:bg-green-300 hover:font-bold hover:text-white`}
+      className={`${className} flex flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-white hover:bg-green-300 hover:font-bold hover:text-white`}
       onClick={onClick}
     >
       <IconEye stroke={2} />
+    </button>
+  )
+}
+
+export const TombolAksiPersetujuan = (props) => {
+  const { className, onClick, onChange, disabled } = props
+  return (
+    <button
+      type='button'
+      className={`${className} flex flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-blue-500 bg-white hover:bg-blue-500 hover:text-white disabled:bg-gray-300 disabled:border-gray-300 disabled:text-white`}
+      onClick={onClick}
+      onChange={onChange}
+      disabled={disabled}
+    >
+      <IconCheck stroke={2} />
     </button>
   )
 }

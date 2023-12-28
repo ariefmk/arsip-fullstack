@@ -1,7 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { apiPublic as api } from '@/config'
 import { tableHeader } from '@/lib/class'
-import { TombolAksiHapus, TombolAksiUbah, TombolAksiLihat } from '@/lib/button'
+import {
+  TombolAksiPersetujuan,
+  TombolAksiHapus,
+  TombolAksiUbah,
+  TombolAksiLihat,
+} from '@/lib/button'
 import {
   IconCheck,
   IconEye,
@@ -11,17 +16,22 @@ import {
 import Lihat from './lihat'
 import Ubah from './ubah'
 import Hapus from './hapus'
+import Persetujuan from './persetujuan'
 
-export default function Tabel({ datalist, penyimpanan }) {
-  console.log(datalist)
+export default function Tabel(props) {
+  const { datalist, penyimpanan, jabatan } = props
   const [sortedData, setSortedData] = useState([...datalist])
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
   const [dataHapus, setDataHapus] = useState({})
   const [dataUbah, setDataUbah] = useState({})
   const [lihatArsip, setLihatArsip] = useState({})
-  const lihatRef = useRef({})
+  const [setuju, setSetuju] = useState([])
+  const [kodeArsip, setKodeArsip] = useState('')
+  const lihatRef = useRef()
   const ubahRef = useRef()
   const hapusRef = useRef()
+  const persetujuanRef = useRef()
+  const setujuRef = useRef()
 
   useEffect(() => {
     setSortedData([...datalist])
@@ -50,23 +60,41 @@ export default function Tabel({ datalist, penyimpanan }) {
             className={`h-[2rem] border-b-2 border-black text-center text-base`}
           >
             <th className={`w-[50px]`}>No</th>
-            <th className={`${tableHeader} w-[80px]`} onClick={() => requestSort('kode')}>
+            <th
+              className={`${tableHeader} w-[80px]`}
+              onClick={() => requestSort('kode')}
+            >
               Kode
             </th>
-            <th className={`${tableHeader} w-[300px]`} onClick={() => requestSort('waktu')}>
+            <th
+              className={`${tableHeader} w-[300px]`}
+              onClick={() => requestSort('waktu')}
+            >
               Waktu
             </th>
-            <th className={`${tableHeader} w-[100px]`} onClick={() => requestSort('jenis')}>
+            <th
+              className={`${tableHeader} w-[100px]`}
+              onClick={() => requestSort('jenis')}
+            >
               Jenis
             </th>
-            <th className={`${tableHeader} w-[200px]`} onClick={() => requestSort('kategori')}>
+            <th
+              className={`${tableHeader} w-[200px]`}
+              onClick={() => requestSort('kategori')}
+            >
               Kategori
             </th>
-            <th className={`w-[400px]`}>Perihal</th>
-            <th className={``}>Keterangan</th>
-            <th className={`w-[150px] `} colSpan='3'>
-              Aksi
-            </th>
+            <th className={`w-[200px]`}>Status Persetujuan</th>
+            <th className={``}>Perihal</th>
+            {jabatan === 'Kepala Bidang' ? (
+              <th className={`w-[150px] `} colSpan='3'>
+                Aksi
+              </th>
+            ) : (
+              <th className={`w-[100px] `} colSpan='2'>
+                Aksi
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -83,34 +111,17 @@ export default function Tabel({ datalist, penyimpanan }) {
                 <td className={`truncate px-4 hover:whitespace-normal`}>
                   {data.kategori.nama}
                 </td>
+                <td className={`truncate hover:whitespace-normal`}>
+                  {data.persetujuan
+                    ? `${data.persetujuan.length} Persetujuan`
+                    : 'Belum Disetujui'}
+                </td>
                 <td
                   className={`truncate px-4 text-left hover:whitespace-normal`}
                 >
                   {data.nama}
                 </td>
-                <td className={`truncate text-left hover:whitespace-normal`}>
-                  {data.keterangan}
-                </td>
                 <td className={`w-[50px]`}>
-                  {/*
-                  <button
-                    type='button'
-                    className={`flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-sky-200 bg-white hover:bg-green-300 hover:font-bold hover:text-white`}
-                    onClick={() => {
-                      fetch(`${api.server}/auth/arsip/lihat/${data.id}`, {
-                        method: 'GET',
-                        headers: {
-                          API_Key: api.key,
-                        },
-                      }).then(async (data) => {
-                        const berkas = await data.json()
-                        setLihatArsip(berkas.data.arsip)
-                      })
-                      lihatRef.current.showModal()
-                    }}
-                  >
-                    <IconEye stroke={2} />
-                  </button>*/}
                   <TombolAksiLihat
                     className={`h-[2rem] w-full`}
                     onClick={() => {
@@ -127,45 +138,48 @@ export default function Tabel({ datalist, penyimpanan }) {
                     }}
                   />
                 </td>
-                <td className={`w-[50px]`}>
-                  {/*
-                  <button
-                    type='button'
-                    className={`flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-sky-200 bg-white hover:bg-green-300 hover:font-bold hover:text-white`}
-                  >
-                    <IconEdit stroke={2} />
-                  </button>*/}
-                  <TombolAksiUbah
-                    className={`h-[2rem] w-full`}
-                    onClick={() => {
-                      ubahRef.current.showModal()
-                      setDataUbah(data)
-                    }}
-                  />
-                </td>
-                <td className={`w-[50px]`}>
-                  {/*
-                  <button
-                    type='button'
-                    className={`flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-red-300 bg-sky-200 bg-white hover:bg-red-300 hover:font-bold hover:text-white`}
-                  >
-                    <IconCircleMinus stroke={2} />
-                  </button>*/}
-                  <TombolAksiHapus
-                    className={`h-[2rem] w-full`}
-                    onClick={() => {
-                      hapusRef.current.showModal()
-                      setDataHapus(data)
-                    }}
-                  />
-                </td>
+                {jabatan === 'Kepala Bidang' ? (
+                  <>
+                    <td className={`w-[50px]`}>
+                      <TombolAksiUbah
+                        className={`h-[2rem] w-full`}
+                        onClick={() => {
+                          ubahRef.current.showModal()
+                          setDataUbah(data)
+                        }}
+                      />
+                    </td>
+                    <td className={`w-[50px]`}>
+                      <TombolAksiHapus
+                        className={`h-[2rem] w-full`}
+                        onClick={() => {
+                          hapusRef.current.showModal()
+                        }}
+                      />
+                    </td>
+                  </>
+                ) : (
+                  <td className={`w-[50px]`}>
+                    <TombolAksiPersetujuan
+                      className={`h-[2rem] w-full`}
+                      disabled={data.persetujuan?.some((a) => {
+                        return a.jabatan === jabatan
+                      })}
+                      onClick={() => {
+                        persetujuanRef.current.showModal()
+                        setKodeArsip(data.kode)
+                      }}
+                    />
+                  </td>
+                )}
               </tr>
             ))}
         </tbody>
       </table>
       <Lihat referensi={lihatRef} berkas={lihatArsip} />
-      <Ubah referensi={ubahRef} data={dataUbah} penyimpanan={penyimpanan}/>
+      <Ubah referensi={ubahRef} data={dataUbah} penyimpanan={penyimpanan} />
       <Hapus referensi={hapusRef} data={dataHapus} />
+      <Persetujuan referensi={persetujuanRef} kode={kodeArsip} />
     </div>
   )
 }

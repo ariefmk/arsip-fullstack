@@ -7,7 +7,7 @@ export default function ModalHapus(props) {
         className={`max-w[350px] max-w-[300px] daisy-modal-box relative bottom-[60px] p-[12px]`}
       >
         <div className={`flex flex-col items-center justify-center gap-y-1`}>
-          <div className={`justify-center1 flex flex-col items-center`}>
+          <div className={`justify-center flex flex-col items-center`}>
             <IconAlertCircle
               className={`h-[80px] w-[80px] text-red-500`}
               stroke={1}

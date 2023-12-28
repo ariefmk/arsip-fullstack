@@ -1,13 +1,27 @@
 import Select from 'react-select'
 import { useEffect, useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { skemaArsipUbah } from '@/lib/skema'
 import { TutupModal, TombolSimpan, TombolReset } from '@/lib/button'
 import { inputInisial } from '@/lib/class'
 import { hanyaAngka } from '@/lib/form'
 import { Kesalahan } from '@/lib/errors'
+import Input from '@/lib/form/input'
+import Textarea from '@/lib/form/textarea'
 
 export default function Ubah({ referensi, data, penyimpanan }) {
+  const router = useRouter()
   const [visibilitas, setVisibilitas] = useState('')
+
+  const [pilihPenyimpanan, setPilihPenyimpanan] = useState([
+    { kode: '', nama: 'Penyimpanan Fisik' },
+    ...penyimpanan,
+  ])
+  const listPenyimpanan = penyimpanan.map((data) => {
+    return data.kode
+  })
   const {
     register,
     handleSubmit,
@@ -15,17 +29,14 @@ export default function Ubah({ referensi, data, penyimpanan }) {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm()
-
-  const [pilihPenyimpanan, setPilihPenyimpanan] = useState([
-    { kode: '', nama: 'Penyimpanan' },
-    ...penyimpanan,
-  ])
+  } = useForm({ resolver: yupResolver(skemaArsipUbah(listPenyimpanan)) })
   useEffect(() => {
     setValue('kode', data.kode)
     setValue('jenis', data.jenis)
     setValue('retensi', data.retensi)
-    setValue('penyimpanan', data.penyimpanan)
+    if (data.penyimpanan !== null) {
+      setValue('penyimpanan', data.penyimpanan)
+    }
     setValue('perihal', data.nama)
     setValue('keterangan', data.keterangan)
     if (data.visibilitas !== null) {
@@ -91,52 +102,79 @@ export default function Ubah({ referensi, data, penyimpanan }) {
       return { ...styles, maxHeight: '100px' }
     },
   }
+  const ubahArsip = (datalist) => {
+    const list = {
+      perihal: datalist.perihal,
+      keterangan: datalist.keterangan,
+    }
+
+    fetch('/api/arsip/ubah', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(list),
+    }).then(() => {
+      router.refresh()
+    })
+  }
 
   return (
-    <dialog className={`modal-ubah-arsip daisy-modal backdrop-blur-[2px]`} ref={referensi}>
+    <dialog
+      className={`modal-ubah-arsip daisy-modal backdrop-blur-[2px]`}
+      ref={referensi}
+    >
       <div className={`daisy-modal-box max-w-[900px]`}>
-        <form className={`flex flex-col gap-y-3`}>
+        <form
+          className={`flex flex-col gap-y-3`}
+          onSubmit={handleSubmit(ubahArsip)}
+        >
           <h1 className='text-center text-2xl font-bold'>Ubah Arsip</h1>
           <div className={`grid grid-cols-12 gap-3`}>
-            <div className={`col-span-2`}>
-              <input
-                type='text'
-                className={`${inputInisial} w-full border-black`}
-                placeholder='Kode Arsip'
-                disabled={true}
-                {...register('kode')}
-              />
-              <Kesalahan errors={errors.kode?.message} />
-            </div>
-            <div className={`col-span-3`}>
-              <input
-                className={`${inputInisial} w-full border-black`}
-                placeholder='Kategori'
-                disabled={true}
-                {...register('kategori')}
-              />
-            </div>
-            <div className={`col-span-2`}>
-              <input
-                className={`${inputInisial} w-full border-black`}
-                placeholder='Jenis'
-                disabled={true}
-                {...register('jenis')}
-              />
-            </div>
-            <div className={`col-span-2`}>
-              <input
-                type='date'
-                className={`${inputInisial} w-full border-black`}
-                placeholder='Retensi (tahun)'
-                inputMode='numeric'
-                disabled={true}
-                {...register('retensi')}
-              />
-            </div>
+            <Input
+              divClass={`col-span-2`}
+              type='text'
+              name='kode-arsip'
+              placeholder='Kode Arsip'
+              disabled={true}
+              errors={errors.kode}
+              register={register('kode')}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-3`}
+              type='text'
+              name='kategori'
+              placeholder='Kategori'
+              disabled={true}
+              register={register('kategori')}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-2`}
+              type='text'
+              name='Jenis'
+              placeholder='Jenis Arsip'
+              disabled={true}
+              register={register('jenis')}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-2`}
+              type='date'
+              name='retensi'
+              placeholder='Retensi Arsip'
+              disabled={true}
+              register={register('retensi')}
+              label={true}
+            />
             <div className={`col-span-3`}>
               <select
-                className={`${inputInisial} w-full border-black`}
+                className={`${inputInisial} ${
+                  errors.penyimpanan
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                } w-full`}
                 {...register('penyimpanan')}
                 disabled={data.jenis === 'Fisik' ? false : true}
               >
@@ -148,25 +186,31 @@ export default function Ubah({ referensi, data, penyimpanan }) {
                   </option>
                 ))}
               </select>
+              <Kesalahan errors={errors.penyimpanan?.message} />
             </div>
-            <div className={`col-span-12`}>
-              <input
-                type='text'
-                className={`${inputInisial} peer w-full border-black`}
-                placeholder='Perihal'
-                {...register('perihal')}
-              />
-            </div>
-            <div className={`col-span-12`}>
-              <textarea
-                className={`${inputInisial} block h-[5rem] w-full resize-none border-black`}
-                placeholder='Keterangan'
-                {...register('keterangan')}
-              />
-            </div>
+            <Input
+              divClass={`col-span-12`}
+              type='text'
+              name='perihal'
+              placeholder='Perihal Arsip'
+              register={register('perihal')}
+              errors={errors.perihal}
+              label={true}
+            />
+            <Textarea
+              divClass={`col-span-12`}
+              placeholder='Keterangan'
+              register={register('keterangan')}
+              errors={errors.keterangan}
+              label={true}
+            />
             <div className={`col-span-2`}>
               <select
-                className={`${inputInisial} w-full border-black`}
+                className={`${inputInisial} ${
+                  errors.visibilitas
+                    ? 'border-error'
+                    : 'border-black focus:border-green-500'
+                } w-full`}
                 {...register('visibilitas', {
                   onChange: () => {
                     setVisibilitas(getValues('visibilitas'))
@@ -178,6 +222,7 @@ export default function Ubah({ referensi, data, penyimpanan }) {
                 <option value='0'>Mati</option>
                 <option value='1'>Hidup</option>
               </select>
+              <Kesalahan errors={errors.visibilitas?.message} />
             </div>
             <div
               className={`${

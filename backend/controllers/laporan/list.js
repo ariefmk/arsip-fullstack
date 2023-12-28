@@ -12,9 +12,9 @@ module.exports = async (req, res) => {
             perihal: hasil.nama,
             tanggal: hasil.dibuat,
             kategori: data.nama,
-            retensi: hasil.retensi
+            retensi: hasil.retensi,
           }
-        })
+        }),
       }
     }
   )

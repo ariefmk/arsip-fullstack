@@ -1,16 +1,23 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import Select from 'react-select'
 import Input from '@/lib/form/input'
+import { apiPublic as api } from '@/config'
 import { inputInisial } from '@/lib/class'
+import { skemaLaporan } from '@/lib/skema'
 import { TombolUnduh, TombolReset } from '@/lib/button'
+import { Kesalahan } from '@/lib/errors'
 
 export default function Form(props) {
-  const { children, data } = props
+  const { children, data, jabatan } = props
   const [arsip, setArsip] = useState([])
+  const [kategori, setKategori] = useState([])
   const [awal, setAwal] = useState('')
   const [akhir, setAkhir] = useState('')
+
+  const selectRef = useRef()
 
   const {
     register,
@@ -18,28 +25,83 @@ export default function Form(props) {
     reset,
     control,
     formState: { errors },
-  } = useForm()
+  } = useForm({ resolver: yupResolver(skemaLaporan()) })
 
   const handleUnduh = (data1) => {
     const body = {
+      kategori: data1.kategori,
       arsip: arsip.map((isi) => isi.kode),
       tujuan: data1.tujuan,
       catatan: data1.catatan,
       awal: data1.awal,
       akhir: data1.akhir,
     }
-    fetch('/api/laporan/unduh', {
+    fetch(`${api.server}/auth/laporan/unduh`, {
       method: 'POST',
       headers: {
+        API_Key: api.key,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+    }).then(async (respon) => {
+      const berkas = await respon.blob()
+      let link = document.createElement('a')
+      link.href = URL.createObjectURL(berkas)
+      link.target = '_blank'
+      link.click()
     })
+  }
+
+  const selectStyles = {
+    control: (styles, state) => {
+      return {
+        alignItems: 'center',
+        backgroudnColor: state.isDisabled ? '#eb5e7eb' : '#fff',
+        borderColor: errors.kategori
+          ? '#ef4444'
+          : state.isFocused
+          ? '#22c55e'
+          : '#000',
+        borderRadius: 5,
+        borderWidth: 2,
+        boxSizing: 'border-box',
+        cursor: 'default',
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        label: 'control',
+        minHeight: 38,
+        position: 'relative',
+        transition: 'all 100ms',
+        color: '#000',
+      }
+    },
+    indicatorSeparator: () => null,
+    placeholder: (styles) => {
+      return {
+        ...styles,
+        color: 'black',
+      }
+    },
+    dropdownIndicator: (styles) => {
+      return {
+        ...styles,
+        ':hover': {
+          color: 'black',
+        },
+        color: 'black',
+      }
+    },
+    menuList: (styles) => {
+      return {
+        ...styles,
+        maxHeight: '200px',
+      }
+    },
   }
 
   useEffect(() => {
     if (awal && akhir && new Date(awal) > new Date(akhir)) {
-      setAkhir('')
     }
   }, [awal, akhir])
 
@@ -53,7 +115,7 @@ export default function Form(props) {
           className={`grid w-[600px] grid-cols-4 gap-4`}
           onSubmit={handleSubmit(handleUnduh)}
         >
-          <div className={`col-span-4`}>
+          <div className={`relative col-span-4`}>
             <Controller
               control={control}
               name='kategori'
@@ -68,7 +130,9 @@ export default function Form(props) {
                       label: kategori.nama,
                     }
                   })}
+                  styles={selectStyles}
                   isMulti={true}
+                  ref={selectRef}
                   placeholder='Kategori Arsip'
                   onChange={(hasil) => {
                     const kode = hasil.map((a) => a.value)
@@ -84,30 +148,23 @@ export default function Form(props) {
                 />
               )}
             />
+            <Kesalahan errors={errors.kategori?.message} />
           </div>
           <Input
             divClass={`col-span-2`}
             type='text'
             name='tujuan'
-            disabled={false}
+            disabled={jabatan === 'Kepala Bidang' && arsip.length ? false : true}
             placeholder='Tujuan Pembuatan Laporan'
             label={true}
             register={register('tujuan')}
             errors={errors.tujuan}
           />
-          {/*
-          <div className={`col-span-1`}>
-            <input
-              type='date'
-              className={`${inputInisial} w-full border-2 border-black outline-none`}
-              placeholder='Periode Awal'
-            />
-          </div>
-          */}
           <Input
             divClass={`col-span-1`}
             type='date'
             name='awal'
+            disabled={arsip.length ? false : true}
             placeholder='Periode Awal'
             label={true}
             register={register('awal', {
@@ -119,40 +176,24 @@ export default function Form(props) {
             divClass={`col-span-1`}
             type='date'
             name='akhir'
+            disabled={arsip.length ? false : true}
             placeholder='Periode Akhir'
             label={true}
-            value={akhir}
             register={register('akhir', {
               onChange: (e) => setAkhir(e.target.value),
             })}
             errors={errors.akhir}
           />
-          {/*
-          <div className={`col-span-1`}>
-            <input
-              type='date'
-              name='awal'
-              className={`${inputInisial} w-full border-2 border-black outline-none`}
-              placeholder='Periode Akhir'
-            />
-          </div>*/}
           <Input
             divClass={`col-span-4`}
             type='text'
             name='catatan'
+            disabled={jabatan === 'Kepala Bidang' && arsip.length ? false : true}
             placeholder='Catatan'
             label={true}
             register={register('catatan')}
             errors={errors.catatan}
           />
-          {/*
-          <div className={`col-span-4`}>
-            <input
-              type='text'
-              className={`${inputInisial} w-full border-2 border-black outline-none`}
-              placeholder='Catatan'
-            />
-          </div>*/}
         </form>
       </div>
       <div>
@@ -196,7 +237,13 @@ export default function Form(props) {
                       })}
                     </td>
                     <td>{a.kategori}</td>
-                    <td>{a.retensi}</td>
+                    <td>
+                      {new Date(a.retensi).toLocaleString('id-ID', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                      })}
+                    </td>
                     <td
                       className={`truncate text-left hover:whitespace-normal`}
                     >
@@ -208,14 +255,20 @@ export default function Form(props) {
         </table>
       </div>
       <div className={`flex justify-center gap-x-4`}>
-        <TombolUnduh form='laporan' />
+        <TombolUnduh
+          form='laporan'
+          disabled={jabatan === 'Kepala Bidang' && arsip.length && awal && akhir ? false : true}
+        />
         <TombolReset
           form='laporan'
           onClick={() => {
             reset()
             setAwal('')
             setAkhir('')
+            setArsip([])
+            selectRef.current.clearValue()
           }}
+          disabled={arsip.length ? false : true}
         />
       </div>
     </div>

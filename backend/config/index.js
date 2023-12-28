@@ -11,7 +11,7 @@ const db = {
   base: process.env.DB_BASE,
   user: process.env.DB_USER,
   pass: process.env.DB_PASS,
-  timezone: '+08:00',
+  timezone: '+00:00',
   pool: {
     max: 10,
     min: 0,

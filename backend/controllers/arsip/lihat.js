@@ -22,11 +22,7 @@ module.exports = async (req, res) => {
         return null
       }
     })(),
-    retensi: new Date(data.retensi).toLocaleString('id-ID', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }),
+    retensi: data.retensi,
     persetujuan: data.disahkan,
     pembuat: {
       nama: pengguna.nama,
@@ -35,7 +31,7 @@ module.exports = async (req, res) => {
     lampiran: data.lampiran,
     penyimpanan: data.penyimpanan
   }
-  console.log(data)
+  // console.log(data)
   res.setHeader('Content-Type', 'application/json')
   return res.status(200).send({
     pesan: 'ok',

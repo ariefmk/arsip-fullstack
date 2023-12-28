@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
   const { jsPDF } = require('jspdf')
   const db = require('@/models')
 
-  console.log(req.body)
+  // console.log(req.body)
   const penyimpanan = await db.penyimpanan.findOne({
     include: [{ model: db.bidangPengguna }, { model: db.arsip, include: db.kategori }],
     where: { kode: req.body.kode },
