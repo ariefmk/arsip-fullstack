@@ -9,9 +9,10 @@ module.exports = (req, res) => {
       keterangan: permintaan.keterangan,
       kategori: permintaan.kategori,
       jenis: permintaan.jenis,
-      status: '0', // Belum dikonfigurasi
+      status: '0', // Belum dikonfigurasi (buat apa ini?)
       retensi: permintaan.retensi,
       pembuat: permintaan.pembuat,
+      /*
       visibilitas: (() => {
         if (permintaan.visibilitas !== 'undefined') {
           return permintaan.visibilitas
@@ -25,7 +26,7 @@ module.exports = (req, res) => {
         } else {
           return null
         }
-      })(),
+      })(), */
       lampiran: (() => {
         if (req.file) {
           return req.file.buffer
@@ -43,7 +44,7 @@ module.exports = (req, res) => {
       })(),
     })
     .then(() => {})
-  console.log(permintaan)
+  // console.log(permintaan)
   res.status(200).send({
     status: 200,
     pesan: 'Data berhasil ditambahkan',

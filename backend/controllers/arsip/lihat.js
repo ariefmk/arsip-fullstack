@@ -3,7 +3,7 @@ module.exports = async (req, res) => {
 
   const id = req.params.id
   const data = await db.arsip.findOne({
-    where: { id },
+    where: { kodeArsip: id },
     include: ['KategoriArsip', 'DataPengguna', db.penyimpanan],
   })
   const kategori = data.KategoriArsip

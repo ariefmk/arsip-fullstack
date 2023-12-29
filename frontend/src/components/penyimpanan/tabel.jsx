@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { jsPDF } from 'jspdf'
 import { apiPublic as api } from '@/config'
 import { TombolAksiHapus, TombolAksiUbah, TombolAksiUnduh } from '@/lib/button'
@@ -7,7 +7,8 @@ import { labelPenyimpanan } from '@/lib/label'
 import Ubah from './ubah'
 import Hapus from './hapus'
 
-export default function Tabel({ datalist }) {
+export default function Tabel(props) {
+  const { datalist, searchTerm } = props
   const ubahRef = useRef()
   const hapusRef = useRef()
   const [dataUbah, setDataUbah] = useState({})
@@ -21,6 +22,18 @@ export default function Tabel({ datalist }) {
   useEffect(() => {
     setSortedData([...datalist])
   }, [datalist])
+
+  useEffect(() => {
+    const filteredData = datalist.filter((data) => {
+      return Object.values(data).some(
+        (value) =>
+          typeof value === 'string' &&
+          value.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    })
+
+    setSortedData(filteredData)
+  }, [searchTerm, datalist])
 
   const requestSort = (key) => {
     let direction = 'asc'

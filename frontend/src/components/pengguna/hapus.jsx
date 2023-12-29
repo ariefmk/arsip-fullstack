@@ -18,6 +18,7 @@ export default function Hapus({ referensi, data }) {
       router.refresh()
     })
   }
+  /*
   const dataPengguna = {
     'Hak Akses': data.hak,
     NIK: data.nik,
@@ -61,13 +62,14 @@ export default function Hapus({ referensi, data }) {
     'Nomor Telepon': data.telepon,
     Alamat: data.alamat,
   }
+    */
   // console.log(dataPengguna)
 
   return (
     <ModalHapus referensi={referensi}>
       <TombolHapus
         onClick={() => {
-          hapusHandler(data.nik)
+          hapusHandler(data)
         }}
       />
       <TombolBatal

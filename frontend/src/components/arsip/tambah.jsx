@@ -275,6 +275,7 @@ export default function Tambah(props) {
               errors={errors.keterangan}
               disabled={dataKategori ? false : true}
             />
+            {/*
             <div className='col-span-2'>
               <select
                 className={`${inputInisial} ${
@@ -327,7 +328,7 @@ export default function Tambah(props) {
                 )}
               />
               <Kesalahan errors={errors.pengguna?.message} />
-            </div>
+            </div>*/}
             <div
               className={`col-span-12 flex flex-col items-center justify-center gap-y-[8px] place-self-center`}
             >
@@ -362,7 +363,7 @@ export default function Tambah(props) {
                 setVisibilitas('')
                 setJenis('')
                 setDataKategori('')
-                selectRef.current.clearValue()
+                // selectRef.current.clearValue()
               }}
             />
           </div>
@@ -374,7 +375,7 @@ export default function Tambah(props) {
             setVisibilitas('')
             setJenis('')
             setDataKategori('')
-            selectRef.current.clearValue()
+            // selectRef.current.clearValue()
           }}
         />
       </div>

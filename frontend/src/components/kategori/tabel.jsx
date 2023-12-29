@@ -1,12 +1,22 @@
 import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { TombolAksiHapus, TombolAksiUbah } from '@/lib/button'
 import { tableHeader } from '@/lib/class'
 import Hapus from './hapus'
 import Ubah from './ubah'
 
-export default function Tabel({ datalist }) {
-  const [sortedData, setSortedData] = useState([...datalist])
+export default function Tabel(props) {
+  const { datalist, searchTerm } = props
+  const newDatalist = useMemo(() => {
+    return datalist.map((data) => ({
+      kode: data.kode,
+      kategori: data.kategori,
+      bidang: data.bidang,
+      jumlah: `${data.jumlah} Berkas`,
+      keterangan: data.keterangan
+    }))
+  }, [datalist])
+  const [sortedData, setSortedData] = useState([...newDatalist])
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
   const [dataHapus, setDataHapus] = useState({})
   const [dataUbah, setDataUbah] = useState({})
@@ -14,8 +24,20 @@ export default function Tabel({ datalist }) {
   const ubahRef = useRef()
 
   useEffect(() => {
-    setSortedData([...datalist])
-  }, [datalist])
+    setSortedData([...newDatalist])
+  }, [newDatalist])
+
+  useEffect(() => {
+    const filteredData = newDatalist.filter((data) => {
+      return Object.values(data).some(
+        (value) =>
+          typeof value === 'string' &&
+          value.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    })
+
+    setSortedData(filteredData)
+  }, [searchTerm, newDatalist])
 
   const requestSort = (key) => {
     let direction = 'asc'
@@ -85,13 +107,13 @@ export default function Tabel({ datalist }) {
                 <td>{data.kode}</td>
                 <td>{data.kategori}</td>
                 <td>{data.bidang}</td>
-                <td>{data.jumlah} Berkas</td>
+                <td>{data.jumlah}</td>
                 <td>{data.keterangan}</td>
                 <td className={`w-[50px]`}>
                   <TombolAksiUbah
                     className={`h-[2rem] w-full`}
                     onClick={() => {
-                      console.log('a')
+                      // console.log('a')
                       setDataUbah(data)
                       ubahRef.current.showModal()
                     }}

@@ -1,10 +1,10 @@
 'use client'
-
+import { useState} from 'react'
 import { IconCirclePlus } from '@tabler/icons-react'
 
 export default function Header(props) {
-  const { referensi, jabatan } = props
-  // console.log(jabatan)
+  const { referensi, jabatan, onSearch } = props
+  const [searchTerm, setSearchTerm] = useState('')
   return (
     <div className='flex h-[4rem] w-full flex-row items-center justify-between px-[.5rem] md:px-[2rem]'>
       <div>
@@ -29,6 +29,7 @@ export default function Header(props) {
           className='border=2 h-[2.5rem] w-[7rem] rounded-full border-2 border-black px-[15px] outline-none md:w-[20rem]'
           type='text'
           placeholder='Pencarian'
+          onChange={(e) => onSearch(e.target.value)}
         />
       </div>
     </div>

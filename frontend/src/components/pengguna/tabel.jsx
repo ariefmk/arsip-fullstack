@@ -1,13 +1,41 @@
 'use client'
 import { IconEdit, IconCircleMinus } from '@tabler/icons-react'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { TombolAksiHapus, TombolAksiUbah } from '@/lib/button'
 import Hapus from './hapus'
 import Ubah from './ubah'
 import { kapital } from '@/lib'
 
-export default function Tabel({ datalist }) {
-  const [sortedData, setSortedData] = useState([...datalist])
+export default function Tabel(props) {
+  const { datalist, searchTerm } = props
+  console.log(datalist)
+  const newDatalist = useMemo(() => {
+    return datalist.map((data) => ({
+      hak: data.hak,
+      nik: data.nik,
+      nama: data.nama,
+      jabatan: data.jabatan ? data.jabatan : '-',
+      bidang:
+        data.bidang === 1
+          ? 'Kesra & Pelayanan'
+          : data.bidang === 2
+          ? 'Pemerintahan'
+          : data.bidang === 3
+          ? 'Kewilayahan'
+          : data.bidang === 4
+          ? 'Keuangan'
+          : data.bidang === 5
+          ? 'Umum & Perencanaan'
+          : '-',
+      tanggal: data.tanggal,
+      kelamin: data.kelamin,
+      telepon: data.telepon,
+      alamat: data.alamat,
+      datalist: data,
+    }))
+  }, [datalist])
+
+  const [sortedData, setSortedData] = useState([...newDatalist])
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
   const [dataHapus, setDataHapus] = useState({})
   const [dataUbah, setDataUbah] = useState({})
@@ -15,8 +43,20 @@ export default function Tabel({ datalist }) {
   const ubahRef = useRef()
 
   useEffect(() => {
-    setSortedData([...datalist])
-  }, [datalist])
+    setSortedData([...newDatalist])
+  }, [newDatalist])
+
+  useEffect(() => {
+    const filteredData = newDatalist.filter((data) => {
+      return Object.values(data).some(
+        (value) =>
+          typeof value === 'string' &&
+          value.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    })
+
+    setSortedData(filteredData)
+  }, [searchTerm, newDatalist])
 
   const requestSort = (key) => {
     let direction = 'asc'
@@ -49,31 +89,58 @@ export default function Tabel({ datalist }) {
         <thead className={``}>
           <tr className={`h-[2rem] border-b-2 border-black text-base`}>
             <th className='w-[50px]'>No</th>
-            <th className='w-[90px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('hak')}>
+            <th
+              className='w-[90px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('hak')}
+            >
               Hak Akses
             </th>
-            <th className='w-[160px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('nik')}>
+            <th
+              className='w-[160px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('nik')}
+            >
               NIK
             </th>
-            <th className='w-[200px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('nama')}>
+            <th
+              className='w-[200px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('nama')}
+            >
               Nama
             </th>
-            <th className='w-[140px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('jabatan')}>
+            <th
+              className='w-[140px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('jabatan')}
+            >
               Jabatan
             </th>
-            <th className='w-[120px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('bidang')}>
+            <th
+              className='w-[120px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('bidang')}
+            >
               Bidang
             </th>
-            <th className='w-[160px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('tanggal')}>
+            <th
+              className='w-[160px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('tanggal')}
+            >
               Tanggal Lahir
             </th>
-            <th className='w-[120px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('kelamin')}>
+            <th
+              className='w-[120px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('kelamin')}
+            >
               Jenis Kelamin
             </th>
-            <th className='w-[180px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('telepon')}>
+            <th
+              className='w-[180px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('telepon')}
+            >
               Nomor Telepon
             </th>
-            <th className='w-[160px] cursor-pointer hover:bg-gray-200' onClick={() => requestSort('alamat')}>
+            <th
+              className='w-[160px] cursor-pointer hover:bg-gray-200'
+              onClick={() => requestSort('alamat')}
+            >
               Alamat
             </th>
             <th className='w-[100px]' colSpan='2'>
@@ -93,19 +160,7 @@ export default function Tabel({ datalist }) {
                 <td>{data.nik}</td>
                 <td>{data.nama}</td>
                 <td>{data.jabatan}</td>
-                <td>
-                  {data.bidang === 1
-                    ? 'Kesra & Pelayanan'
-                    : data.bidang === 2
-                    ? 'Pemerintahan'
-                    : data.bidang === 3
-                    ? 'Kewilayahan'
-                    : data.bidang === 4
-                    ? 'Keuangan'
-                    : data.bidang === 5
-                    ? 'Umum & Perencanaan'
-                    : null}
-                </td>
+                <td>{data.bidang}</td>
                 <td>
                   {new Date(data.tanggal).toLocaleString('id-Id', {
                     year: 'numeric',
@@ -128,7 +183,7 @@ export default function Tabel({ datalist }) {
                   <TombolAksiUbah
                     className={`h-[2rem] w-full`}
                     onClick={() => {
-                      setDataUbah(data)
+                      setDataUbah(data.datalist)
                       ubahRef.current.showModal()
                     }}
                   />
@@ -137,7 +192,7 @@ export default function Tabel({ datalist }) {
                   <TombolAksiHapus
                     className={`h-[2rem] w-full`}
                     onClick={() => {
-                      setDataHapus(data)
+                      setDataHapus(data.nik)
                       hapusRef.current.showModal()
                     }}
                   />

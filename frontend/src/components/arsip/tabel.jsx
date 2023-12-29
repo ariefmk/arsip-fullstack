@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { apiPublic as api } from '@/config'
 import { tableHeader } from '@/lib/class'
 import {
@@ -19,8 +19,23 @@ import Hapus from './hapus'
 import Persetujuan from './persetujuan'
 
 export default function Tabel(props) {
-  const { datalist, penyimpanan, jabatan } = props
-  const [sortedData, setSortedData] = useState([...datalist])
+  const { datalist, penyimpanan, jabatan, searchTerm } = props
+  const newDatalist = useMemo(() => {
+    return datalist.map((data) => ({
+      id: data.id,
+      kode: data.kode,
+      waktu: data.waktu,
+      jenis: data.jenis,
+      kategori: data.kategori.nama,
+      status: data.persetujuan
+                    ? `${data.persetujuan.length} Persetujuan`
+                    : 'Belum Disetujui',
+      persetujuan: data.persetujuan,
+      perihal: data.nama,
+      datalist: data
+    }))
+  }, [datalist])
+  const [sortedData, setSortedData] = useState([...newDatalist])
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' })
   const [dataHapus, setDataHapus] = useState({})
   const [dataUbah, setDataUbah] = useState({})
@@ -34,8 +49,21 @@ export default function Tabel(props) {
   const setujuRef = useRef()
 
   useEffect(() => {
-    setSortedData([...datalist])
-  }, [datalist])
+    setSortedData([...newDatalist])
+    //console.log
+  }, [newDatalist])
+
+  useEffect(() => {
+    const filteredData = newDatalist.filter((data) => {
+      return Object.values(data).some(
+        (value) =>
+          typeof value === 'string' &&
+          value.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    })
+
+    setSortedData(filteredData)
+  }, [searchTerm, newDatalist])
 
   const requestSort = (key) => {
     let direction = 'asc'
@@ -109,23 +137,21 @@ export default function Tabel(props) {
                 <td>{data.waktu}</td>
                 <td>{data.jenis}</td>
                 <td className={`truncate px-4 hover:whitespace-normal`}>
-                  {data.kategori.nama}
+                  {data.kategori}
                 </td>
                 <td className={`truncate hover:whitespace-normal`}>
-                  {data.persetujuan
-                    ? `${data.persetujuan.length} Persetujuan`
-                    : 'Belum Disetujui'}
+                  {data.status}
                 </td>
                 <td
                   className={`truncate px-4 text-left hover:whitespace-normal`}
                 >
-                  {data.nama}
+                  {data.perihal}
                 </td>
                 <td className={`w-[50px]`}>
                   <TombolAksiLihat
                     className={`h-[2rem] w-full`}
                     onClick={() => {
-                      fetch(`${api.server}/auth/arsip/lihat/${data.id}`, {
+                      fetch(`${api.server}/auth/arsip/lihat/${data.kode}`, {
                         method: 'GET',
                         headers: {
                           API_Key: api.key,
@@ -145,7 +171,7 @@ export default function Tabel(props) {
                         className={`h-[2rem] w-full`}
                         onClick={() => {
                           ubahRef.current.showModal()
-                          setDataUbah(data)
+                          setDataUbah(data.datalist)
                         }}
                       />
                     </td>

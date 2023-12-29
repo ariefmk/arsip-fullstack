@@ -148,6 +148,7 @@ export const skemaArsipTambah = (kategori, dataPenyimpanan) => {
       is: (kategori) => kategori !== '',
       then: (keterangan) => keterangan.required('Keterangan wajib diisi'),
     }),
+    /*
     visibilitas: yup.string().when('jenis', {
       is: '2',
       then: (visibilitas) => visibilitas.required('Pilih salah satu'),
@@ -161,7 +162,7 @@ export const skemaArsipTambah = (kategori, dataPenyimpanan) => {
           pengguna
             .min(1, 'Pilih pengguna minimal satu')
             .required('Pilih pengguna'),
-      }),
+      }),*/
     berkas: yup.mixed().when('jenis', {
       is: '2',
       then: (berkas) =>
@@ -187,10 +188,11 @@ export const skemaArsipUbah = (dataPenyimpanan) => {
     }),
     perihal: yup.string().required('Perihal arsip wajib diisi'),
     keterangan: yup.string().required('Keterangan wajib diisi'),
+    /*
     visibilitas: yup.string().when('jenis', {
       is: 'Digital',
       then: (visibilitas) => visibilitas.required('Pilih salah satu'),
-    }),
+    }),*/
   })
 }
 

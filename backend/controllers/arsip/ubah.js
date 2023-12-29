@@ -1,6 +1,6 @@
 module.exports = (req, res) => {
   const { arsip } = require('@/models')
-  const { kode, keterangan, perihal, visibilitas } = req.body
+  // const { kode, keterangan, perihal, visibilitas } = req.body
   console.log(req.body)
 
   /*
