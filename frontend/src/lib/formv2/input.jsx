@@ -12,18 +12,22 @@ export default function Input(props) {
     disabled,
     readOnly,
     value,
+    accept,
+    hidden,
     onChange,
     register,
     errors,
   } = props
   return (
-    <div className={`${divClass}`}>
-      <label htmlFor={name} className={`ml-2`}>{label}</label>
+    <div className={`${divClass} w-full place-self-start`}>
+      <label htmlFor={name} className={`ml-2`}>
+        {label}
+      </label>
       <input
         className={`${inputClass} ${
           errors
             ? 'border-red-500'
-            : 'border-black read-only:focus:border-black focus:border-green-500'
+            : 'border-black focus:border-green-500 read-only:focus:border-black'
         } block h-[2.5rem] w-full rounded-[5px] border-2 px-[5px] opacity-100 outline-none placeholder:text-black read-only:bg-gray-200 disabled:cursor-not-allowed disabled:bg-gray-200`}
         type={type}
         id={name}
@@ -34,6 +38,8 @@ export default function Input(props) {
         disabled={disabled}
         readOnly={readOnly}
         value={value}
+        accept={accept}
+        hidden={hidden}
         onInput={onInput}
         onChange={onChange}
         {...register}

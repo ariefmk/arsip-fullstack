@@ -1,11 +1,15 @@
 import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
-import Arsip from '@/components/arsip'
+// import Arsip from '@/components/arsip'
 import { api, kunci } from '@/config'
+import { Tabel } from './components'
 export const revalidate = 0
 
 export default async function ArsipPage() {
-  const { nik, jabatan, bidang } = jwt.verify(cookies().get('hakAkses').value, kunci.server)
+  const { nik, jabatan, bidang } = jwt.verify(
+    cookies().get('hakAkses').value,
+    kunci.server
+  )
   const myHeaders = {
     API_Key: api.key,
     jabatan,
@@ -17,8 +21,11 @@ export default async function ArsipPage() {
     method: 'GET',
     headers: myHeaders,
   })
-  const { arsip, kategori, pengguna, penyimpanan } = (await respon.json()).data
+  const { data } = await respon.json()
+  const pengguna = { nik, jabatan, bidang }
 
+  return <Tabel datalist={data} pengguna={pengguna} />
+  /*
   return (
     <Arsip
       datalist={arsip}
@@ -28,5 +35,5 @@ export default async function ArsipPage() {
       nik={nik}
       jabatan={jabatan}
     />
-  )
+  )*/
 }

@@ -10,8 +10,7 @@ export default async function Page() {
       API_Key: api.key,
     },
   })
-  const respon = await ambil.json()
-  const {datalist} = respon
+  const { datalist } = await ambil.json()
 
   return <Tabel datalist={datalist} />
 }

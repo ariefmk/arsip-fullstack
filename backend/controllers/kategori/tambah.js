@@ -5,7 +5,7 @@ module.exports = (req, res) => {
 
   db.kategori
     .create({
-      nama: permintaan.kategori,
+      nama: permintaan.nama,
       kode: permintaan.kode,
       bidang: permintaan.bidang,
       keterangan: permintaan.keterangan

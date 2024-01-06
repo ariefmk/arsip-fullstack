@@ -5,7 +5,8 @@ module.exports = (app) => {
   app.get('/arsip', list)
   app.post('/arsip/tambah', berkas.single('berkas'), tambah)
   app.get('/arsip/lihat/:id', lihat)
-  app.put('/arsip/ubah', ubah)
+  app.get('/arsip/ubah', ubah.get)
+  app.put('/arsip/ubah', ubah.put)
   app.put('/arsip/setujui', setujui)
   app.delete('/arsip/hapus', hapus)
 }

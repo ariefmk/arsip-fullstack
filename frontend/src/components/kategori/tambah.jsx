@@ -27,7 +27,6 @@ export default function Tambah({ referensi }) {
     setBidang('')
   }
   const tambahKategori = async (data) => {
-    // console.log(data)
     switch (data.bidang) {
       case 'kesra':
         data.bidang = 1

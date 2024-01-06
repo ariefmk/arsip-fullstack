@@ -10,10 +10,7 @@ export async function PUT(permintaan) {
       },
       body: await permintaan.formData(),
     })
-    return NextResponse.json({
-      status: 200,
-      pesan: 'Data berhasil ditambahkan',
-    })
+    return NextResponse.json(await respon.json())
   } catch (err) {
     return NextResponse.json({
       status: 500,

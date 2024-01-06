@@ -1,4 +1,5 @@
-import Kategori from '@/components/kategori'
+import { Tabel } from './components'
+//import Kategori from '@/components/kategori'
 import { api } from '@/config'
 export const revalidate = 0
 export default async function KategoriPage() {
@@ -8,6 +9,7 @@ export default async function KategoriPage() {
       API_Key: api.key,
     },
   })
-  const ambilData = await respon.json()
-  return <Kategori datalist={ambilData} />
+  const { kategori } = (await respon.json()).data
+  // return <Kategori datalist={ambilData} />
+  return <Tabel datalist={kategori} />
 }

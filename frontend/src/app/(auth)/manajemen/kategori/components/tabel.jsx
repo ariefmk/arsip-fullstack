@@ -1,13 +1,12 @@
 'use client'
-import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { IconCirclePlus } from '@tabler/icons-react'
-import Header from './header'
+import { useState, useRef } from 'react'
+import { TombolAksiHapus, TombolAksiUbah } from '@/lib/button'
+import { Th, useUrut } from '@/components/tabel'
+import { ModalHapus } from '@/lib/modal'
+import Header from '@/components/tabel/headerv2'
 import Tambah from './tambah'
 import Ubah from './ubah'
-import { Th, useUrut } from '@/components/tabel'
-import { TombolAksiHapus, TombolAksiUbah } from '@/lib/button'
-import { ModalHapus } from '@/lib/modal'
 import Info from '@/lib/info'
 
 export default function Tabel(props) {
@@ -15,24 +14,25 @@ export default function Tabel(props) {
   const [pencarian, setPencarian] = useState('')
   const [pesan, setPesan] = useState('')
   const [toast, setToast] = useState(false)
-  const [nik, setNik] = useState('')
-  const [dataPengguna, setDataPengguna] = useState({})
+  const [tunggu, setTunggu] = useState(false)
+  const [kodeHapus, setKodeHapus] = useState('')
+  const [dataKategori, setDataKategori] = useState({})
   const tambahRef = useRef()
   const hapusRef = useRef()
   const ubahRef = useRef()
   const router = useRouter()
   const { dataUrut, urut } = useUrut(datalist, pencarian)
+  const listKode = datalist.map((data) => data.kode)
 
-  const nikList = datalist.map((data) => data.nik)
 
-  const hapusHandler = async (nik) => {
+  const hapusHandler = async (kode) => {
     try {
-      const kirim = await fetch('/api/pengguna/hapus', {
+      const kirim = await fetch('/api/kategori/hapus', {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ nik }),
+        body: JSON.stringify({kode})
       })
       const respon = await kirim.json()
       if (respon.status === 200) {
@@ -47,42 +47,19 @@ export default function Tabel(props) {
     }
   }
 
-  const ubahHandler = async (nik) => {
-    const ambil = await fetch(`pengguna/lihat?nik=${nik}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    const respon = await ambil.json()
-    setDataPengguna(respon.data)
-    ubahRef.current.showModal()
-  }
-
   return (
     <div>
-      <Header cari={setPencarian} tambahRef={tambahRef} />
+      <Header cari={setPencarian} tambahRef={tambahRef}/>
       <div className={`w-full overflow-x-auto px-[1rem]`}>
         <table className={`w-full table-fixed text-center`}>
           <thead>
             <tr className={`h-[2rem] border-b-2 border-black text-base`}>
               <th className={`w-[50px]`}>No</th>
-              <Th w={90} text='Hak Akses' onClick={() => urut('hak')} />
-              <Th w={160} text='NIK' onClick={() => urut('nik')} />
-              <Th w={200} text='Nama Lengkap' onClick={() => urut('nama')} />
-              <Th w={140} text='Jabatan' onClick={() => urut('jabatan')} />
-              <Th w={120} text='Bidang' onClick={() => urut('bidang')} />
-              <Th
-                w={160}
-                text='Tanggal Lahir'
-                onClick={() => urut('tanggal')}
-              />
-              <Th
-                w={120}
-                text='Jenis Kelamin'
-                onClick={() => urut('kelamin')}
-              />
-              <Th w={180} text='Alamat' onClick={() => urut('alamat')} />
+              <Th w={80} text='Kode' onClick={() => urut('kode')} />
+              <Th w={300} text='Nama Kategori' onClick={() => urut('nama')} />
+              <Th w={150} text='Jumlah Berkas' onClick={() => urut('jumlah')} />
+              <Th w={200} text='Bidang' onClick={() => urut('bidang')} />
+              <Th text='Keterangan' onClick={() => urut('keterangan')} />
               <th className={`w-[100px]`} colSpan='2'>
                 Aksi
               </th>
@@ -92,31 +69,29 @@ export default function Tabel(props) {
             {dataUrut &&
               dataUrut.map((data, index) => (
                 <tr
-                  key={data.nik}
+                  key={data.kode}
                   className={`h-[3rem] border-b-2 border-gray-200 hover:bg-gray-100`}
                 >
                   <td>{index + 1}</td>
-                  <td>{data.hak}</td>
-                  <td>{data.nik}</td>
+                  <td>{data.kode}</td>
                   <td>{data.nama}</td>
-                  <td>{data.jabatan}</td>
+                  <td>{data.jumlah}</td>
                   <td>{data.bidang}</td>
-                  <td>{data.tanggal}</td>
-                  <td>{data.kelamin}</td>
-                  <td className={`truncate hover:whitespace-normal`}>
-                    {data.alamat}
-                  </td>
+                  <td>{data.keterangan}</td>
                   <td className={`w-[50px]`}>
                     <TombolAksiUbah
+                      className={`h-[2rem] w-full`}
                       onClick={() => {
-                        ubahHandler(data.nik)
+                        setDataKategori(data)
+                        ubahRef.current.showModal()
                       }}
                     />
                   </td>
-                  <td>
+                  <td className={`w-[50px]`}>
                     <TombolAksiHapus
+                      className={`h-[2rem] w-full`}
                       onClick={() => {
-                        setNik(data.nik)
+                        setKodeHapus(data.kode)
                         hapusRef.current.showModal()
                       }}
                     />
@@ -128,20 +103,20 @@ export default function Tabel(props) {
       </div>
       <Tambah
         ref={tambahRef}
-        nik={nikList}
-        setToast={setToast}
         setPesan={setPesan}
+        setToast={setToast}
+        listKode={listKode}
       />
       <Ubah
         ref={ubahRef}
-        pengguna={dataPengguna}
         setToast={setToast}
         setPesan={setPesan}
+        kategori={dataKategori}
       />
       <ModalHapus
         ref={hapusRef}
         onHapus={() => {
-          hapusHandler(nik)
+          hapusHandler(kodeHapus)
         }}
         onBatal={() => {
           hapusRef.current.close()

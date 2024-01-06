@@ -12,10 +12,7 @@ export async function PUT(permintaan) {
       body: JSON.stringify(await permintaan.json()),
     })
 
-    return NextResponse.json({
-      status: 200,
-      pesan: 'Data berhasil diubah',
-    })
+    return NextResponse.json(await respon.json())
   } catch (err) {
     return NextResponse.json({
       status: 500,

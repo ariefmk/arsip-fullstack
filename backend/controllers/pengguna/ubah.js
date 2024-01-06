@@ -44,6 +44,6 @@ module.exports = (req, res) => {
   )
   return res.status(200).send({
     status: 200,
-    pesan: 'Data berhasil ditambahkan',
+    pesan: 'Data berhasil diubah',
   })
 }

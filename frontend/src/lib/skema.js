@@ -11,10 +11,7 @@ export const skemaMasuk = yup.object({
     .min(8, 'Kata sandi minimal 8 karakter'),
 })
 
-export const skemaPenggunaTambah = (datalist) => {
-  const nik = datalist.map((data) => {
-    return data.nik
-  })
+export const skemaPenggunaTambah = (nik) => {
   return yup.object({
     hak: yup.string().oneOf(['Admin', 'Standar'], 'Pilih salah satu'),
     nik: yup
@@ -31,31 +28,21 @@ export const skemaPenggunaTambah = (datalist) => {
     jabatan: yup.string().when('hak', {
       is: 'Standar',
       then: (jabatan) =>
-        jabatan
-          .oneOf(
-            ['Kepala Desa', 'Sekretaris', 'Kepala Bidang'],
-            'Pilih salah satu'
-          )
-          .required('Pilih salah satu'),
+        jabatan.oneOf(
+          ['Kepala Desa', 'Sekretaris', 'Kepala Bidang'],
+          'Pilih salah satu'
+        ),
     }),
     bidang: yup.string().when(['hak', 'jabatan'], {
       is: (hak, jabatan) => hak === 'Standar' && jabatan === 'Kepala Bidang',
       then: (bidang) =>
-        bidang
-          .oneOf(
-            ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-            'Pilih salah satu'
-          )
-          .required('Pilih salah satu'),
+        bidang.oneOf(['1', '2', '3', '4', '5'], 'Pilih salah satu'),
     }),
     tanggal: yup
       .date()
       .required('Tanggal wajib diisi')
       .typeError('Format salah'),
-    kelamin: yup
-      .string()
-      .oneOf(['1', '2'], 'Pilih jenis kelamin')
-      .required('Pilih jenis kelamin'),
+    kelamin: yup.string().oneOf(['1', '2'], 'Pilih jenis kelamin'),
     telepon: yup
       .string()
       .required('Nomor telepon wajib diisi')
@@ -92,16 +79,14 @@ export const skemaPenggunaUbah = () => {
     alamat: yup.string().required('Alamat wajib diisi'),
   })
 }
-export const skemaKategoriTambah = () => {
+export const skemaKategoriTambah = (kode) => {
   return yup.object({
-    bidang: yup
+    bidang: yup.string().oneOf(['1', '2', '3', '4', '5'], 'Pilih salah satu'),
+    nama: yup.string().required('Nama kategori wajib diisi'),
+    kode: yup
       .string()
-      .oneOf(
-        ['kesra', 'pemerintahan', 'kewilayahan', 'keuangan', 'umum'],
-        'Pilih salah satu'
-      ),
-    kategori: yup.string().required('Nama kategori wajib diisi'),
-    kode: yup.string().required('Kode kategori wajib diisi'),
+      .required('Kode kategori wajib diisi')
+      .notOneOf(kode, 'Kode kategori sudah digunakan'),
     keterangan: yup.string().required('Keterangan wajib diisi'),
   })
 }
@@ -109,7 +94,7 @@ export const skemaKategoriTambah = () => {
 export const skemaKategoriUbah = () => {
   return yup.object({
     kategori: yup.string().required('Nama kategori wajib diisi'),
-    keterangan: yup.string().required('Keterangan wajib diisi')
+    keterangan: yup.string().required('Keterangan wajib diisi'),
   })
 }
 
@@ -128,10 +113,7 @@ export const skemaArsipTambah = (kategori, dataPenyimpanan) => {
     kategori: yup.string().oneOf(kategori, 'Pilih salah satu'),
     jenis: yup.string().when('kategori', {
       is: (kategori) => kategori !== '',
-      then: (jenis) =>
-        jenis
-          .oneOf(['1', '2'], 'Pilih salah satu')
-          .required('Pilih salah satu'),
+      then: (jenis) => jenis.oneOf(['1', '2'], 'Pilih salah satu'),
     }),
     retensi: yup.number().when('kategori', {
       is: (kategori) => kategori !== '',
@@ -143,9 +125,7 @@ export const skemaArsipTambah = (kategori, dataPenyimpanan) => {
     penyimpanan: yup.string().when('jenis', {
       is: '1',
       then: (penyimpanan) =>
-        penyimpanan
-          .oneOf(dataPenyimpanan, 'Pilih salah satu')
-          .required('Pilih salah satu'),
+        penyimpanan.oneOf(dataPenyimpanan, 'Pilih salah satu'),
     }),
     perihal: yup.string().when('kategori', {
       is: (kategori) => kategori !== '',
@@ -173,11 +153,11 @@ export const skemaArsipTambah = (kategori, dataPenyimpanan) => {
     berkas: yup.mixed().when('jenis', {
       is: '2',
       then: (berkas) =>
-        berkas.test(
-          'cek-berkas',
-          'Tambahkan berkas',
-          (nilai) => nilai.length === 1
-        ),
+        berkas.test({
+          name: 'cek-berkas',
+          message: 'Tambahkan berkas',
+          test: (nilai) => nilai !== undefined && nilai.length ===1,
+        }),
     }),
   })
 }

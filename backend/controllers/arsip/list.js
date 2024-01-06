@@ -66,13 +66,13 @@ module.exports = async (req, res) => {
               return { bidang }
             }
           })(),
+          include: [{ model: db.bidangPengguna }],
         },
         db.penyimpanan,
       ],
     })
   ).map((data) => {
     return {
-      id: data.id,
       kode: data.kodeArsip,
       waktu: new Date(data.dibuat).toLocaleString('id-ID', {
         weekday: 'short',
@@ -83,9 +83,10 @@ module.exports = async (req, res) => {
         minute: '2-digit',
         timeZoneName: 'short',
       }),
-      nama: data.nama,
-      keterangan: data.keterangan,
-      persetujuan: data.disahkan,
+      perihal: data.nama,
+      persetujuan: data.disahkan
+        ? `${data.disahkan.length} persetujuan`
+        : 'Belum disetujui',
       jenis: (() => {
         if (data.jenis === 1) {
           return 'Fisik'
@@ -95,25 +96,22 @@ module.exports = async (req, res) => {
           return null
         }
       })(),
-      kategori: {
-        kode: data.KategoriArsip.kode,
-        nama: data.KategoriArsip.nama,
-      },
-      penyimpanan: data.penyimpanan,
+      kategori: data.KategoriArsip.nama,
+      bidang: data.KategoriArsip.BidangPengguna.nama,
       retensi: data.retensi,
-      visibilitas: data.visibilitas,
-      pengguna: data.pengguna,
     }
   })
-  const penyimpanan = (await db.penyimpanan.findAll({
-    where: (() => {
-      if (jabatan !== 'Kepala Bidang' || bidang === '5') {
-        return null
-      } else {
-        return { bidang }
-      }
-    })(),
-  })).map((data) => {
+  const penyimpanan = (
+    await db.penyimpanan.findAll({
+      where: (() => {
+        if (jabatan !== 'Kepala Bidang' || bidang === '5') {
+          return null
+        } else {
+          return { bidang }
+        }
+      })(),
+    })
+  ).map((data) => {
     return {
       kode: data.kode,
       nama: data.nama,

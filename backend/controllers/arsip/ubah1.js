@@ -1,7 +1,17 @@
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const { arsip } = require('@/models')
+  const method = req.method
+  const { kode } = req.headers
+  if (method === 'GET') {
+    const pilih = await arsip.findOne({
+      where: {
+        kodeArsip: kode,
+      },
+    })
+    console.log(pilih)
+  }
   // const { kode, keterangan, perihal, visibilitas } = req.body
-  console.log(req.body)
+  // console.log(req.body)
 
   /*
   arsip.update(
@@ -28,8 +38,8 @@ module.exports = (req, res) => {
     })
   })
     */
-    return res.status(200).send({
-      status: 200,
-      pesan: 'Data berhasil ditambahkan',
-    })
+  return res.status(200).send({
+    status: 200,
+    pesan: 'Data berhasil ditambahkan',
+  })
 }

@@ -24,12 +24,23 @@ module.exports = async (req, res) => {
     return kodePenyimpanan
   }
   const daftarPenyimpanan = await (
-    await db.penyimpanan.findAll({include: db.bidangPengguna})
+    await db.penyimpanan.findAll({
+      include: [
+        {
+          model: db.bidangPengguna,
+          attributes: ['nama']
+        },
+        {
+          model: db.arsip
+        }
+      ],
+    })
   ).map((data) => {
     return {
       kode: data.kode,
-      bidang: data.BidangPengguna.nama,
       nama: data.nama,
+      jumlah: `${data.Arsips.length} berkas`,
+      bidang: data.BidangPengguna.nama,
       lokasi: data.lokasi,
       keterangan: data.keterangan,
     }

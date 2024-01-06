@@ -1,7 +1,5 @@
 module.exports = (req, res) => {
-  // console.log(req.body)
   const permintaan = req.body
-  console.log(permintaan)
   const db = require('@/models')
   db.penyimpanan.update(
     {
@@ -17,6 +15,6 @@ module.exports = (req, res) => {
   )
   return res.status(200).send({
     status: 200,
-    pesan: 'ok',
+    pesan: 'Data berhasil diperbarui',
   })
 }

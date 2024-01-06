@@ -159,11 +159,12 @@ export const TombolAksiUbah = (props) => {
 }
 
 export const TombolAksiUnduh = (props) => {
-  const { onClick, onChange } = props
+  const { disabled, onClick, onChange } = props
   return (
     <button
       type='button'
-      className={`flex h-[2rem] w-full flex-row items-center justify-center rounded-[10px] border-[2px] border-green-500 bg-white hover:bg-green-500 hover:text-white`}
+      className={`flex h-[2rem] w-full flex-row items-center justify-center rounded-[10px] border-[2px] border-green-500 bg-white hover:bg-green-500 hover:text-white disabled:cursor-not-allowed disabled:border-2 disabled:border-gray-100 disabled:bg-gray-200 disabled:text-gray-800`}
+      disabled={disabled}
       onClick={onClick}
       onChange={onChange}
     >
