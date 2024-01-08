@@ -12,7 +12,8 @@ export async function POST(permintaan) {
       },
       body: JSON.stringify(isi)
     })
-    return NextResponse.arrayBuffer(new ArrayBuffer('a'))
+
+    return new Response(await respon.blob())
 
   } catch {
     return NextResponse.json({

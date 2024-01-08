@@ -12,7 +12,7 @@ export async function POST(permintaan) {
       body: JSON.stringify(await permintaan.json())
     })
 
-    return NextResponse(await permintaan)
+    return new Response(await respon.blob())
   } catch {
     return NextResponse.json({
       status:500,

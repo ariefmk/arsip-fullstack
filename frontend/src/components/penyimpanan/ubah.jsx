@@ -6,6 +6,7 @@ import { inputInisial } from '@/lib/class'
 import { TutupModal, TombolSimpan, TombolReset } from '@/lib/button'
 import { Kesalahan } from '@/lib/errors'
 import { skemaPenyimpananTambah } from '@/lib/skema'
+import Input from '@/lib/form/input'
 
 export default function Ubah({ referensi, data }) {
   const router = useRouter()
@@ -19,7 +20,7 @@ export default function Ubah({ referensi, data }) {
   useEffect(() => {
     setValue('bidang', data.bidang)
     setValue('kode', data.kode)
-    setValue('nama', data.nama)
+    setValue('penyimpanan', data.nama)
     setValue('keterangan', data.keterangan)
     setValue('lokasi', data.lokasi)
   }, [setValue, data])
@@ -27,7 +28,7 @@ export default function Ubah({ referensi, data }) {
     console.log(dataUbah)
     const formData = new FormData()
     formData.append('kode', dataUbah.kode)
-    formData.append('nama', dataUbah.nama)
+    formData.append('nama', dataUbah.penyimpanan)
     formData.append('keterangan', dataUbah.keterangan)
     formData.append('lokasi', dataUbah.lokasi)
     dataUbah = {
@@ -58,6 +59,58 @@ export default function Ubah({ referensi, data }) {
           <h1 className={`text-center text-2xl font-bold`}>
             Ubah Penyimpanan Arsip
           </h1>
+          <div className={`grid grid-cols-8 gap-3`}>
+            <Input
+              divClass={`col-span-8`}
+              type='text'
+              name='bidang'
+              placeholder='Bidang'
+              disabled={true}
+              register={register('bidang')}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-4`}
+              type='text'
+              name='kode'
+              placeholder='Kode Penyimpanan'
+              disabled={true}
+              register={register('kode')}
+              errors={errors.kode}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-4`}
+              type='text'
+              name='kode'
+              placeholder='Nama Penyimpanan'
+              disabled={false}
+              register={register('penyimpanan')}
+              errors={errors.kode}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-8`}
+              type='text'
+              name='kode'
+              placeholder='Keterangan'
+              disabled={false}
+              register={register('keterangan')}
+              errors={errors.kode}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-8`}
+              type='text'
+              name='kode'
+              placeholder='Lokasi Penyimpanan'
+              disabled={false}
+              register={register('lokasi')}
+              errors={errors.kode}
+              label={true}
+            />
+          </div>
+          {/*
           <div className={`w-full`}>
             <input
               type='text'
@@ -124,6 +177,7 @@ export default function Ubah({ referensi, data }) {
             />
             <Kesalahan errors={errors.lokasi?.message} />
           </div>
+          */}
           <div className='flex justify-center gap-x-4'>
             <TombolSimpan />
             <TombolReset

@@ -8,7 +8,7 @@ export default function Header(props) {
   return (
     <div className='flex h-[4rem] w-full flex-row items-center justify-between px-[.5rem] md:px-[2rem]'>
       <div>
-        {(jabatan !== 'Sekretaris' || jabatan !== 'Kepala Desa') && (
+        {(jabatan !== 'Sekretaris' && jabatan !== 'Kepala Desa') && (
           <button
             className='flex h-[2.5rem] items-center justify-center gap-x-1 rounded-full border-2 border-black md:w-[8rem]'
             onClick={() => {

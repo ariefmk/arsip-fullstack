@@ -88,29 +88,24 @@ export default function Lihat(props) {
                         day: '2-digit',
                       })})`}</td>
                     </tr>
-                    {berkas.jenis === 'Digital' && (
                       <>
+                        {/*
                         <tr className={`border-b-2 border-gray-200`}>
                           <td>Visibilitas</td>
                           <td>:</td>
                           <td>
                             {berkas.visibilitas ? 'Aktif' : 'Tidak Aktif'}
                           </td>
-                        </tr>
+                        </tr>*/}
                         <tr className={`border-b-2 border-gray-200`}>
                           <td>Pembuat</td>
                           <td>:</td>
                           <td>
                             {pengguna &&
-                              `${pengguna.nama} ${
-                                pengguna.bidang
-                                  ? `(Bidang: ${pengguna.bidang})`
-                                  : ''
-                              }`}
+                              `${pengguna.nama}`}
                           </td>
                         </tr>
                       </>
-                    )}
                     <tr className={`border-b-2 border-gray-200`}>
                       <td>Status Persetujuan</td>
                       <td>:</td>

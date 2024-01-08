@@ -14,7 +14,8 @@ export default function Input(props) {
     inputMode,
     value,
     onChange,
-    pattern
+    pattern,
+    maxLength
   } = props
   return (
     <div className={`${divClass} relative`}>
@@ -27,6 +28,7 @@ export default function Input(props) {
         } peer block h-[2.5rem] w-full rounded-[5px] border-2 px-[5px] opacity-100 outline-none placeholder:text-black disabled:cursor-not-allowed disabled:bg-gray-200`}
         placeholder={label ? '' : placeholder}
         name={name}
+        maxLength={maxLength}
         pattern={pattern}
         onInput={onInput}
         inputMode={inputMode}

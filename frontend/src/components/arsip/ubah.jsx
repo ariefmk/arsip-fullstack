@@ -204,6 +204,7 @@ export default function Ubah({ referensi, data, penyimpanan }) {
               errors={errors.keterangan}
               label={true}
             />
+            {/*
             <div className={`col-span-2`}>
               <select
                 className={`${inputInisial} ${
@@ -237,6 +238,7 @@ export default function Ubah({ referensi, data, penyimpanan }) {
                 isDisabled={visibilitas === '1' ? false : true}
               />
             </div>
+          */}
           </div>
           <div className='flex justify-center gap-x-4'>
             <TombolSimpan />

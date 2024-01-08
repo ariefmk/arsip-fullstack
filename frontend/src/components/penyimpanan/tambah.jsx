@@ -6,13 +6,17 @@ import { inputInisial } from '@/lib/class'
 import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
 import { Kesalahan } from '@/lib/errors'
 import { skemaPenyimpananTambah } from '@/lib/skema'
+import Input from '@/lib/form/input'
 
 export default function Tambah({ referensi, kode }) {
   const router = useRouter()
+  const [bidang, setBidang] = useState('')
+
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(skemaPenyimpananTambah()) })
@@ -44,81 +48,79 @@ export default function Tambah({ referensi, kode }) {
           <h1 className={`text-center text-2xl font-bold`}>
             Tambah Penyimpanan Arsip
           </h1>
-          <div className={`w-full`}>
-            <select
-              className={`${inputInisial} ${
-                errors.bidang
-                  ? 'border-error'
-                  : 'border-black focus:border-green-500'
-              } w-full`}
-              name='bidang'
-              {...register('bidang')}
-            >
-              <option value=''>Bidang</option>
-              <option value='1'>Kesra & Pelayanan</option>
-              <option value='2'>Pemerintahan</option>
-              <option value='3'>Kewilayahan</option>
-              <option value='4'>Keuangan</option>
-              <option value='5'>Umum & Perencanaan</option>
-            </select>
-            <Kesalahan errors={errors.bidang?.message} />
-          </div>
-          <div className={`flex flex-row gap-x-3`}>
-            <div className={``}>
-              <input
-                type='text'
-                className={`${inputInisial} w-[100px] border-black read-only:cursor-not-allowed read-only:bg-gray-200`}
-                placeholder='Kode'
-                disabled={true}
-                {...register('kode', {
-                  value: kode,
-                })}
-              />
-              <Kesalahan errors={errors.kode?.message} />
-            </div>
-            <div className={`w-full`}>
-              <input
-                type='text'
+          <div className={`grid grid-cols-12 gap-3`}>
+            <div className={`col-span-12`}>
+              <select
                 className={`${inputInisial} ${
-                  errors.nama
+                  errors.bidang
                     ? 'border-error'
                     : 'border-black focus:border-green-500'
                 } w-full`}
-                placeholder='Nama'
-                {...register('nama')}
-              />
-              <Kesalahan errors={errors.nama?.message} />
+                name='bidang'
+                {...register('bidang', {
+                  onChange: () => setBidang(getValues('bidang')),
+                })}
+              >
+                <option value=''>Bidang</option>
+                <option value='1'>Kesra & Pelayanan</option>
+                <option value='2'>Pemerintahan</option>
+                <option value='3'>Kewilayahan</option>
+                <option value='4'>Keuangan</option>
+                <option value='5'>Umum & Perencanaan</option>
+              </select>
+              <Kesalahan errors={errors.bidang?.message} />
             </div>
-          </div>
-          <div className={`w-full`}>
-            <input
+            <Input
+              divClass={`col-span-6`}
               type='text'
-              className={`${inputInisial} ${
-                errors.keterangan
-                  ? 'border-error'
-                  : 'border-black focus:border-green-500'
-              } w-full`}
+              name='kode'
+              placeholder='Kode Penyimpanan'
+              disabled={true}
+              register={register('kode', {
+                value: kode,
+              })}
+              errors={errors.kode}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-6`}
+              type='text'
+              name='penyimpanan'
+              placeholder='Nama Penyimpanan'
+              disabled={bidang ? false : true}
+              register={register('nama')}
+              errors={errors.nama}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-12`}
+              type='text'
+              name='keterangan'
               placeholder='Keterangan'
-              {...register('keterangan')}
+              disabled={bidang ? false : true}
+              register={register('keterangan')}
+              errors={errors.keterangan}
+              label={true}
             />
-            <Kesalahan errors={errors.keterangan?.message} />
-          </div>
-          <div className={`w-full`}>
-            <input
+            <Input
+              divClass={`col-span-12`}
               type='text'
-              className={`${inputInisial} ${
-                errors.lokasi
-                  ? 'border-error'
-                  : 'border-black focus:border-green-500'
-              } w-full`}
-              placeholder='Informasi Lokasi'
-              {...register('lokasi')}
+              name='lokasi'
+              placeholder='Informasi Lokasi Penyimpanan'
+              disabled={bidang ? false : true}
+              register={register('lokasi')}
+              errors={errors.lokasi}
+              label={true}
             />
-            <Kesalahan errors={errors.lokasi?.message} />
           </div>
           <div className='flex justify-center gap-x-4'>
             <TombolTambah />
-            <TombolReset onClick={() => {reset()}}/>
+            <TombolReset
+              onClick={() => {
+                setBidang('')
+                reset()
+              }}
+            />
           </div>
         </form>
         <TutupModal

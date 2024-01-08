@@ -7,6 +7,7 @@ import { hurufKapital } from '@/lib/form'
 import { skemaKategoriTambah } from '@/lib/skema'
 import { TutupModal, TombolTambah, TombolReset } from '@/lib/button'
 import { Kesalahan } from '@/lib/errors'
+import Input from '@/lib/form/input'
 
 export default function Tambah({ referensi }) {
   const router = useRouter()
@@ -69,8 +70,8 @@ export default function Tambah({ referensi }) {
           <h1 className='text-center text-2xl font-bold'>
             Tambah Kategori Arsip
           </h1>
-          <div className='flex flex-col gap-y-3'>
-            <div className={`w-full`}>
+          <div className='grid grid-cols-8 gap-3'>
+            <div className={`col-span-8`}>
               <select
                 className={`${inputInisial} ${
                   errors.bidang
@@ -90,52 +91,38 @@ export default function Tambah({ referensi }) {
               </select>
               <Kesalahan errors={errors.bidang?.message} />
             </div>
-            <div className='flex gap-x-3'>
-              <div className='w-[150px]'>
-                <input
-                  className={`${inputInisial} ${
-                    errors.kode
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  } w-full`}
-                  type='text'
-                  maxLength='3'
-                  placeholder='Kode Kategori'
-                  onInput={hurufKapital}
-                  disabled={bidang ? false : true}
-                  {...register('kode')}
-                />
-                <Kesalahan errors={errors.kode?.message} />
-              </div>
-              <div className='w-full'>
-                <input
-                  className={`${inputInisial} ${
-                    errors.kategori
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  } w-full`}
-                  type='text'
-                  placeholder='Nama Kategori'
-                  disabled={bidang ? false : true}
-                  {...register('kategori')}
-                />
-                <Kesalahan errors={errors.kategori?.message} />
-              </div>
-            </div>
-            <div className={`w-full`}>
-              <input
-                type='text'
-                className={`${inputInisial} ${
-                  errors.keterangan
-                    ? 'border-error'
-                    : 'border-black focus:border-green-500'
-                } w-full`}
-                placeholder='Keterangan'
-                disabled={bidang ? false : true}
-                {...register('keterangan')}
-              />
-              <Kesalahan errors={errors.keterangan?.message} />
-            </div>
+            <Input
+              divClass={`col-span-3`}
+              type='text'
+              name='kode'
+              maxLength='3'
+              placeholder='Kode Kategori'
+              onInput={hurufKapital}
+              disabled={bidang ? false : true}
+              register={register('kode')}
+              errors={errors.kode}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-5`}
+              type='text'
+              name='kategori'
+              placeholder='Nama Kategori'
+              disabled={bidang ? false : true}
+              register={register('kategori')}
+              errors={errors.kategori}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-8`}
+              type='text'
+              name='keterangan'
+              placeholder='Keterangan'
+              disabled={bidang ? false : true}
+              register={register('keterangan')}
+              errors={errors.keterangan}
+              label={true}
+            />
           </div>
           <div className='flex justify-center gap-x-4'>
             <TombolTambah disabled={bidang ? false : true} />

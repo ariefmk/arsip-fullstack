@@ -105,7 +105,15 @@ module.exports = async (req, res) => {
       pengguna: data.pengguna,
     }
   })
-  const penyimpanan = (await db.penyimpanan.findAll()).map((data) => {
+  const penyimpanan = (await db.penyimpanan.findAll({
+    where: (() => {
+      if (jabatan !== 'Kepala Bidang' || bidang === '5') {
+        return null
+      } else {
+        return { bidang }
+      }
+    })(),
+  })).map((data) => {
     return {
       kode: data.kode,
       nama: data.nama,

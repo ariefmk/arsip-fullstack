@@ -1,9 +1,6 @@
 'use client'
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { jsPDF } from 'jspdf'
-import { apiPublic as api } from '@/config'
 import { TombolAksiHapus, TombolAksiUbah, TombolAksiUnduh } from '@/lib/button'
-import { labelPenyimpanan } from '@/lib/label'
 import Ubah from './ubah'
 import Hapus from './hapus'
 
@@ -51,10 +48,9 @@ export default function Tabel(props) {
     setSortedData(sorted)
   }
   const unduhHandler = async (kode) => {
-    const respon = await fetch(`${api.server}/auth/penyimpanan/unduh`, {
+    const respon = await fetch(`/api/penyimpanan/unduh`, {
       method: 'POST',
       headers: {
-        API_Key: api.key,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ kode }),

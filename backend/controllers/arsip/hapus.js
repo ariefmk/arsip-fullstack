@@ -8,8 +8,6 @@ module.exports = (req, res) => {
     where: {
       kodeArsip: kode
     }
-  }).then(hasil => {
-    console.log(hasil)
   })
 
   res.status(200).send({

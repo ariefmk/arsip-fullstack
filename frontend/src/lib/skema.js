@@ -106,12 +106,19 @@ export const skemaKategoriTambah = () => {
   })
 }
 
+export const skemaKategoriUbah = () => {
+  return yup.object({
+    kategori: yup.string().required('Nama kategori wajib diisi'),
+    keterangan: yup.string().required('Keterangan wajib diisi')
+  })
+}
+
 export const skemaPenyimpananTambah = () => {
   return yup.object({
     bidang: yup.string().oneOf(['1', '2', '3', '4', '5'], 'Pilih salah satu'),
-    nama: yup.string().required('Nama wajib diisi'),
+    nama: yup.string().required('Nama penyimpanan wajib diisi'),
     keterangan: yup.string().required('Keterangan wajib diisi'),
-    lokasi: yup.string().required('Informasi lokasi wajib diisi'),
+    lokasi: yup.string().required('Informasi lokasi penyimpanan wajib diisi'),
   })
 }
 

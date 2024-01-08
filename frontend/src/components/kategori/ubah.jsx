@@ -3,8 +3,10 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { inputInisial } from '@/lib/class'
+import { skemaKategoriUbah } from '@/lib/skema'
 import { TutupModal, TombolSimpan, TombolReset } from '@/lib/button'
 import { Kesalahan } from '@/lib/errors'
+import Input from '@/lib/form/input'
 
 export default function Ubah({ referensi, data }) {
   const router = useRouter()
@@ -14,7 +16,9 @@ export default function Ubah({ referensi, data }) {
     formState: { errors },
     reset,
     setValue,
-  } = useForm()
+  } = useForm({
+    resolver: yupResolver(skemaKategoriUbah()),
+  })
 
   useEffect(() => {
     setValue('bidang', data.bidang)
@@ -35,6 +39,10 @@ export default function Ubah({ referensi, data }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(dataUbah),
+    }).then(() => {
+      referensi.current.close()
+      router.refresh()
+      reset()
     })
   }
   return (
@@ -47,52 +55,44 @@ export default function Ubah({ referensi, data }) {
           <h1 className={`text-center text-2xl font-bold`}>
             Ubah Kategori Arsip
           </h1>
-          <div className={`flex flex-col gap-y-3`}>
-            <div className={`w-full`}>
-              <input
-                type='text'
-                placeholder='Bidang'
-                disabled={true}
-                className={`${inputInisial} w-full border-black`}
-                {...register('bidang')}
-              />
-            </div>
-            <div className={`flex gap-x-3`}>
-              <div className={`w-[150px]`}>
-                <input
-                  placeholder='Kode Kategori'
-                  disabled={true}
-                  className={`${inputInisial} w-full border-black`}
-                  {...register('kode')}
-                />
-              </div>
-              <div className={`w-full`}>
-                <input
-                  type='text'
-                  placeholder='Nama Kategori'
-                  className={`${inputInisial} ${
-                    errors.kategori
-                      ? 'border-error'
-                      : 'border-black focus:border-green-500'
-                  } w-full`}
-                  {...register('kategori')}
-                />
-                <Kesalahan errors={errors.kategori?.message} />
-              </div>
-            </div>
-            <div className={`w-full`}>
-              <input
-                type='text'
-                placeholder='Keterangan'
-                className={`${inputInisial} ${
-                  errors.keterangan
-                    ? 'border-error'
-                    : 'border-black focus:border-green-500'
-                } w-full`}
-                {...register('keterangan')}
-              />
-              <Kesalahan errors={errors.keterangan?.message} />
-            </div>
+          <div className={`grid grid-cols-8 gap-3`}>
+            <Input
+              divClass={`col-span-8`}
+              type='text'
+              name='bidang'
+              placeholder='Bidang'
+              disabled={true}
+              register={register('bidang')}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-3`}
+              type='text'
+              name='kode'
+              placeholder='Kode Kategori'
+              disabled={true}
+              className={`${inputInisial} w-full border-black`}
+              register={register('kode')}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-5`}
+              type='text'
+              name='kategori'
+              placeholder='Nama Kategori'
+              register={register('kategori')}
+              errors={errors.kategori}
+              label={true}
+            />
+            <Input
+              divClass={`col-span-8`}
+              type='text'
+              name='keterangan'
+              placeholder='Keterangan'
+              register={register('keterangan')}
+              errors={errors.keterangan}
+              label={true}
+            />
           </div>
           <div className={`flex justify-center gap-x-4`}>
             <TombolSimpan />

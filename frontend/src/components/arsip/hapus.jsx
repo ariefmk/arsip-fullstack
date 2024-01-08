@@ -24,7 +24,7 @@ export default function Hapus({ referensi, data }) {
       <TombolHapus
         className={'bg-red-500'}
         onClick={() => {
-          hapusHandler(data.kode)
+          hapusHandler(data)
         }}
       />
       <TombolBatal

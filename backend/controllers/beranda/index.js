@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
     arsip: await db.arsip.count(),
     pengguna: await db.pengguna.count(),
     kategori: await db.kategori.count(),
+    penyimpanan: await db.penyimpanan.count(),
     arsipBulanan: await db.arsip.count({
       where: {
         dibuat: {

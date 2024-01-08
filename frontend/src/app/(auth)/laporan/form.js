@@ -36,7 +36,7 @@ export default function Form(props) {
       awal: data1.awal,
       akhir: data1.akhir,
     }
-    fetch(`${api.server}/auth/laporan/unduh`, {
+    fetch(`/api/laporan/unduh`, {
       method: 'POST',
       headers: {
         API_Key: api.key,

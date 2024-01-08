@@ -180,6 +180,7 @@ export default function Tabel(props) {
                         className={`h-[2rem] w-full`}
                         onClick={() => {
                           hapusRef.current.showModal()
+                          setDataHapus(data.kode)
                         }}
                       />
                     </td>
