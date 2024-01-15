@@ -11,14 +11,12 @@ import { kapital, gantiSpasi } from '@/lib'
 
 export default function Sidebar(props) {
   const { pengguna } = props
-  // console.log(pengguna)
-  // console.log(pengguna.akses)
   const [manajemenToggle, setManajemenToggle] = useState(false)
   const [riwayatToggle, setRiwayatToggle] = useState(false)
 
   return (
-    <aside className='relative hidden h-full w-[15rem] md:block'>
-      <div className='fixed h-full w-[15rem] bg-sky-300'>
+    <aside className='fixed left-0 top-[5rem] z-10 flex h-full w-[15rem] flex-col bg-sky-300'>
+      <div className='oveflow-y-auto flex flex-grow flex-col justify-between overflow-x-hidden'>
         <ul className='daisy-menu text-[1rem]'>
           <li>
             <Link href='/beranda'>

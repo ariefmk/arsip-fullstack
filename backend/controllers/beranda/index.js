@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
   }
 
   const grafik = {
-    kategori: (await db.kategori.findAll({ include: db.arsip })).map((data) => {
+    arsip: (await db.kategori.findAll({ include: db.arsip })).map((data) => {
       return {
         kode: data.kode,
         kategori: data.nama,

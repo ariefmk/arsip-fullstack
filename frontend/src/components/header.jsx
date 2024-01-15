@@ -11,7 +11,7 @@ export default function Header({ pengguna }) {
   const router = useRouter()
 
   return (
-    <header className='flex h-[5rem] w-full items-center justify-between bg-green-400 px-[2rem]'>
+    <header className='fixed top-0 z-10 flex h-[5rem] w-full items-center justify-between bg-green-400 px-[2rem]'>
       <Link href='/beranda'>
         <span className='text-2xl font-bold'>E-Arsip Mampari</span>
       </Link>
@@ -40,7 +40,7 @@ export default function Header({ pengguna }) {
           </button>
           <ul
             tabIndex={0}
-            className='daisy-menu daisy-dropdown-content rounded-box daisy-menu-md mt-4 w-40 bg-blue-200 shadow'
+            className='daisy-menu daisy-dropdown-content daisy-menu-md mt-4 w-40 rounded-box bg-blue-200 shadow'
           >
             <li>
               <Link href='/profil' className='hover:font-bold'>
@@ -62,7 +62,7 @@ export default function Header({ pengguna }) {
         </div>
       </div>
       <dialog className='daisy-modal backdrop-blur-[2px]' ref={referensi}>
-        <div className='daisy-modal-box max-w-[250px] relative bottom-[60px]'>
+        <div className='daisy-modal-box relative bottom-[60px] max-w-[250px]'>
           <h1 className='mb-[2rem] text-center text-2xl font-bold'>Keluar?</h1>
           <div className='flex w-full flex-row justify-center gap-x-2'>
             <TombolKeluar

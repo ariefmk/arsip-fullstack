@@ -4,8 +4,8 @@ import jwt from 'jsonwebtoken'
 import { kunci, api } from '@/config'
 
 export async function POST(permintaan) {
-  const isi = await permintaan.json()
-  const token = jwt.sign(isi, kunci.klien)
+  const data = await permintaan.json()
+  const token = jwt.sign(data, kunci.klien)
   try {
     const respon = await fetch(`${api.server}/masuk`, {
       method: 'POST',
@@ -21,18 +21,11 @@ export async function POST(permintaan) {
       cookies().set('hakAkses', hasil.data.token, { maxAge: 43200 })
     }
     return NextResponse.json(hasil)
-  } catch (err) {
+  } catch {
     return NextResponse.json({
       status: 500,
-      pesan: 'Kesalahan Internal',
+      pesan: 'Gagal terhubung ke server',
     })
   }
 }
 
-export async function GET() {
-  const respon = {
-    status: 200,
-    pesan: 'Hello World',
-  }
-  return NextResponse.json(respon)
-}

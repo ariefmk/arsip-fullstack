@@ -1,5 +1,5 @@
 module.exports = (req, res) => {
-  require('dotenv').config()
+  // require('dotenv').config()
   const bcrypt = require('bcrypt')
   const jwt = require('jsonwebtoken')
   const { pengguna } = require('@/models')
@@ -22,7 +22,7 @@ module.exports = (req, res) => {
         if (!validasi(kueri.kataSandi)) {
           return res.status(401).send({
             status: 401,
-            pesan: 'Gagal masuk; NIK atau kata sandi tidak valid',
+            pesan: 'Gagal masuk, NIK atau kata sandi tidak valid',
             data: null,
           })
         }

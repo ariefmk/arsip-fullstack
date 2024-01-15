@@ -2,24 +2,6 @@
 const nextConfig = {
   poweredByHeader: false,
   compress: true,
-  //distDir: 'build',
-  // Konfigurasi
-  /*
-  async rewrites() {
-    return [
-      {
-        source: '/',
-        has: [
-          {
-            type: 'cookie',
-            key: 'hakAkses'
-          }
-        ],
-        destination: '/beranda'
-      }
-    ]
-  },
-  */
   async redirects() {
     return [
       {
@@ -46,10 +28,6 @@ const nextConfig = {
       },
     ]
   },
-  env: {
-    publicServer: 'http://localhost:3001',
-    publicKey: 'kantordesamampari1212'
-  }
 }
 
 module.exports = nextConfig

@@ -7,8 +7,6 @@ const logPengguna = require('@/modules').log.pengguna
 
 const nikAdmin = process.env.USER_ADMIN
 const sandiAdmin = process.env.PASS_ADMIN
-const nikPengguna = process.env.USER_BIASA
-const sandiPengguna = process.env.PASS_BIASA
 const saltRounds = parseInt(process.env.SALT_ROUNDS)
 
 db.bidangPengguna.sync({ alter: true })

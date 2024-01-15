@@ -1,7 +1,7 @@
 const winston = require('winston')
 const { logAudit } = require('../models')
 
-const dateFormat = () => {
+const tanggal= () => {
   return new Date(Date.now()).toLocaleString()
 }
 
@@ -17,13 +17,12 @@ class LoggerService {
         }),
       ],
       format: winston.format.printf((info) => {
-        let message = `${dateFormat()} | ${info.level} | ${route}.log | ${
+        let message = `${tanggal()} | ${info.level} | ${route}.log | ${
           info.message
         } | `
         message = info.obj
           ? message + `data: ${JSON.stringify(info.obj)} | `
           : message
-        // message = this.logData ? message + `data: ${JSON.stringify(this.logData)} |` : message
 
         logAudit.create({
           jenis: info.level,
@@ -41,29 +40,17 @@ class LoggerService {
     this.logData = logData
   }
 
-  // async info (message) {
-  // this.logger.log('info', message)
-  // }
-
   async info(message, obj) {
     this.logger.log('info', message, {
       obj,
     })
   }
 
-  // async debug (message) {
-  //  this.logger.log('debug', message)
-  // }
-
   async debug(message, obj) {
     this.logger.log('debug', message, {
       obj,
     })
   }
-
-  // async error (message) {
-  //  this.logger.log('error', message)
-  // }
 
   async error(message, obj) {
     this.logger.log('error', message, {
