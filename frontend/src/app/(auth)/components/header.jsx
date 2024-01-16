@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation'
 import { TombolKeluar, TombolBatal } from '@/lib/button'
 import { IconUserCircle } from '@tabler/icons-react'
 
-export default function Header({ profil }) {
+export default function Header(props) {
+  const { profil, keluar } = props
   const { nama, nik, gambar } = profil
   const router = useRouter()
-  const keluarRef = useRef()
   return (
     <header
       className={`fixed top-0 z-10 flex h-[5rem] w-full items-center justify-between bg-green-400 px-[2rem]`}
@@ -62,7 +62,7 @@ export default function Header({ profil }) {
                 type='button'
                 className='hover:font-bold'
                 onClick={() => {
-                  keluarRef.current.showModal()
+                  keluar.current.showModal()
                 }}
               >
                 <span>Keluar</span>
@@ -71,24 +71,6 @@ export default function Header({ profil }) {
           </ul>
         </div>
       </div>
-      <dialog className='daisy-modal backdrop-blur-[2px]' ref={keluarRef}>
-        <div className='daisy-modal-box relative bottom-[60px] max-w-[250px]'>
-          <h1 className='mb-[2rem] text-center text-2xl font-bold'>Keluar?</h1>
-          <div className='flex w-full flex-row justify-center gap-x-2'>
-            <TombolKeluar
-              onClick={() => {
-                router.push('/keluar')
-                router.refresh()
-              }}
-            />
-            <TombolBatal
-              onClick={() => {
-                keluarRef.current.close()
-              }}
-            />
-          </div>
-        </div>
-      </dialog>
     </header>
   )
 }

@@ -24,12 +24,12 @@ export default async function Page() {
   const grafik = respon.data.grafik
 
   return (
-    <div className={`flex items-center justify-center`}>
+    <div className={`grid grid-cols-1`}>
       <div className={`flex flex-col items-center justify-center text-center`}>
         <h1 className={`mb-4 mt-10 text-3xl`}>Selamat Datang, {nama}!</h1>
         {hakAkses === 'Admin' && (
           <div className={`grid auto-cols-max gap-4`}>
-            <Kartu judul='Jumlah Pengguna' nilai={jumlah.pengguna} />
+            <Kartu judul='Pengguna' nilai={jumlah.pengguna} />
           </div>
         )}
         {hakAkses === 'Standar' && (

@@ -1,4 +1,4 @@
-import { Header, Sidebar } from './components'
+import { Menu } from './components'
 import jwt from 'jsonwebtoken'
 import imageSize from 'image-size'
 import { cookies } from 'next/headers'
@@ -37,11 +37,10 @@ export default async function Layout({ children }) {
       gambar,
     }
     return (
-      <>
-        <Header profil={dataPengguna} />
-        <Sidebar pengguna={{ hakAkses, jabatan, bidang }} />
-        <main className='mt-[5rem] md:ml-[15rem]'>{children}</main>
-      </>
+      <div className={`min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-white text-black`}>
+        <Menu profil={dataPengguna} pengguna={{ hakAkses, jabatan, bidang }} />
+        <main className={`h-full mt-[5rem] md:ml-[15rem]`}>{children}</main>
+      </div>
     )
   } else {
     redirect('/keluar')
