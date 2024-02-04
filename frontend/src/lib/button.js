@@ -38,7 +38,7 @@ export const TombolSimpan = ({ disabled, onClick, onChange }) => {
   return (
     <button
       type='submit'
-      className='h-[2rem] w-[80px] rounded-[5px] border-2 border-green-400 bg-green-500 font-semibold text-white disabled:bg-gray-200'
+      className='h-[2rem] w-[80px] rounded-[5px] border-2 border-green-400 bg-green-500 font-semibold text-white disabled:border-black disabled:bg-gray-200 disabled:text-gray-400'
       disabled={disabled}
       onClick={onClick}
       onChange={onChange}
@@ -130,11 +130,12 @@ export const TombolSetujui = (props) => {
   )
 }
 
-export const TombolAksiHapus = ({ className, onClick, onChange }) => {
+export const TombolAksiHapus = (props) => {
+  const { onClick, onChange } = props
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-red-500 bg-white hover:bg-red-500 hover:text-white`}
+      className={`flex h-[2rem] w-full flex-row items-center justify-center rounded-[10px] border-[2px] border-red-500 bg-white hover:bg-red-500 hover:text-white`}
       onClick={onClick}
       onChange={onChange}
     >
@@ -143,11 +144,12 @@ export const TombolAksiHapus = ({ className, onClick, onChange }) => {
   )
 }
 
-export const TombolAksiUbah = ({ className, onClick, onChange }) => {
+export const TombolAksiUbah = (props) => {
+  const { onClick, onChange } = props
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-blue-500 bg-white hover:bg-blue-500 hover:text-white`}
+      className={`flex h-[2rem] w-full flex-row items-center justify-center rounded-[10px] border-[2px] border-blue-500 bg-white hover:bg-blue-500 hover:text-white`}
       onClick={onClick}
       onChange={onChange}
     >
@@ -156,11 +158,12 @@ export const TombolAksiUbah = ({ className, onClick, onChange }) => {
   )
 }
 
-export const TombolAksiUnduh = ({ className, onClick, onChange }) => {
+export const TombolAksiUnduh = (props) => {
+  const { onClick, onChange } = props
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center rounded-[10px] border-[2px] border-green-500 bg-white hover:bg-green-500 hover:text-white`}
+      className={`flex h-[2rem] w-full flex-row items-center justify-center rounded-[10px] border-[2px] border-green-500 bg-white hover:bg-green-500 hover:text-white`}
       onClick={onClick}
       onChange={onChange}
     >
@@ -186,7 +189,7 @@ export const TombolAksiPersetujuan = (props) => {
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-blue-500 bg-white hover:bg-blue-500 hover:text-white disabled:bg-gray-300 disabled:border-gray-300 disabled:text-white`}
+      className={`${className} flex flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-blue-500 bg-white hover:bg-blue-500 hover:text-white disabled:border-gray-300 disabled:bg-gray-300 disabled:text-white`}
       onClick={onClick}
       onChange={onChange}
       disabled={disabled}

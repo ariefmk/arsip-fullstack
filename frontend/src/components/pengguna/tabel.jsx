@@ -8,7 +8,6 @@ import { kapital } from '@/lib'
 
 export default function Tabel(props) {
   const { datalist, searchTerm } = props
-  console.log(datalist)
   const newDatalist = useMemo(() => {
     return datalist.map((data) => ({
       hak: data.hak,

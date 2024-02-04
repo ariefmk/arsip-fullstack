@@ -2,6 +2,7 @@ import { TombolKeluar, TombolBatal } from '@/lib/button'
 import { useRouter } from 'next/navigation'
 export default function Keluar(props) {
   const { referensi } = props
+  const router = useRouter()
   return (
       <dialog className='daisy-modal backdrop-blur-[2px]' ref={referensi}>
         <div className='daisy-modal-box relative bottom-[60px] max-w-[250px]'>

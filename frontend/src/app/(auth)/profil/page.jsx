@@ -2,13 +2,15 @@ import jwt from 'jsonwebtoken'
 import Image from 'next/image'
 import imageSize from 'image-size'
 import { cookies } from 'next/headers'
-import {IconUserCircle} from '@tabler/icons-react'
+import { IconUserCircle } from '@tabler/icons-react'
 import { api, kunci } from '@/config'
 import { Profil, Sandi } from './components'
 
+export const revalidate = 0
+
 export default async function ProfilPage() {
-  const pengguna = jwt.verify(cookies().get('hakAkses').value, kunci.server)
-  const respon = await fetch(`${api.server}/auth/profil/${pengguna.nik}`, {
+  const { nik } = jwt.verify(cookies().get('hakAkses').value, kunci.server)
+  const respon = await fetch(`${api.server}/auth/profil/${nik}`, {
     method: 'GET',
     headers: {
       API_Key: api.key,
@@ -33,29 +35,29 @@ export default async function ProfilPage() {
   return (
     <div className={`grid grid-cols-1 place-items-center gap-4`}>
       <div
-        className={`daisy-skeleton col-span-1 mt-[50px] h-[200px] w-[200px] overflow-hidden rounded-full bg-gray-100`}
+        className={`border-2 border-gray-300 col-span-1 mt-[30px] h-[200px] w-[200px] overflow-hidden rounded-full bg-gray-100`}
       >
-        {/*Gambar Profil*/}
-        {JSON.stringify(gambar) !== '{}'? (
+        {JSON.stringify(gambar) !== '{}' ? (
           <Image
             src={`data:image/*;base64,${gambar.media}`}
             alt='Gambar profil'
             width={gambar.width}
             height={gambar.height}
             className={`rounded-full`}
-          />):(
-            <IconUserCircle
-              color='#0362a1'
-              stroke={1.2}
-              className={`h-full w-full`}
-            />
-          )}
+          />
+        ) : (
+          <IconUserCircle
+            color='#0362a1'
+            stroke={1.2}
+            className={`h-full w-full`}
+          />
+        )}
       </div>
-      <div className={`w-[600px] col-span-1 daisy-skeleton`}>
-        <Profil/>
+      <div className={`col-span-1 w-[600px]`}>
+        <Profil pengguna={dataPengguna} />
       </div>
-      <div className={`daisy-skeleton col-span-1`}>
-        <Sandi/>
+      <div className={`col-span-1 w-[600px]`}>
+        <Sandi nik={nik}/>
       </div>
     </div>
   )

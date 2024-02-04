@@ -1,5 +1,5 @@
 module.exports = {
   data: require('./data'),
-  ubah: require('./ubah'),
-  sandi: require('./sandi')
+  ubahData: require('./ubahData'),
+  ubahSandi: require('./ubahSandi')
 }

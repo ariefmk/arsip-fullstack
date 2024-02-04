@@ -224,7 +224,7 @@ export const skemaProfil = () => {
 
 export const skemaSandi = () => {
   return yup.object({
-    baru: yup
+    sandi: yup
       .string()
       .required('Wajib diisi')
       .min(8, 'Kata sandi minimal 8 karakter'),
@@ -232,7 +232,7 @@ export const skemaSandi = () => {
       .string()
       .required('Wajib diisi')
       .min(8, 'Kata sandi minimal 8 karakter')
-      .oneOf([yup.ref('baru'), null], 'Konfirmasi kata sandi tidak sama'),
+      .oneOf([yup.ref('sandi'), null], 'Konfirmasi kata sandi tidak sama'),
   })
 }
 

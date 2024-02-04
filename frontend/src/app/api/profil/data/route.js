@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server'
 import { api } from '@/config'
-export async function PUT(permintaan, { params }) {
+
+export async function PUT(permintaan) {
+  const kueri = permintaan.nextUrl.searchParams
+  const nik = kueri.get('nik')
   try {
     const respon = await fetch(
-      `${api.server}/auth/profil/${params.jenis}/${params.nik}`,
+      `${api.server}/auth/profil/data?nik=${nik}`,
       {
         method: 'PUT',
         headers: {
@@ -13,7 +16,6 @@ export async function PUT(permintaan, { params }) {
       }
     )
 
-   // console.log(await respon.json())
     return NextResponse.json(await respon.json())
   } catch (err) {
     return NextResponse.json({
