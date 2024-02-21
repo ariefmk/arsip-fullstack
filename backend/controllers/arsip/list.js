@@ -84,9 +84,12 @@ module.exports = async (req, res) => {
         timeZoneName: 'short',
       }),
       perihal: data.nama,
-      persetujuan: data.disahkan
+      persetujuan: {
+        status: data.disahkan
         ? `${data.disahkan.length} persetujuan`
         : 'Belum disetujui',
+        oleh: data.disahkan
+      },
       jenis: (() => {
         if (data.jenis === 1) {
           return 'Fisik'

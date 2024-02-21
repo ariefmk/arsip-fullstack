@@ -4,6 +4,7 @@ import { TutupModal, TombolSimpan, TombolReset } from '@/lib/button'
 import { Input, Select, Textarea } from '@/lib/formv2'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { skemaArsipUbah } from '@/lib/skema'
 
 const Ubah = forwardRef(function Ubah(props, ref) {
   const { arsip, penyimpanan, setPesan, setToast } = props
@@ -16,7 +17,7 @@ const Ubah = forwardRef(function Ubah(props, ref) {
     setValue,
     formState: { errors },
   } = useForm({
-    defaultValues: {
+ /*   defaultValues: {
       kode: arsip?.kode,
       kategori: arsip?.KategoriArsip.nama,
       jenis: arsip?.jenis,
@@ -24,7 +25,8 @@ const Ubah = forwardRef(function Ubah(props, ref) {
       perihal: arsip?.perihal,
       keterangan: arsip?.keterangan,
       penyimpanan: arsip?.penyimpanan,
-    },
+    },*/
+    resolver: yupResolver(skemaArsipUbah(penyimpanan?.map((data) => data.kode))),
   })
 
   useEffect(() => {

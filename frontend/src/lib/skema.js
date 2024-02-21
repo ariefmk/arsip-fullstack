@@ -171,7 +171,6 @@ export const skemaArsipUbah = (dataPenyimpanan) => {
       then: (penyimpanan) =>
         penyimpanan
           .oneOf(dataPenyimpanan, 'Pilih salah satu')
-          .required('Pilih salah satu'),
     }),
     perihal: yup.string().required('Perihal arsip wajib diisi'),
     keterangan: yup.string().required('Keterangan wajib diisi'),

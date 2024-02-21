@@ -1,7 +1,6 @@
 module.exports = (req, res) => {
   const db = require('@/models')
   const permintaan = req.body
-  console.log(permintaan)
   db.arsip
     .create({
       kodeArsip: permintaan.kode,

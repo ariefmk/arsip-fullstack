@@ -173,11 +173,12 @@ export const TombolAksiUnduh = (props) => {
   )
 }
 
-export const TombolAksiLihat = ({ className, onClick, onChange }) => {
+export const TombolAksiLihat = (props) => {
+  const { onClick, onChange } = props
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-white hover:bg-green-300 hover:font-bold hover:text-white`}
+      className={`flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-green-300 bg-white hover:bg-green-300 hover:font-bold hover:text-white`}
       onClick={onClick}
     >
       <IconEye stroke={2} />
@@ -186,11 +187,11 @@ export const TombolAksiLihat = ({ className, onClick, onChange }) => {
 }
 
 export const TombolAksiPersetujuan = (props) => {
-  const { className, onClick, onChange, disabled } = props
+  const { onClick, onChange, disabled } = props
   return (
     <button
       type='button'
-      className={`${className} flex flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-blue-500 bg-white hover:bg-blue-500 hover:text-white disabled:border-gray-300 disabled:bg-gray-300 disabled:text-white`}
+      className={`flex h-[2rem] w-full flex-row items-center justify-center gap-x-1 rounded-[10px] border-2 border-blue-500 bg-white hover:bg-blue-500 hover:text-white disabled:border-gray-300 disabled:bg-gray-300 disabled:text-white`}
       onClick={onClick}
       onChange={onChange}
       disabled={disabled}

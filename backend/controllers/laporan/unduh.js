@@ -1,7 +1,6 @@
 module.exports = async (req, res) => {
   const { tujuan, catatan, awal, akhir } = req.body
   const kodeKategori = req.body.kategori
-  console.log(req.body.arsip)
   // const laporan = require('@/modules/template/laporanArsip')
 
   // const judulLampiran = 'Judul Laporan'
@@ -12,6 +11,19 @@ module.exports = async (req, res) => {
   const { jsPDF } = require('jspdf')
   require('jspdf-autotable')
   const db = require('@/models')
+
+  const kepala = await db.dataPengguna.findOne({
+    where: {
+      jabatan: 'Kepala Desa'
+    },
+    attributes: ['nik', 'nama']
+  })
+  const sekretaris = await db.dataPengguna.findOne({
+    where: {
+      jabatan: 'Sekretaris'
+    },
+    attributes: ['nik', 'nama']
+  })
 
   const kategori = (
     await db.kategori.findAll({
@@ -212,14 +224,14 @@ module.exports = async (req, res) => {
       'Mengetahui',
       'Kepala Desa',
       ...barisBaru(4),
-      'Nama',
-      'NIK',
+      kepala.nama,
+      kepala.nik,
     ],
     30,
     afterTable2
   )
   dokumen.text(
-    [...barisBaru(3), 'Sekretaris Desa', ...barisBaru(4), 'Nama', 'NIK'],
+    [...barisBaru(3), 'Sekretaris Desa', ...barisBaru(4), sekretaris.nama, sekretaris.nik],
     140,
     afterTable2
   )
