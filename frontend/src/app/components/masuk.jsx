@@ -60,6 +60,7 @@ export default function Form() {
         <form
           onSubmit={handleSubmit(masukHandler)}
           className={`flex flex-col items-center gap-y-[3px]`}
+          autoComplete='off'
         >
           <div className={`relative inline-block`}>
             <label className={`absolute top-[5px] pl-[0.5rem]`} htmlFor='nik'>
@@ -81,7 +82,7 @@ export default function Form() {
               inputMode='numeric'
               onInput={hanyaAngka}
               maxLength='16'
-              autoComplete='username'
+              autoComplete='off'
               {...register('nik')}
             />
           </div>

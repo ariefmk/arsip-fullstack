@@ -49,6 +49,7 @@ const Ubah = forwardRef(function Ubah(props, ref) {
           kode: arsip?.kode,
           perihal: data.perihal,
           keterangan: data.keterangan,
+          penyimpanan: data.penyimpanan === 'Tidak Ada'? null : data.penyimpanan
         }),
       })
       const { status, pesan } = await kirim.json()

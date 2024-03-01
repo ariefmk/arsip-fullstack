@@ -2,7 +2,7 @@ module.exports = (req, res) => {
   // require('dotenv').config()
   const bcrypt = require('bcrypt')
   const jwt = require('jsonwebtoken')
-  const { pengguna } = require('@/models')
+  const db = require('@/models')
   const { kunci } = require('@/config')
 
   const { nik, kataSandi } = jwt.verify(req.body.token, kunci.klien)
@@ -11,9 +11,18 @@ module.exports = (req, res) => {
     return bcrypt.compareSync(kataSandi, sandiDb)
   }
 
-  pengguna
+  db.pengguna
     .findOne({
-      include: 'DataPengguna',
+      include: [
+        {
+          model: db.dataPengguna,
+          include: [
+            {
+              model: db.bidangPengguna
+            }
+          ]
+        }
+      ],
       where: { nik },
       attributes: ['nik', 'hakAkses', 'kataSandi'],
     })
@@ -35,12 +44,14 @@ module.exports = (req, res) => {
           tokenData.jabatan = kueri.DataPengguna.jabatan
           if (tokenData.jabatan === 'Kepala Bidang') {
             tokenData.bidang = kueri.DataPengguna.bidang
+            tokenData.namaBidang = kueri.DataPengguna.BidangPengguna.nama
           }
         }
         const token = jwt.sign(tokenData, kunci.server, {
           expiresIn: 43200,
         })
 
+        console.log(tokenData)
         return res.status(200).send({
           status: 200,
           pesan: 'Anda berhasil masuk',

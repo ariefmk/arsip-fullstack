@@ -18,12 +18,28 @@ const Rincian = forwardRef(function Rincian(props, ref) {
 
   return (
     <dialog className={`daisy-modal backdrop-blur-[2px]`} ref={ref}>
-      <div className={`daisy-modal-box`}>
+      <div className={`daisy-modal-box ${datalist.lampiran?.data && 'max-w-[900px]'}`}>
         <div className={`grid grid-cols-2 gap-2`}>
           <h1 className={`col-span-2 text-center text-2xl font-bold`}>
             Rincian Arsip
           </h1>
-          <div className={`col-span-2`}>
+          {datalist.lampiran?.data &&
+            <div className={`col-span-1`}>
+              <div className={`h-full border-2 border-black`}>
+                <object
+                  data={URL.createObjectURL(
+                    new Blob([new Uint8Array(datalist.lampiran?.data).buffer], {
+                      type: 'application/pdf',
+                    })
+                  )}
+                  width='100%'
+                  height='100%'
+                />
+              </div>
+
+            </div>
+          }
+          <div className={`${datalist.lampiran?.data? 'col-span-1': 'col-span-2'}`}>
             <table className={`mx-auto`}>
               <tbody>
                 <Tr judul='Kode Arsip' isi={datalist.kode} />
@@ -50,11 +66,11 @@ const Rincian = forwardRef(function Rincian(props, ref) {
                   judul='Status Persetujuan'
                   isi={
                     datalist.persetujuan
-                      ? `${datalist.persetujuan.length} Persetujuan`
+                      ? `Disetujui`
                       : 'Belum Disetujui'
                   }
                 />
-                {datalist.persetujuan?.map((data, index) => (
+                {/* {datalist.persetujuan?.map((data, index) => (
                   <Tr
                     key={index}
                     judul={`Persetujuan ${index + 1}`}
@@ -66,7 +82,7 @@ const Rincian = forwardRef(function Rincian(props, ref) {
                       day: '2-digit',
                     })})`}
                   />
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>

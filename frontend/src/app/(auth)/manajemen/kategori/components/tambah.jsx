@@ -88,7 +88,7 @@ const Tambah = forwardRef(function Tambah(props, ref) {
           <Input
             divClass={`col-span-7 w-full place-self-start`}
             type='text'
-            label='Nama Penyimpanan'
+            label='Nama Kategori'
             name='tambah-nama'
             disabled={!bidang}
             register={register('nama')}

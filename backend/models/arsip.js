@@ -25,7 +25,7 @@ module.exports = (sequelize, dt) => {
     },
     kategori: {
       type: dt.STRING(10),
-      allowNull: false,
+      allowNull: true,
       comment: 'Kategori arsip'
     },
     jenis: {

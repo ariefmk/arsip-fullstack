@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2'
 import { useRef } from 'react'
 import { TutupModal } from '@/lib/button'
 
-export default function Arsip(props) {
+export default function Arsip1(props) {
   const ref = useRef()
   const { jumlah, grafik, referensi } = props
   const data = {
@@ -21,15 +21,20 @@ export default function Arsip(props) {
     plugins: {
       legend: {
         display: true,
+        labels: {
+          color: '#fff',
+        },
       },
+
       title: {
         display: true,
-        text: 'Arsip',
+        text: 'Kategori Arsip',
         position: 'bottom',
         font: {
           size: 18,
           weight: 300,
         },
+        color: '#fff',
       },
       tooltip: {
         enabled: true,
@@ -43,28 +48,12 @@ export default function Arsip(props) {
     },
   }
   return (
-    <div>
-      <div
-        className={`rounded-md bg-green-500 p-4 text-white`}
-        // onClick={() => {
-        //   ref.current.showModal()
-        // }}
-      >
-        <p className={`text-xl font-semibold`}>Total Arsip</p>
-        <p className={`text-lg`}>{jumlah} Berkas</p>
+    <div
+      className={`rounded-md flex items-center justify-center bg-gray-100 bg-green-500`}
+    >
+      <div className={`h-[400px] w-[400px]`}>
+        <Pie data={data} options={opsi} redraw={false} />
       </div>
-      {/* <dialog className={`daisy-modal`} ref={ref}>
-        <div className={`daisy-modal-box  flex items-center justify-center`}>
-          <div className={`h-[400px] w-[400px]`}>
-            <Pie data={data} options={opsi} redraw={false} />
-          </div>
-          <TutupModal
-            onClick={() => {
-              ref.current.close()
-            }}
-          />
-        </div>
-      </dialog> */}
     </div>
   )
 }

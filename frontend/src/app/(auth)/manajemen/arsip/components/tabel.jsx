@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import { useState, useRef } from 'react'
 import { Th, useUrut } from '@/components/tabel'
-import Header from '@/components/tabel/headerv2'
+import Header from './header'
 import Tambah from './tambah'
 import Ubah from './ubah'
 import Rincian from './rincian'
@@ -91,7 +91,7 @@ export default function Tabel(props) {
 
   return (
     <div>
-      <Header cari={setPencarian} tambahRef={tambahRef} />
+      <Header cari={setPencarian} tambahRef={tambahRef} jabatan={jabatan}/>
       <div className={`w-full overflow-x-auto px-[1rem]`}>
         <table className={`w-full table-fixed text-center`}>
           <thead>

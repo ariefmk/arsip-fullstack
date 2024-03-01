@@ -28,11 +28,11 @@ export default function Tabel(props) {
       jenis: data.jenis,
       kategori: data.kategori.nama,
       status: data.persetujuan
-                    ? `${data.persetujuan.length} Persetujuan`
-                    : 'Belum Disetujui',
+        ? `${data.persetujuan.length} Persetujuan`
+        : 'Belum Disetujui',
       persetujuan: data.persetujuan,
       perihal: data.nama,
-      datalist: data
+      datalist: data,
     }))
   }, [datalist])
   const [sortedData, setSortedData] = useState([...newDatalist])
@@ -58,7 +58,7 @@ export default function Tabel(props) {
       return Object.values(data).some(
         (value) =>
           typeof value === 'string' &&
-          value.toLowerCase().includes(searchTerm.toLowerCase())
+          value.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     })
 

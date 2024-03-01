@@ -56,7 +56,7 @@ export default function Sidebar(props) {
               </ul>
             </details>
           </li>
-          {(jabatan === ('Kepala Desa' || 'Sekretaris') || bidang === 5) && (
+          {((jabatan === 'Kepala Desa' || jabatan === 'Sekretaris') || bidang === 5) && (
             <li>
               <Link href='/laporan'>
                 <IconReportAnalytics className={`h-[20px] w-[20px]`} />

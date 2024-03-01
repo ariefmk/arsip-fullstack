@@ -8,7 +8,7 @@ module.exports = (req, res) => {
       keterangan: permintaan.keterangan,
       kategori: permintaan.kategori,
       jenis: permintaan.jenis,
-      status: '0', // Belum dikonfigurasi (buat apa ini?)
+      status: '0', // status arsip tersedia atau dihapus
       retensi: permintaan.retensi,
       pembuat: permintaan.pembuat,
       /*

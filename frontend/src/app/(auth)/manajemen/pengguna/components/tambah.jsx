@@ -80,6 +80,7 @@ const Tambah = forwardRef(function Tambah(props, ref) {
         <form
           className={`grid grid-cols-3 gap-2`}
           onSubmit={handleSubmit(tambahHandler)}
+          autoComplete='off'
         >
           <h1 className={`col-span-3 text-center text-2xl font-bold`}>
             Tambah Pengguna

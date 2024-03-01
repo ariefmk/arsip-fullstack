@@ -10,6 +10,7 @@ module.exports = async (req, res) => {
           disahkan: {
             [db.Op.ne]: null,
           },
+          status : 0
         },
         attributes: ['kodeArsip', 'nama', 'dibuat', 'retensi'],
       },
@@ -23,9 +24,11 @@ module.exports = async (req, res) => {
       kode: hasil.kodeArsip,
       perihal: hasil.nama,
       tanggal: hasil.dibuat,
+      kategori: data.nama,
       retensi: hasil.retensi,
     })),
   }))
+
   return res.status(200).send({
     status: 200,
     pesan: 'Data berhasil diambil',

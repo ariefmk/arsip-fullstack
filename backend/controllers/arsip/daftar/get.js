@@ -1,10 +1,12 @@
 module.exports = async (req, res) => {
   const db = require('@/models')
   const { jabatan, bidang } = req.headers
-  console.log('a')
 
   try {
     const arsip = await db.arsip.findAll({
+      where: {
+        status: 0
+      },
       attributes: [
         'kodeArsip',
         'jenis',
@@ -49,7 +51,7 @@ module.exports = async (req, res) => {
       bidang: data.KategoriArsip.BidangPengguna.nama,
       persetujuan: {
         status: data.disahkan
-          ? `${data.disahkan.length} Persetujuan`
+          ? `Disetujui`
           : 'Belum Disetujui',
         oleh: data.disahkan,
       },

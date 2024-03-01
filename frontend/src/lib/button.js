@@ -131,13 +131,14 @@ export const TombolSetujui = (props) => {
 }
 
 export const TombolAksiHapus = (props) => {
-  const { onClick, onChange } = props
+  const { onClick, onChange, disabled } = props
   return (
     <button
       type='button'
-      className={`flex h-[2rem] w-full flex-row items-center justify-center rounded-[10px] border-[2px] border-red-500 bg-white hover:bg-red-500 hover:text-white`}
+      className={`flex h-[2rem] w-full flex-row items-center justify-center rounded-[10px] border-[2px] border-red-500 bg-white hover:bg-red-500 hover:text-white disabled:cursor-not-allowed disabled:border-2 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-800`}
       onClick={onClick}
       onChange={onChange}
+      disabled={disabled}
     >
       <IconCircleMinus stroke={2} />
     </button>

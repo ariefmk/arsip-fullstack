@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
     .type('json')
     .send({
       pesan: 'sukses',
-      versi: '1.0.0',
+      versi: '1.1.0',
     })
     .end()
 })

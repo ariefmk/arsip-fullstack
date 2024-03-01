@@ -58,7 +58,7 @@ export default function Tabel(props) {
       const berkas = await respon.blob()
       let link = document.createElement('a')
       link.href = URL.createObjectURL(berkas)
-      link.download = `Label Penyimpanan ${kode} ()`
+      link.download = `Label Penyimpanan ${kode} (${new Date()})`
       link.click()
       if (respon.ok) {
         setPesan('Berhasil mengunduh label penyimpanan')
@@ -82,13 +82,13 @@ export default function Tabel(props) {
               <th className={`w-[50px]`}>No</th>
               <Th w={80} text='Kode' onClick={() => urut('kode')} />
               <Th
-                w={400}
+                w={200}
                 text='Nama Penyimpanan'
                 onClick={() => urut('nama')}
               />
               <Th w={100} text='Jumlah Berkas' onClick={() => urut('jumlah')} />
-              <Th w={200} text='Bidang' onClick={() => urut('bidang')} />
-              <Th text='Lokasi Penyimpanan' onClick={() => urut('lokasi')} />
+              <Th w={150} text='Bidang' onClick={() => urut('bidang')} />
+              <Th w={120} text='Lokasi Penyimpanan' onClick={() => urut('lokasi')} />
               <Th text='Keterangan' onClick={() => urut('keterangan')} />
 
               <th className={`w-[150px]`} colSpan='3'>
@@ -108,8 +108,8 @@ export default function Tabel(props) {
                   <td>{data.nama}</td>
                   <td className={`text-center`}>{data.jumlah}</td>
                   <td>{data.bidang}</td>
-                  <td>{data.lokasi}</td>
-                  <td>{data.keterangan}</td>
+                  <td className={`truncate px-4 hover:whitespace-normal`}>{data.lokasi}</td>
+                  <td className={`truncate px-4 hover:whitespace-normal`}>{data.keterangan}</td>
                   <td className={`w-[50px]`}>
                     <TombolAksiUnduh
                       className={`h-[2rem] w-full`}
@@ -131,6 +131,7 @@ export default function Tabel(props) {
                   <td className={`w-[50px]`}>
                     <TombolAksiHapus
                       className={`h-[2rem] w-full`}
+                      disabled={parseInt(data.jumlah.match(/\d+/)[0])? true: false}
                       onClick={() => {
                         setKodeHapus(data.kode)
                         hapusRef.current.showModal()

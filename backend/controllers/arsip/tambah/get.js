@@ -4,11 +4,11 @@ module.exports = async (req, res) => {
 
   try {
     const dataKategori = await db.kategori.findAll({
-      where: jabatan !== 'Kepala Bidang' || bidang === 5 ? null : { bidang },
+      where: jabatan !== 'Kepala Bidang' || bidang === '5' ? null : { bidang },
       attributes: ['kode', 'nama'],
     })
     const penyimpanan = await db.penyimpanan.findAll({
-      where: jabatan !== 'Kepala Bidang' || bidang === 5 ? null : { bidang },
+      where: jabatan !== 'Kepala Bidang' || bidang === '5' ? null : { bidang },
       attributes: ['kode', 'nama'],
     })
 

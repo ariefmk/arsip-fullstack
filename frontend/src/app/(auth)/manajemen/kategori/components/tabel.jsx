@@ -56,8 +56,8 @@ export default function Tabel(props) {
             <tr className={`h-[2rem] border-b-2 border-black text-base`}>
               <th className={`w-[50px]`}>No</th>
               <Th w={80} text='Kode' onClick={() => urut('kode')} />
-              <Th w={300} text='Nama Kategori' onClick={() => urut('nama')} />
-              <Th w={150} text='Jumlah Berkas' onClick={() => urut('jumlah')} />
+              <Th w={200} text='Nama Kategori' onClick={() => urut('nama')} />
+              <Th w={100} text='Jumlah Berkas' onClick={() => urut('jumlah')} />
               <Th w={200} text='Bidang' onClick={() => urut('bidang')} />
               <Th text='Keterangan' onClick={() => urut('keterangan')} />
               <th className={`w-[100px]`} colSpan='2'>
@@ -77,7 +77,7 @@ export default function Tabel(props) {
                   <td>{data.nama}</td>
                   <td>{data.jumlah}</td>
                   <td>{data.bidang}</td>
-                  <td>{data.keterangan}</td>
+                  <td className={`w-[645px] truncate px-4 hover:whitespace-normal`}>{data.keterangan}</td>
                   <td className={`w-[50px]`}>
                     <TombolAksiUbah
                       className={`h-[2rem] w-full`}
@@ -90,6 +90,7 @@ export default function Tabel(props) {
                   <td className={`w-[50px]`}>
                     <TombolAksiHapus
                       className={`h-[2rem] w-full`}
+                      disabled={parseInt(data.jumlah.match(/\d+/)[0])? true: false}
                       onClick={() => {
                         setKodeHapus(data.kode)
                         hapusRef.current.showModal()
